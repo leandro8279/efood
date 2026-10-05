@@ -44,4 +44,7 @@ final class const Images._() {
   final String login = 'assets/image/login.png';
   final String close = 'assets/image/close.png';
   final String logo = 'assets/image/logo.png';
+  final String onboardingOne = 'assets/image/onboarding_one.png';
+  final String onboardingThree = 'assets/image/onboarding_three.png';
+  final String onboardingTwo = 'assets/image/onboarding_two.png';
 }
