@@ -8,8 +8,5 @@ const Map<String, String> enUS = enUs;
 
 class AppTranslations extends Translations {
   @override
-  Map<String, Map<String, String>> get keys => {
-    'pt_BR': ptBR,
-    'en_US': enUS,
-  };
+  Map<String, Map<String, String>> get keys => {'pt_BR': ptBR, 'en_US': enUS};
 }

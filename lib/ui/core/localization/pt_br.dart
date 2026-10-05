@@ -1,12 +1,3 @@
-import 'package:get/get.dart';
-
-class PtBr extends Translations {
-  @override
-  Map<String, Map<String, String>> get keys => const {
-    'pt_BR': ptBr,
-  };
-}
-
 const Map<String, String> ptBr = {
   'home': 'Início',
   'cart': 'Carrinho',
@@ -175,7 +166,8 @@ const Map<String, String> ptBr = {
   'empty_cart': 'Carrinho vazio',
   'look_like_have_not_added': 'Parece que você ainda não adicionou nenhum item',
   'nothing_found': 'Nada encontrado',
-  'sorry_the_products_you_looking': 'Desculpe, os produtos que você está procurando não existem ou não foram encontrados',
+  'sorry_the_products_you_looking':
+      'Desculpe, os produtos que você está procurando não existem ou não foram encontrados',
   'order_placed': 'Pedido realizado',
   'pay_now': 'Pagar agora',
   'yes': 'Sim',
@@ -245,7 +237,8 @@ const Map<String, String> ptBr = {
   'enter_last_name': 'Digite o sobrenome',
   'guest': 'Usuário Convidado',
   'login_as_a': 'Entrar como',
-  'now_you_are_in_guest_mode': 'Agora você está no modo de convidado.\nFaça login para aproveitar recursos mais incríveis.',
+  'now_you_are_in_guest_mode':
+      'Agora você está no modo de convidado.\nFaça login para aproveitar recursos mais incríveis.',
   'guest_mode': 'Modo de Convidado',
   'you_have_to_allow': 'Você precisa permitir o acesso à localização para adicionar um novo endereço',
   'you_denied_location_permission': 'Você negou a permissão de localização permanentemente. Você precisa permitir o acesso à localização para adicionar um novo endereço.',
@@ -271,9 +264,11 @@ const Map<String, String> ptBr = {
   'now': 'Agora',
   'no_slot_available': 'Nenhum horário disponível',
   'select_a_time': 'Selecione um horário',
-  'one_or_more_products_are_not_available_for_this_selected_time': 'Um ou mais produtos não estão disponíveis para este horário selecionado',
+  'one_or_more_products_are_not_available_for_this_selected_time':
+      'Um ou mais produtos não estão disponíveis para este horário selecionado',
   'points': 'Pontos',
-  'please_enter_your_mobile_number_to': 'Por favor, digite seu número de celular para \nreceber um código de verificação.',
+  'please_enter_your_mobile_number_to':
+      'Por favor, digite seu número de celular para \nreceber um código de verificação.',
   'maintenance_mode': 'Modo de Manutenção',
   'maintenance_text': 'Estamos realizando uma manutenção agendada. Voltaremos o mais breve possível. Por favor, verifique novamente em breve.',
   'self_pickup_not_available': 'Retirada no local indisponível',
@@ -322,7 +317,8 @@ const Map<String, String> ptBr = {
   'extra_discount': 'Desconto extra',
   'address_not_found': 'Endereço não encontrado',
   'cash_on_delivery_is_not_activated': 'Pagamento na entrega não está ativado',
-  'payment_method_is_not_activated_please_order_later': 'Método de pagamento não ativado, por favor realize o pedido mais tarde',
+  'payment_method_is_not_activated_please_order_later':
+      'Método de pagamento não ativado, por favor realize o pedido mais tarde',
   'pos_order': 'Pedido POS',
   'self_pickup': 'Retirada',
   'variation': 'Variação',

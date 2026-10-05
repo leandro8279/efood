@@ -1,12 +1,3 @@
-import 'package:get/get.dart';
-
-class EnUs extends Translations {
-  @override
-  Map<String, Map<String, String>> get keys => const {
-    'en_US': enUs,
-  };
-}
-
 const Map<String, String> enUs = {
   'home': 'Home',
   'cart': 'Cart',
@@ -185,7 +176,8 @@ const Map<String, String> enUs = {
   'address': 'Address',
   'already_added_in_cart': 'Already added in cart',
   'payment_failed': 'Payment Failed',
-  'payment_process_is_interrupted': 'Payment process is interrupted. Please complete the order payment from order details page.',
+  'payment_process_is_interrupted':
+      'Payment process is interrupted. Please complete the order payment from order details page.',
   'maybe_later': 'Maybe Later',
   'ordered_at': 'Ordered at',
   'you_can_choice_the_best': 'You can choice the best food to release your hunger.',
@@ -248,7 +240,8 @@ const Map<String, String> enUs = {
   'now_you_are_in_guest_mode': 'Now you are in guest mode.\nPlease login to enjoy the more awesome features.',
   'guest_mode': 'Guest Mode',
   'you_have_to_allow': 'You have to allow location permission to add a new address',
-  'you_denied_location_permission': 'You denied location permission for forever. You have to allow location permission to add a new address.',
+  'you_denied_location_permission':
+      'You denied location permission for forever. You have to allow location permission to add a new address.',
   'privacy_policy': 'Privacy Policy',
   'about_us': 'About Us',
   'ok': 'OK',
@@ -271,7 +264,8 @@ const Map<String, String> enUs = {
   'now': 'Now',
   'no_slot_available': 'No slot available',
   'select_a_time': 'Select a time',
-  'one_or_more_products_are_not_available_for_this_selected_time': 'One or more products are not available for this selected time',
+  'one_or_more_products_are_not_available_for_this_selected_time':
+      'One or more products are not available for this selected time',
   'points': 'Points',
   'please_enter_your_mobile_number_to': 'Please enter your mobile Number to \nreceive a verification code.',
   'maintenance_mode': 'Maintenance Mode',
@@ -315,7 +309,8 @@ const Map<String, String> enUs = {
   'copyright': 'copyright © 2022',
   'my_account': 'My Account',
   'want_to_delete': 'Are you sure want to delete address ?',
-  'your_app_is_deprecated': 'The app you using is deprecated. A newer version of this app is available. Please update your app.',
+  'your_app_is_deprecated':
+      'The app you using is deprecated. A newer version of this app is available. Please update your app.',
   'update_now': 'Update Now',
   'can_not_launch': 'Can\'t launch',
   'version': 'Version',
