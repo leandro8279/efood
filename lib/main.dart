@@ -19,12 +19,12 @@ Future<void> main() async {
 
   runApp(
     GetMaterialApp(
-      translations: AppTranslations(),
-      locale: Get.deviceLocale,
-      fallbackLocale: const Locale('pt', 'BR'),
       theme: AppTheme.dark,
+      locale: Get.deviceLocale,
       getPages: AppRouter.pages,
       initialRoute: AppRoutes.splash,
+      translations: AppTranslations(),
+      fallbackLocale: const Locale('pt', 'BR'),
       initialBinding: ApplicationBindings(sharedPreferences: sharedPreferences),
     ),
   );
