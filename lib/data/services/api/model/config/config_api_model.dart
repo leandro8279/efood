@@ -1,0 +1,21 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:equatable/equatable.dart';
+
+part 'config_api_model.g.dart';
+
+@JsonSerializable()
+class const ConfigApiModel({
+  required final String restaurantName,
+  required final String restaurantLogo,
+  required final String currencySymbol,
+  required final bool maintenanceMode,
+}) extends Equatable {
+  factory ConfigApiModel.fromJson(Map<String, dynamic> json) {
+    return _$ConfigApiModelFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() => _$ConfigApiModelToJson(this);
+
+  @override
+  List<Object?> get props => [restaurantName, restaurantLogo, currencySymbol, maintenanceMode];
+}

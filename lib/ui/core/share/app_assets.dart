@@ -1,0 +1,47 @@
+final class AppAssets._() {
+  static const images = Images._();
+}
+
+final class const Images._() {
+  final String home = 'assets/image/home_icon.png';
+  final String maintenance = 'assets/image/maintenance.png';
+  final String more = 'assets/image/more_icon.png';
+  final String fav = 'assets/image/fav_icon.png';
+  final String cart = 'assets/image/cart_icon.png';
+  final String filter = 'assets/image/filter_icon.png';
+  final String coupon = 'assets/image/coupon.png';
+  final String language = 'assets/image/language.png';
+  final String logOut = 'assets/image/log_out.png';
+  final String message = 'assets/image/message.png';
+  final String order = 'assets/image/order.png';
+  final String payment = 'assets/image/payment.png';
+  final String profile = 'assets/image/profile.png';
+  final String image = 'assets/image/image.png';
+  final String send = 'assets/image/send.png';
+  final String line = 'assets/image/line.png';
+  final String couponBg = 'assets/image/coupon_bg.png';
+  final String percentage = 'assets/image/percentage.png';
+  final String placeholderImage = 'assets/image/placeholder_image.jpg';
+  final String placeholderBanner = 'assets/image/placeholder_banner.jpg';
+  final String placeholderRectangle = 'assets/image/placeholder_rectangle.png';
+  final String placeholderUser = 'assets/image/placeholder_user.png';
+  final String noFoodImage = 'assets/image/no_food.png';
+  final String clock = 'assets/image/clock.png';
+  final String shoppingCart = 'assets/image/shopping_cart.png';
+  final String closed = 'assets/image/closed.png';
+  final String support = 'assets/image/support.png';
+  final String deliveryBoyMarker = 'assets/image/delivery_boy_marker.png';
+  final String destinationMarker = 'assets/image/destination_marker.png';
+  final String restaurantMarker = 'assets/image/restaurant_marker.png';
+  final String unselectedRestaurantMarker = 'assets/image/unselected_restaurant_marker.png';
+  final String wallet = 'assets/image/wallet.png';
+  final String guestLogin = 'assets/image/guest_login.png';
+  final String errorPage = 'assets/image/errorpage.png';
+  final String helpSupport = 'assets/image/help_support.png';
+  final String privacyPolicy = 'assets/image/privacy_policy.png';
+  final String termsAndCondition = 'assets/image/terms_and_condition.png';
+  final String aboutUs = 'assets/image/about_us.png';
+  final String login = 'assets/image/login.png';
+  final String close = 'assets/image/close.png';
+  final String logo = 'assets/image/logo.png';
+}
