@@ -38,7 +38,8 @@ class OnBoardingViewModel({
     switch (onBoardings) {
       case Ok<List<OnBoarding>>(:final value):
         _onBoardings.value = value;
-        _log.debug('${value.length} integrações');
+        _log.debug('${_onBoardings.length} integrações');
+        _log.info("TESTE ${onBoardings.value}");
         return Result.done;
       case Error<List<OnBoarding>>(:final error):
         _log.error('Falha ao carregar as integrações', error: error, stackTrace: error.stackTrace);
@@ -48,6 +49,26 @@ class OnBoardingViewModel({
 
   void changeSelectIndex(int index) {
     _selectedIndex.value = index;
+  }
+
+  String get title {
+    if (_onBoardings.isEmpty) return "";
+
+    if (_selectedIndex.value == 0) return _onBoardings[0].title;
+
+    if (_selectedIndex.value == 1) return _onBoardings[1].title;
+
+    return _onBoardings[2].title;
+  }
+
+  String get description {
+    if (_onBoardings.isEmpty) return "";
+
+    if (_selectedIndex.value == 0) return _onBoardings[0].description;
+
+    if (_selectedIndex.value == 1) return _onBoardings[1].description;
+
+    return _onBoardings[2].description;
   }
 
   @override
