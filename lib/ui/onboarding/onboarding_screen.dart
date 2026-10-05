@@ -148,10 +148,10 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
   }
 
   List<Widget> _pageIndicators(BuildContext context) {
-    final List<Container> _indicators = [];
+    final List<Container> indicators = [];
 
     for (int i = 0; i < viewModel.onBoardings.length; i++) {
-      _indicators.add(
+      indicators.add(
         Container(
           width: i == viewModel.selectedIndex ? 16 : 7,
           height: 7,
@@ -163,6 +163,6 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
         ),
       );
     }
-    return _indicators;
+    return indicators;
   }
 }
