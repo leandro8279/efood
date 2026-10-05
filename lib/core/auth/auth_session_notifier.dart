@@ -7,7 +7,12 @@ class AuthSessionNotifier({
   // required final AuthRestoreSessionUseCase _authRestoreSessionUseCase,
   required final Stream<void> sessionEnded,
 }) extends GetxController {
+  final _restored = false;
   late final StreamSubscription<void> _sessionEnded;
+
+  bool get isRestored => _restored;
+  // AuthSessionUser? get user => _user;
+  bool get isSignedIn => false;
 
   this {
     print("AuthSessionNotifier");
