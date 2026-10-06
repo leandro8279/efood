@@ -72,34 +72,28 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         SizedBox(height: 35),
 
-                        Obx(
-                          () => RenderConditional(
-                            conditional: widget.viewModel.config?.emailVerification,
-                            widget1: Text('email'.tr, style: AppTextStyles.headline2(color: AppColors.hintDark)),
-                            widget2: Text(
-                              'mobile_number'.tr,
-                              style: AppTextStyles.headline2(color: AppColors.hintDark),
-                            ),
-                          ),
+                        RenderConditional(
+                          conditional: widget.viewModel.config?.emailVerification,
+                          widget1: Text('email'.tr, style: AppTextStyles.headline2(color: AppColors.hintDark)),
+                          widget2: Text('mobile_number'.tr, style: AppTextStyles.headline2(color: AppColors.hintDark)),
                         ),
 
                         SizedBox(height: AppDimens.paddingSmall),
 
-                        Obx(
-                          () => RenderConditional(
-                            conditional: widget.viewModel.config?.emailVerification,
-                            widget1: CustomTextField(
-                              hintText: 'demo_gmail'.tr,
-                              isShowBorder: true,
-                              focusNode: _emailNumberFocus,
-                              nextFocus: _passwordFocus,
-                              controller: _emailController,
-                              inputType: TextInputType.emailAddress,
-                            ),
-                            widget2: SizedBox(),
+                        RenderConditional(
+                          conditional: widget.viewModel.config?.emailVerification,
+                          widget1: CustomTextField(
+                            hintText: 'demo_gmail'.tr,
+                            isShowBorder: true,
+                            focusNode: _emailNumberFocus,
+                            nextFocus: _passwordFocus,
+                            controller: _emailController,
+                            inputType: TextInputType.emailAddress,
                           ),
+                          widget2: SizedBox(),
                         ),
 
+                        SizedBox(height: AppDimens.paddingLarge),
                         Text('password'.tr, style: AppTextStyles.headline2(color: AppColors.hintDark)),
                         SizedBox(height: AppDimens.paddingDefault),
                         CustomTextField(

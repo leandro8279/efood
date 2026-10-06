@@ -4,6 +4,6 @@ import 'package:get/get.dart';
 class LoginBindings extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<LoginViewModel>(() => LoginViewModel(splashRepository: Get.find()));
+    Get.lazyPut<LoginViewModel>(() => LoginViewModel(configRepository: Get.find()));
   }
 }
