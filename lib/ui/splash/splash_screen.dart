@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:efood/config/constants.dart';
 import 'package:efood/core/auth/auth_session_notifier.dart';
 import 'package:efood/routing/app_routes.dart';
@@ -36,8 +38,9 @@ class _SplashScreenState extends State<SplashScreen> {
     //   return;
     // }
     // widget._sessionNotifier.removeListener(_exitWhenReady);
-
-    Get.toNamed(AppRoutes.onboarding);
+    Timer(Duration(seconds: 1), () async {
+      Get.offAndToNamed(AppRoutes.onboarding);
+    });
   }
 
   @override
