@@ -1,3 +1,4 @@
+import 'package:efood/ui/auth/login/login_bindings.dart';
 import 'package:get/get.dart';
 import 'package:efood/routing/app_routes.dart';
 // import 'package:efood/routing/auth_middleware.dart';
@@ -28,6 +29,10 @@ class AppRouter._() {
     ),
 
     GetPage(name: AppRoutes.welcome, page: () => WelcomeScreen()),
-    GetPage(name: AppRoutes.login, page: () => LoginScreen()),
+    GetPage(
+      name: AppRoutes.login,
+      binding: LoginBindings(),
+      page: () => LoginScreen(viewModel: Get.find()),
+    ),
   ];
 }
