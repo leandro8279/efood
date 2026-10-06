@@ -1,23 +1,25 @@
-import 'package:efood/data/repositories/splash/splash_repository.dart';
+import 'package:efood/data/repositories/config/config_repository.dart';
 import 'package:efood/domain/models/config/config.dart';
 import 'package:efood/utils/command.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
-class SplashViewModel({required final SplashRepository _splashRepository}) extends GetxController {
-  final Rx<Config?> _config = Rx<Config?>(null);
+class SplashViewModel extends GetxController {
+  SplashViewModel({required ConfigRepository configRepository})
+      : _configRepository = configRepository;
+
+  final ConfigRepository _configRepository;
 
   late final loadConfig = Command0(_loadConfig);
 
-  Config? get config => _config.value;
+  Config? get config =>
+      loadConfig.complete ? _configRepository.config : null;
 
   Future<Result<void>> _loadConfig() async {
-    final result = await _splashRepository.getConfig();
+    final result = await _configRepository.getConfig();
 
     switch (result) {
-      case Ok<Config>(:final value):
-        _config.value = value;
-
+      case Ok<Config>():
         return Result.done;
       case Error<Config>(:final error):
         return Result.error(error);
