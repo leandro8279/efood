@@ -16,7 +16,7 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
       body: Obx(
         () => RenderConditional(
           conditional: viewModel.onBoardings.isEmpty,
-          widget1: SizedBox.shrink(),
+          widget1: Center(child: Text("OLA")),
           widget2: Scrollbar(
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
