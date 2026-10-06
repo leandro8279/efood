@@ -20,27 +20,32 @@ class const SplashScreen({
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  bool _navigated = false;
   final GlobalKey<ScaffoldMessengerState> _globalKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
 
-    // widget._sessionNotifier.addListener(_exitWhenReady);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _exitWhenReady();
-    });
+    widget.viewModel.loadConfig.addListener(_onConfigCommandChanged);
   }
 
-  void _exitWhenReady() {
-    if (!mounted) return;
-    // if (!mounted || !widget.viewModel.loadOnConfig.complete) {
-    //   return;
-    // }
-    // widget._sessionNotifier.removeListener(_exitWhenReady);
-    Timer(Duration(seconds: 1), () async {
-      Get.offAndToNamed(AppRoutes.onboarding);
-    });
+  void _onConfigCommandChanged() {
+    final command = widget.viewModel.loadConfig;
+
+    if (!mounted || !command.complete || _navigated) return;
+
+    _navigated = true;
+
+    command.removeListener(_onConfigCommandChanged);
+
+    if (mounted) Get.offAllNamed(AppRoutes.onboarding);
+  }
+
+  @override
+  void dispose() {
+    widget.viewModel.loadConfig.removeListener(_onConfigCommandChanged);
+    super.dispose();
   }
 
   @override
