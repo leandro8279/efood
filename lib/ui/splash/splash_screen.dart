@@ -25,22 +25,19 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     // widget._sessionNotifier.addListener(_exitWhenReady);
-    _exitWhenReady();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _exitWhenReady();
+    });
   }
 
   void _exitWhenReady() {
+    if (!mounted) return;
     // if (!mounted || !widget.viewModel.loadOnConfig.complete) {
     //   return;
     // }
     // widget._sessionNotifier.removeListener(_exitWhenReady);
 
     Get.toNamed(AppRoutes.onboarding);
-  }
-
-  @override
-  void dispose() {
-    // widget._sessionNotifier.removeListener(_exitWhenReady);
-    super.dispose();
   }
 
   @override
