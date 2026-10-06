@@ -13,7 +13,9 @@ class AuthInterceptor() extends Interceptor {
   Stream<void> get onUnauthorized => _unauthorized.stream;
 
   @override
-  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {}
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    handler.next(options);
+  }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
