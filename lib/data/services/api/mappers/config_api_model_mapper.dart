@@ -7,5 +7,6 @@ extension ConfigApiModelMapper on ConfigApiModel {
     restaurantLogo: restaurantLogo,
     currencySymbol: currencySymbol,
     maintenanceMode: maintenanceMode,
+    emailVerification: true,
   );
 }
