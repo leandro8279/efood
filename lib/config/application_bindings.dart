@@ -22,7 +22,7 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
 
     // Services (primeiro, para serem injetados nos repositories)
     Get.put<LocalDataService>(LocalDataService(), permanent: true);
-    Get.put<SplashApi>(SplashApi(Get.find<Dio>()), permanent: true);
+    Get.put<SplashApi>(SplashApi(Get.find()), permanent: true);
     Get.put<SharedPreferencesService>(SharedPreferencesService(sharedPreferences: sharedPreferences), permanent: true);
     // Repositories (registrados pela abstração)
     Get.put<SplashRepository>(
