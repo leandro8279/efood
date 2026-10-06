@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:efood/core/auth/auth_session_notifier.dart';
+import 'package:efood/data/repositories/config/config_repository.dart';
+import 'package:efood/data/repositories/config/config_repository_remote.dart';
 import 'package:efood/data/services/api/interceptors/auth_interceptor.dart';
 import 'package:efood/data/services/local/local_data_service.dart';
 import 'package:get/get.dart';
@@ -24,7 +26,12 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     Get.put<LocalDataService>(LocalDataService(), permanent: true);
     Get.put<SplashApi>(SplashApi(Get.find()), permanent: true);
     Get.put<SharedPreferencesService>(SharedPreferencesService(sharedPreferences: sharedPreferences), permanent: true);
+
     // Repositories (registrados pela abstração)
+    Get.put<ConfigRepository>(
+      ConfigRepositoryRemote(splashApi: Get.find<SplashApi>()),
+      permanent: true,
+    );
     Get.put<SplashRepository>(
       SplashRepositoryRemote(splashApi: Get.find(), sharedPreferencesService: Get.find()),
       permanent: true,
