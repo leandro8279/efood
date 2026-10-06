@@ -17,6 +17,7 @@ class const SplashRepositoryRemote({
   Future<Result<Config>> getConfig() async {
     try {
       final config = await _splashApi.getConfig();
+      print("SplashRepositoryRemote");
       return Result.ok(config.toDomain());
     } on DioException catch (e, st) {
       return Result.error(e.toAppException(st));
