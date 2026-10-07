@@ -178,9 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
 
                             InkWell(
-                              onTap: () {
-                                // Navigator.pushNamed(context, Routes.getForgetPassRoute());
-                              },
+                              onTap: () => Get.toNamed(AppRoutes.forgotPassword),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
