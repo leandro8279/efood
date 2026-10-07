@@ -31,6 +31,11 @@ final class const ServerException({super.cause, super.stackTrace})
 final class const EmailAlreadyInUseException({super.cause, super.stackTrace})
     extends AppException;
 
+final class const EmailOrPhoneAlreadyInUseException({
+  super.cause,
+  super.stackTrace,
+}) extends AppException;
+
 final class const StorageException({super.cause, super.stackTrace})
     extends AppException;
 

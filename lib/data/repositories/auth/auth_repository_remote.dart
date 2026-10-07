@@ -42,9 +42,14 @@ class AuthRepositoryRemote({required final AuthApi _authApi}) implements AuthRep
 
       return Result.ok(result.toDomain());
     } on DioException catch (e, st) {
-      // if (e.response?.statusCode == 401) {
-      //   return Result.error(InvalidCredentialsException(cause: e, stackTrace: st));
-      // }
+      if (e.response?.statusCode == 403) {
+        return Result.error(
+          EmailOrPhoneAlreadyInUseException(cause: e, stackTrace: st),
+        );
+      }
+      if ((e.response?.statusCode ?? 0) >= 500) {
+        return Result.error(ServerException(cause: e, stackTrace: st));
+      }
       return Result.error(e.toAppException(st));
     }
   }
