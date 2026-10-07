@@ -1,4 +1,4 @@
-import 'package:efood/core/logging/app_logger.dart';
+import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/data/repositories/config/config_repository.dart';
 import 'package:efood/domain/models/config/config.dart';
 import 'package:efood/domain/use_cases/auth/auth_login_use_case.dart';

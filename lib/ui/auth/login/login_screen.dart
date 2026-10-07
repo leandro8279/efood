@@ -1,14 +1,13 @@
+import 'package:efood/routing/app_routes.dart';
 import 'package:efood/ui/auth/login/login_viewmodel.dart';
 import 'package:efood/ui/core/share/app_assets.dart';
 import 'package:efood/ui/core/share/custom_button.dart';
 import 'package:efood/ui/core/share/custom_text_field.dart';
-import 'package:efood/ui/core/share/error_messages.dart';
 import 'package:efood/ui/core/share/render_command_error.dart';
 import 'package:efood/ui/core/share/render_conditional.dart';
 import 'package:efood/ui/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:efood/utils/result.dart';
 
 class const LoginScreen({super.key, required final LoginViewModel viewModel}) extends StatefulWidget {
   @override
@@ -23,13 +22,38 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController(text: "leandro@gmail.com");
   final TextEditingController _passwordController = TextEditingController(text: "12345678");
 
-  Worker? _worker;
+  Worker? _loginWorker;
+  bool _redirected = false;
 
   @override
   void initState() {
     super.initState();
 
-    // _worker = ever(widget.viewModel.login.result, (_) => _onLoginResult());
+    _loginWorker = ever(widget.viewModel.login.result, (_) => _onLoginResult());
+
+    _onLoginResult();
+  }
+
+  void _onLoginResult() {
+    final command = widget.viewModel.login;
+
+    if (!mounted || !command.complete || _redirected) return;
+
+    _redirected = true;
+
+    _loginWorker?.dispose();
+
+    Get.offAllNamed(AppRoutes.main);
+  }
+
+  @override
+  void dispose() {
+    _loginWorker?.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _emailNumberFocus.dispose();
+    _passwordFocus.dispose();
+    super.dispose();
   }
 
   @override
@@ -187,8 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(width: 8),
                             Expanded(
                               child: RenderCommandError(
-                                command: widget.viewModel.login.result as dynamic,
-                                messageOf: ErrorMessages.of,
+                                command: widget.viewModel.login.result,
                                 widget: (text) => Text(
                                   text,
                                   style: AppTextStyles.headline2().copyWith(
