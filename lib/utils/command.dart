@@ -1,11 +1,10 @@
 import 'package:efood/utils/result.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 typedef CommandAction0<T> = Future<Result<T>> Function();
 typedef CommandAction1<T, A> = Future<Result<T>> Function(A);
 
-abstract class Command<T> extends ChangeNotifier {
+abstract class Command<T> {
   final RxBool _running = false.obs;
   final _result = Rxn<Result<T>>();
 
