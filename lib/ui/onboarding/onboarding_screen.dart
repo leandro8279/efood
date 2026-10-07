@@ -11,13 +11,9 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
 
   @override
   Widget build(BuildContext context) {
-    print(viewModel.onBoardings.length);
     return Scaffold(
       body: Obx(
-        () => RenderConditional(
-          conditional: viewModel.onBoardings.isEmpty,
-          widget1: Center(child: Text("OLA")),
-          widget2: Scrollbar(
+        () => Scrollbar(
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Center(
@@ -47,7 +43,7 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: .all(30),
-                              child: Image.asset(viewModel.onBoardings[index].imageUrl),
+                              child: Image.asset(viewModel.onBoardings[index].imageAsset),
                             );
                           },
                           onPageChanged: (index) => viewModel.changeSelectIndex(index),
@@ -59,12 +55,16 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
                           Row(mainAxisAlignment: MainAxisAlignment.center, children: _pageIndicators(context)),
                           Padding(
                             padding: .only(left: 60, right: 60, top: 50, bottom: 22),
-                            child: Text(viewModel.title, style: AppTextStyles.headline3(), textAlign: TextAlign.center),
+                            child: Text(
+                              viewModel.currentSlide.titleKey.tr,
+                              style: AppTextStyles.headline3(),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                           Padding(
                             padding: .symmetric(horizontal: AppDimens.fontSizeLarge),
                             child: Text(
-                              viewModel.description,
+                              viewModel.currentSlide.descriptionKey.tr,
                               textAlign: TextAlign.center,
                               style: AppTextStyles.headline2(color: AppColors.gray),
                             ),
@@ -117,7 +117,6 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
                 ),
               ),
             ),
-          ),
         ),
       ),
     );

@@ -8,7 +8,6 @@ import 'package:efood/data/repositories/config/config_repository.dart';
 import 'package:efood/data/repositories/config/config_repository_remote.dart';
 import 'package:efood/data/services/api/auth_api.dart';
 import 'package:efood/data/services/api/interceptors/auth_interceptor.dart';
-import 'package:efood/data/services/local/local_data_service.dart';
 import 'package:efood/data/services/local/secure_storage_service.dart';
 import 'package:get/get.dart';
 import 'package:efood/config/environment.dart';
@@ -30,7 +29,6 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     );
 
     // Services (primeiro, para serem injetados nos repositories)
-    Get.put<LocalDataService>(LocalDataService(), permanent: true);
     Get.put<AuthApi>(AuthApi(Get.find()), permanent: true);
     Get.put<SplashApi>(SplashApi(Get.find()), permanent: true);
     Get.put<SharedPreferencesService>(SharedPreferencesService(sharedPreferences: sharedPreferences), permanent: true);
