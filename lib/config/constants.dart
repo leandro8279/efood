@@ -3,8 +3,8 @@ class AppConstants._() {
   static const double appVersion = 9.0;
   static const String configUrl = '/config';
   static const String policyPage = '/policy-page';
+  static const String loginUrl = "/auth/login";
 
-  // Shared Key
   // Shared Key
   static const String THEME = 'theme';
   static const String TOKEN = 'token';
