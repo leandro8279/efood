@@ -1,4 +1,4 @@
-import 'package:efood/data/repositories/config/config_repository.dart';
+import 'package:efood/domain/repositories/config_repository.dart';
 import 'package:efood/ui/splash/splash_viewmodel.dart';
 import 'package:get/get.dart';
 

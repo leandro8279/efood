@@ -1,6 +1,6 @@
-import 'package:efood/data/repositories/auth/auth_repository.dart';
-import 'package:efood/data/repositories/auth_session/auth_session_repository.dart';
 import 'package:efood/domain/models/auth/auth_session.dart';
+import 'package:efood/domain/repositories/auth_repository.dart';
+import 'package:efood/domain/repositories/auth_session_repository.dart';
 import 'package:efood/utils/result.dart';
 
 class AuthLoginUseCase({

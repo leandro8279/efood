@@ -1,6 +1,6 @@
-import 'package:efood/data/repositories/auth_session/auth_session_repository.dart';
 import 'package:efood/data/services/local/secure_storage_service.dart';
 import 'package:efood/data/services/local/storage_keys.dart';
+import 'package:efood/domain/repositories/auth_session_repository.dart';
 import 'package:efood/utils/app_exception.dart';
 import 'package:efood/utils/result.dart';
 

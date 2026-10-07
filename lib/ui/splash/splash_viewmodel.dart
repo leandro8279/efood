@@ -1,5 +1,5 @@
-import 'package:efood/data/repositories/config/config_repository.dart';
 import 'package:efood/domain/models/config/config.dart';
+import 'package:efood/domain/repositories/config_repository.dart';
 import 'package:efood/utils/command.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';

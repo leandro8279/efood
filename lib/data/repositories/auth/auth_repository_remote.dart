@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:efood/data/repositories/auth/auth_repository.dart';
 import 'package:efood/data/services/api/auth_api.dart';
 import 'package:efood/data/services/api/mappers/auth_register_api_model_mapper.dart';
 import 'package:efood/data/services/api/mappers/auth_session_api_model_mapper.dart';
@@ -9,6 +8,7 @@ import 'package:efood/data/services/api/model/auth/request/login_request.dart';
 import 'package:efood/data/services/api/model/auth/request/register_request.dart';
 import 'package:efood/domain/models/auth/auth_register.dart';
 import 'package:efood/domain/models/auth/auth_session.dart';
+import 'package:efood/domain/repositories/auth_repository.dart';
 import 'package:efood/utils/app_exception.dart';
 import 'package:efood/utils/result.dart';
 
