@@ -4,12 +4,10 @@ import 'package:efood/data/services/api/mappers/config_api_model_mapper.dart';
 import 'package:efood/data/services/api/mappers/dio_exception_mapper.dart';
 import 'package:efood/data/services/api/splash_api.dart';
 import 'package:efood/domain/models/config/config.dart';
-import 'package:efood/utils/app_exception.dart';
 import 'package:efood/utils/result.dart';
 
 class ConfigRepositoryRemote implements ConfigRepository {
-  ConfigRepositoryRemote({required SplashApi splashApi})
-      : _splashApi = splashApi;
+  ConfigRepositoryRemote({required SplashApi splashApi}) : _splashApi = splashApi;
 
   final SplashApi _splashApi;
 
