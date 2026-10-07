@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:efood/core/auth/auth_session_notifier.dart';
+import 'package:efood/utils/auth/auth_session_notifier.dart';
 import 'package:efood/data/repositories/auth/auth_repository.dart';
 import 'package:efood/data/repositories/auth/auth_repository_remote.dart';
 import 'package:efood/data/repositories/auth_session/auth_session_repository.dart';

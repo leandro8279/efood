@@ -1,5 +1,5 @@
-import 'package:efood/core/logging/app_logger.dart';
-import 'package:efood/core/logging/log_output.dart';
+import 'package:efood/utils/logging/app_logger.dart';
+import 'package:efood/utils/logging/log_output.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:efood/routing/app_routes.dart';

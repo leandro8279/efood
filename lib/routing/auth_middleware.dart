@@ -1,5 +1,5 @@
-import 'package:efood/core/auth/auth_session_notifier.dart';
-import 'package:efood/core/logging/app_logger.dart';
+import 'package:efood/utils/auth/auth_session_notifier.dart';
+import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
