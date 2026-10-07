@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:efood/config/constants.dart';
 import 'package:efood/core/auth/auth_session_notifier.dart';
 import 'package:efood/routing/app_routes.dart';
@@ -21,13 +19,16 @@ class const SplashScreen({
 
 class _SplashScreenState extends State<SplashScreen> {
   bool _navigated = false;
+  Worker? _configWorker;
   final GlobalKey<ScaffoldMessengerState> _globalKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
 
-    widget.viewModel.loadConfig.addListener(_onConfigCommandChanged);
+    _configWorker = ever(widget.viewModel.loadConfig.result, (_) => _onConfigCommandChanged());
+
+    _onConfigCommandChanged();
   }
 
   void _onConfigCommandChanged() {
@@ -37,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     _navigated = true;
 
-    command.removeListener(_onConfigCommandChanged);
+    _configWorker?.dispose();
 
     if (mounted) Get.offAllNamed(AppRoutes.onboarding);
   }
