@@ -1,36 +1,34 @@
 import 'package:efood/utils/result.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 typedef CommandAction0<T> = Future<Result<T>> Function();
 typedef CommandAction1<T, A> = Future<Result<T>> Function(A);
 
 abstract class Command<T> extends ChangeNotifier {
-  bool _running = false;
-  Result<T>? _result;
+  final RxBool _running = false.obs;
+  final _result = Rxn<Result<T>>();
 
-  bool get running => _running;
-  bool get error => _result is Error;
-  bool get complete => _result is Ok;
+  bool get error => _result.value is Error;
+  bool get complete => _result.value is Ok;
 
-  Result<T>? get result => _result;
+  RxBool get running => _running;
+  Rxn<Result<T>?> get result => _result;
 
   void clearResult() {
-    _result = null;
-    notifyListeners();
+    _result.value = null;
   }
 
   Future<void> _execute(CommandAction0<T> action) async {
-    if (_running) return;
+    if (_running.value) return;
 
-    _running = true;
-    _result = null;
-    notifyListeners();
+    _running.value = true;
+    _result.value = null;
 
     try {
-      _result = await action();
+      _result.value = await action();
     } finally {
-      _running = false;
-      notifyListeners();
+      _running.value = false;
     }
   }
 }
