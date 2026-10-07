@@ -16,12 +16,13 @@ class AuthSessionNotifier({
 
   this {
     print("AuthSessionNotifier");
-    unawaited(_restore());
 
     _sessionEnded = sessionEnded.listen((_) {
       print("SESSIONENADED");
     });
   }
+
+  Future<void> restoreSession() => _restore();
 
   Future<void> _restore() async {
     print("RESTORE");

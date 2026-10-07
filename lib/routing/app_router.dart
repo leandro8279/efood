@@ -22,7 +22,7 @@ class AppRouter._() {
       name: AppRoutes.splash,
       binding: SplashBindings(),
       page: () {
-        return SplashScreen(viewModel: Get.find(), sessionNotifier: Get.find());
+        return SplashScreen(viewModel: Get.find());
       },
     ),
     GetPage(
