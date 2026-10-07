@@ -21,7 +21,7 @@ class RenderCommandError<T> extends StatelessWidget {
         return const SizedBox.shrink();
       }
 
-      return widget(message);
+      return widget(message.tr);
     });
   }
 }
