@@ -247,9 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         // for create an account
                         SizedBox(height: 20),
                         InkWell(
-                          onTap: () {
-                            // Navigator.pushNamed(context, Routes.getSignUpRoute());
-                          },
+                          onTap: () => Get.toNamed(AppRoutes.register),
                           child: Padding(
                             padding: .all(AppDimens.paddingSmall),
                             child: Row(
