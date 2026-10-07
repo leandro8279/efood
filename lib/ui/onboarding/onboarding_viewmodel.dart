@@ -1,16 +1,15 @@
-import 'package:efood/config/constants.dart';
-import 'package:efood/data/services/local/shared_preferences_service.dart';
+import 'package:efood/domain/repositories/onboarding_repository.dart';
 import 'package:get/get.dart';
 import 'package:efood/ui/onboarding/onboarding_content.dart';
 import 'package:efood/ui/onboarding/onboarding_slide.dart';
 
-class OnBoardingViewModel({
-  required final SharedPreferencesService _sharedPreferencesService,
-}) extends GetxController {
-  this {
+class OnBoardingViewModel extends GetxController {
+  OnBoardingViewModel({required OnboardingRepository onboardingRepository})
+    : _onboardingRepository = onboardingRepository {
     _loadShowOnBoardingStatus();
   }
 
+  final OnboardingRepository _onboardingRepository;
   final _selectedIndex = 0.obs;
   final _showOnBoardingStatus = false.obs;
   final List<OnboardingSlide> _onBoardings = OnboardingContent.slides;
@@ -20,8 +19,8 @@ class OnBoardingViewModel({
   OnboardingSlide get currentSlide => _onBoardings[_selectedIndex.value];
   bool get showOnBoardingStatus => _showOnBoardingStatus.value;
 
-  void _loadShowOnBoardingStatus() async {
-    _showOnBoardingStatus.value = _sharedPreferencesService.getBool(AppConstants.onBoardingSkip) || true;
+  void _loadShowOnBoardingStatus() {
+    _showOnBoardingStatus.value = _onboardingRepository.isOnboardingSkipped() || true;
   }
 
   void changeSelectIndex(int index) {

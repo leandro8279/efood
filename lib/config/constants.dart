@@ -17,7 +17,6 @@ class AppConstants._() {
   static const String USER_NUMBER = 'user_number';
   static const String SEARCH_ADDRESS = 'search_address';
   static const String TOPIC = 'notify';
-  static const String onBoardingSkip = 'on_boarding_skip';
   static const String PLACE_ORDER_DATA = 'place_order_data';
 
   static const List<Map<Object, String>> languages = [

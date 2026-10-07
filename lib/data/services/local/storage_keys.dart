@@ -3,6 +3,6 @@ final class StorageKeys._() {
   static const authToken = '';
   static const countryCode = '';
   static const languageCode = '';
-  static const onBoardingSkip = '';
+  static const onBoardingSkip = 'on_boarding_skip';
   static const cartList = '';
 }

@@ -6,11 +6,13 @@ import 'package:efood/data/repositories/auth_session/auth_session_repository.dar
 import 'package:efood/data/repositories/auth_session/auth_session_repository_local.dart';
 import 'package:efood/data/repositories/config/config_repository.dart';
 import 'package:efood/data/repositories/config/config_repository_remote.dart';
+import 'package:efood/data/repositories/onboarding/onboarding_repository_local.dart';
 import 'package:efood/data/services/api/auth_api.dart';
 import 'package:efood/data/services/api/interceptors/auth_interceptor.dart';
 import 'package:efood/data/services/local/secure_storage_service.dart';
 import 'package:get/get.dart';
 import 'package:efood/config/environment.dart';
+import 'package:efood/domain/repositories/onboarding_repository.dart';
 import 'package:efood/data/repositories/splash/splash_repository.dart';
 import 'package:efood/data/repositories/splash/splash_repository_remote.dart';
 import 'package:efood/data/services/api/splash_api.dart';
@@ -33,6 +35,10 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     Get.put<SplashApi>(SplashApi(Get.find()), permanent: true);
     Get.put<SharedPreferencesService>(SharedPreferencesService(sharedPreferences: sharedPreferences), permanent: true);
     Get.put<SecureStorageService>(SecureStorageService(), permanent: true);
+    Get.put<OnboardingRepository>(
+      OnboardingRepositoryLocal(sharedPreferencesService: Get.find<SharedPreferencesService>()),
+      permanent: true,
+    );
     Get.put<AuthSessionRepository>(AuthSessionRepositoryLocal(storage: Get.find()), permanent: true);
     // Repositories (registrados pela abstração)
     Get.put<ConfigRepository>(ConfigRepositoryRemote(splashApi: Get.find<SplashApi>()), permanent: true);
