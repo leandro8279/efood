@@ -1,6 +1,7 @@
 import 'package:efood/ui/auth/forgot_password/forgot_password_bindings.dart';
 import 'package:efood/ui/auth/forgot_password/forgot_password_screen.dart';
 import 'package:efood/ui/auth/login/login_bindings.dart';
+import 'package:efood/ui/auth/register/register_bindings.dart';
 import 'package:efood/ui/auth/register/register_screen.dart';
 import 'package:get/get.dart';
 import 'package:efood/routing/app_routes.dart';
@@ -37,7 +38,11 @@ class AppRouter._() {
       binding: LoginBindings(),
       page: () => LoginScreen(viewModel: Get.find()),
     ),
-    GetPage(name: AppRoutes.register, page: () => RegisterScreen()),
+    GetPage(
+      name: AppRoutes.register,
+      binding: RegisterBindings(),
+      page: () => RegisterScreen(viewModel: Get.find()),
+    ),
     GetPage(
       name: AppRoutes.forgotPassword,
       binding: ForgotPasswordBindings(),

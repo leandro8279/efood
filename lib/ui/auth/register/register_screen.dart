@@ -1,15 +1,20 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:efood/domain/models/auth/auth_register.dart';
 import 'package:efood/routing/app_routes.dart';
 import 'package:efood/ui/core/share/code_picker_widget.dart';
 import 'package:efood/ui/core/share/custom_button.dart';
 import 'package:efood/ui/core/share/custom_text_field.dart';
+import 'package:efood/ui/core/share/render_command_error.dart';
 import 'package:efood/ui/core/share/render_conditional.dart';
 import 'package:efood/ui/core/theme/theme.dart';
+import 'package:efood/ui/auth/register/register_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegisterScreen extends StatefulWidget {
-  const new({super.key});
+  const RegisterScreen({super.key, required this.viewModel});
+
+  final RegisterViewModel viewModel;
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -28,7 +33,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
-  late String _countryDialCode;
+  String _countryDialCode = '';
 
   @override
   Widget build(BuildContext context) {
@@ -82,17 +87,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(height: AppDimens.paddingSmall),
 
                       RenderConditional(
-                        conditional: true, //.configModel.emailVerification
+                        conditional: widget.viewModel.emailVerification,
                         widget1: CustomTextField(
-                          hintText: 'Doe',
-                          isShowBorder: true,
-                          controller: _lastNameController,
-                          focusNode: _lastNameFocus,
-                          nextFocus: _numberFocus,
-                          inputType: TextInputType.name,
-                          capitalization: TextCapitalization.words,
-                        ),
-                        widget2: CustomTextField(
                           hintText: 'Doe',
                           isShowBorder: true,
                           controller: _lastNameController,
@@ -101,11 +97,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           inputType: TextInputType.name,
                           capitalization: TextCapitalization.words,
                         ),
+                        widget2: CustomTextField(
+                          hintText: 'Doe',
+                          isShowBorder: true,
+                          controller: _lastNameController,
+                          focusNode: _lastNameFocus,
+                          nextFocus: _numberFocus,
+                          inputType: TextInputType.name,
+                          capitalization: TextCapitalization.words,
+                        ),
                       ),
 
                       SizedBox(height: AppDimens.paddingLarge),
                       RenderConditional(
-                        conditional: true, // configModel.emailVerification
+                        conditional: widget.viewModel.emailVerification,
                         widget1: Text('email'.tr, style: AppTextStyles.headline2(color: AppColors.getHintColor())),
                         widget2: Text(
                           'mobile_number'.tr,
@@ -115,7 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(height: AppDimens.paddingSmall),
 
                       RenderConditional(
-                        conditional: true, //// configModel.emailVerification
+                        conditional: widget.viewModel.emailVerification,
                         widget1: CustomTextField(
                           hintText: 'demo_gmail'.tr,
                           isShowBorder: true,
@@ -128,9 +133,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           children: [
                             CodePickerWidget(
                               onChanged: (CountryCode countryCode) {
-                                _countryDialCode = countryCode.dialCode!;
+                                _countryDialCode = countryCode.dialCode ?? '';
                               },
-                              initialSelection: _countryDialCode,
+                              onInit: (CountryCode countryCode) {
+                                _countryDialCode = countryCode.dialCode ?? '';
+                              },
+                              initialSelection: 'US',
                               favorite: [_countryDialCode],
                               showDropDownButton: true,
                               padding: EdgeInsets.zero,
@@ -180,38 +188,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
 
                       SizedBox(height: 22),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          RenderConditional(
-                            conditional: true, // authProvider.registrationErrorMessage.length > 0
-                            widget1: CircleAvatar(backgroundColor: Theme.of(context).primaryColor, radius: 5),
-                            widget2: SizedBox.shrink(),
-                          ),
-                          SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              "authProvider.registrationErrorMessage",
-                              style: AppTextStyles.headline2(
-                                fontSize: AppDimens.fontSizeSmall,
-                                color: Theme.of(context).primaryColor,
-                              ),
+                      RenderCommandError<AuthRegister>(
+                        command: widget.viewModel.register.result,
+                        widget: (message) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: AppDimens.paddingSmall),
+                          child: Text(
+                            message,
+                            style: AppTextStyles.headline2(
+                              fontSize: AppDimens.fontSizeSmall,
+                              color: Theme.of(context).primaryColor,
                             ),
                           ),
-                        ],
+                        ),
                       ),
 
                       // for signup button
                       SizedBox(height: 10),
 
-                      RenderConditional(
-                        conditional: false, //!authProvider.isLoading
-                        widget1: CustomButton(btnTxt: 'signup'.tr, onTap: () {}),
-                        widget2: Center(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
-                          ),
-                        ),
+                      Obx(
+                        () => widget.viewModel.register.running.value
+                            ? Center(
+                                child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                                ),
+                              )
+                            : CustomButton(btnTxt: 'signup'.tr, onTap: _submitRegistration),
                       ),
 
                       // for already an account
@@ -251,5 +252,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _submitRegistration() async {
+    final emailVerification = widget.viewModel.emailVerification;
+
+    await widget.viewModel.register.execute((
+      fName: _firstNameController.text.trim(),
+      lName: _lastNameController.text.trim(),
+      phone: emailVerification ? '' : '$_countryDialCode${_numberController.text.trim()}',
+      email: emailVerification ? _emailController.text.trim() : '',
+      password: _passwordController.text,
+    ));
+
+    if (widget.viewModel.register.complete) {
+      Get.offNamed(AppRoutes.login);
+    }
+  }
+
+  @override
+  void dispose() {
+    _firstNameFocus.dispose();
+    _lastNameFocus.dispose();
+    _numberFocus.dispose();
+    _emailFocus.dispose();
+    _passwordFocus.dispose();
+    _confirmPasswordFocus.dispose();
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _numberController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
   }
 }
