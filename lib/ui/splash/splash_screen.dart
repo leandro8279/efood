@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void dispose() {
-    widget.viewModel.loadConfig.removeListener(_onConfigCommandChanged);
+    _configWorker?.dispose();
     super.dispose();
   }
 
