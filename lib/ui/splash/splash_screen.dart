@@ -1,5 +1,5 @@
 import 'package:efood/config/constants.dart';
-import 'package:efood/core/auth/auth_session_notifier.dart';
+import 'package:efood/utils/auth/auth_session_notifier.dart';
 import 'package:efood/routing/app_routes.dart';
 import 'package:efood/ui/core/share/app_assets.dart';
 import 'package:efood/ui/core/theme/app_text_styles.dart';

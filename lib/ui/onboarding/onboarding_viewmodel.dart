@@ -1,5 +1,4 @@
 import 'package:efood/config/constants.dart';
-import 'package:efood/core/logging/app_logger.dart';
 import 'package:efood/data/services/local/shared_preferences_service.dart';
 import 'package:efood/domain/models/onboarding/onboarding.dart';
 import 'package:efood/utils/command.dart';
@@ -11,11 +10,8 @@ class OnBoardingViewModel({
   required final OnBoardingRepository _onBoradingRepository,
   required final SharedPreferencesService _sharedPreferencesService,
 }) extends GetxController {
-  final _log = AppLogger('OnBoardingViewModel');
-
   this {
     _loadShowOnBoardingStatus();
-    _log.info("OnBoardingViewModel");
   }
 
   late final loadOnBoadings = Command0(_load);
@@ -38,11 +34,8 @@ class OnBoardingViewModel({
     switch (onBoardings) {
       case Ok<List<OnBoarding>>(:final value):
         _onBoardings.value = value;
-        _log.debug('${_onBoardings.length} integrações');
-        _log.info("TESTE ${onBoardings.value}");
         return Result.done;
       case Error<List<OnBoarding>>(:final error):
-        _log.error('Falha ao carregar as integrações', error: error, stackTrace: error.stackTrace);
         return Result.error(error);
     }
   }

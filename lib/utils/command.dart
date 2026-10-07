@@ -13,7 +13,7 @@ abstract class Command<T> extends ChangeNotifier {
   bool get complete => _result.value is Ok;
 
   RxBool get running => _running;
-  Rxn<Result<T>?> get result => _result;
+  Rxn<Result<T>> get result => _result;
 
   void clearResult() {
     _result.value = null;
