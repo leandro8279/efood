@@ -1,6 +1,6 @@
 import 'package:efood/config/constants.dart';
 import 'package:efood/core/logging/app_logger.dart';
-import 'package:efood/data/services/shared_preferences_service.dart';
+import 'package:efood/data/services/local/shared_preferences_service.dart';
 import 'package:efood/domain/models/onboarding/onboarding.dart';
 import 'package:efood/utils/command.dart';
 import 'package:efood/utils/result.dart';
