@@ -3,6 +3,7 @@ import 'package:efood/domain/models/auth/auth_register.dart';
 import 'package:efood/routing/app_routes.dart';
 import 'package:efood/ui/core/share/code_picker_widget.dart';
 import 'package:efood/ui/core/share/custom_button.dart';
+import 'package:efood/ui/core/share/custom_snackbar.dart';
 import 'package:efood/ui/core/share/custom_text_field.dart';
 import 'package:efood/ui/core/share/render_command_error.dart';
 import 'package:efood/ui/core/share/render_conditional.dart';
@@ -255,14 +256,67 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Future<void> _submitRegistration() async {
+    final fName = _firstNameController.text.trim();
+    final lName = _lastNameController.text.trim();
+    final number = _numberController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPasswordController.text;
     final emailVerification = widget.viewModel.emailVerification;
 
+    if (fName.isEmpty) {
+      showCustomSnackBar('enter_first_name'.tr, context);
+      return;
+    }
+
+    if (lName.isEmpty) {
+      showCustomSnackBar('enter_last_name'.tr, context);
+      return;
+    }
+
+    if (emailVerification && email.isEmpty) {
+      showCustomSnackBar('enter_email_address'.tr, context);
+      return;
+    }
+
+    if (emailVerification && !GetUtils.isEmail(email)) {
+      showCustomSnackBar('enter_valid_email'.tr, context);
+      return;
+    }
+
+    if (!emailVerification && number.isEmpty) {
+      showCustomSnackBar('enter_phone_number'.tr, context);
+      return;
+    }
+
+    if (password.trim().isEmpty) {
+      showCustomSnackBar('enter_password'.tr, context);
+      return;
+    }
+
+    if (password.trim().length < 6) {
+      showCustomSnackBar('password_should_be'.tr, context);
+      return;
+    }
+
+    if (confirmPassword.trim().isEmpty) {
+      showCustomSnackBar('enter_confirm_password'.tr, context);
+      return;
+    }
+
+    if (password != confirmPassword) {
+      showCustomSnackBar('password_did_not_match'.tr, context);
+      return;
+    }
+
+    final phone = number.startsWith('+') ? number : '$_countryDialCode$number';
+
     await widget.viewModel.register.execute((
-      fName: _firstNameController.text.trim(),
-      lName: _lastNameController.text.trim(),
-      phone: emailVerification ? '' : '$_countryDialCode${_numberController.text.trim()}',
-      email: emailVerification ? _emailController.text.trim() : '',
-      password: _passwordController.text,
+      fName: fName,
+      lName: lName,
+      phone: emailVerification ? '' : phone,
+      email: emailVerification ? email : '',
+      password: password,
     ));
 
     if (widget.viewModel.register.complete) {
