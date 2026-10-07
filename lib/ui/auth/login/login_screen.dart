@@ -2,10 +2,13 @@ import 'package:efood/ui/auth/login/login_viewmodel.dart';
 import 'package:efood/ui/core/share/app_assets.dart';
 import 'package:efood/ui/core/share/custom_button.dart';
 import 'package:efood/ui/core/share/custom_text_field.dart';
+import 'package:efood/ui/core/share/error_messages.dart';
+import 'package:efood/ui/core/share/render_command_error.dart';
 import 'package:efood/ui/core/share/render_conditional.dart';
 import 'package:efood/ui/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:efood/utils/result.dart';
 
 class const LoginScreen({super.key, required final LoginViewModel viewModel}) extends StatefulWidget {
   @override
@@ -17,12 +20,16 @@ class _LoginScreenState extends State<LoginScreen> {
   final FocusNode _emailNumberFocus = FocusNode();
 
   final GlobalKey<FormState> _formKeyLogin = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController(text: "leandro@gmail.com");
+  final TextEditingController _passwordController = TextEditingController(text: "12345678");
+
+  Worker? _worker;
 
   @override
   void initState() {
     super.initState();
+
+    // _worker = ever(widget.viewModel.login.result, (_) => _onLoginResult());
   }
 
   @override
@@ -169,21 +176,25 @@ class _LoginScreenState extends State<LoginScreen> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            RenderConditional(
-                              //conditional:  authProvider.loginErrorMessage.length > 0
-                              conditional: true,
-                              widget1: CircleAvatar(backgroundColor: Theme.of(context).primaryColor, radius: 5),
-                              widget2: SizedBox.shrink(),
+                            Obx(
+                              () => RenderConditional(
+                                conditional: widget.viewModel.login.error,
+                                widget1: CircleAvatar(backgroundColor: Theme.of(context).primaryColor, radius: 5),
+                                widget2: SizedBox.shrink(),
+                              ),
                             ),
 
                             SizedBox(width: 8),
                             Expanded(
-                              child: Text(
-                                // authProvider.loginErrorMessage ?? "",
-                                "Ola",
-                                style: AppTextStyles.headline2().copyWith(
-                                  fontSize: AppDimens.fontSizeSmall,
-                                  color: Theme.of(context).primaryColor,
+                              child: RenderCommandError(
+                                command: widget.viewModel.login.result as dynamic,
+                                messageOf: ErrorMessages.of,
+                                widget: (text) => Text(
+                                  text,
+                                  style: AppTextStyles.headline2().copyWith(
+                                    fontSize: AppDimens.fontSizeSmall,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
                                 ),
                               ),
                             ),
@@ -193,13 +204,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         // for login button
                         SizedBox(height: 10),
 
-                        RenderConditional(
-                          // conditional:!authProvider.isLoading,
-                          conditional: true,
-                          widget1: CustomButton(btnTxt: 'login'.tr, onTap: () async {}),
-                          widget2: Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                        Obx(
+                          () => RenderConditional(
+                            conditional: !widget.viewModel.login.running.value,
+                            widget1: CustomButton(
+                              btnTxt: 'login'.tr,
+                              onTap: () async {
+                                final arguments = (_emailController.text.trim(), _passwordController.text.trim());
+
+                                widget.viewModel.login.execute(arguments);
+                              },
+                            ),
+                            widget2: Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                              ),
                             ),
                           ),
                         ),
