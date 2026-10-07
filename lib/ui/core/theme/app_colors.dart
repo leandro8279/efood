@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 final class AppColors {
   AppColors._();
@@ -69,15 +70,25 @@ final class AppColors {
   static const textTitleDark = Color(0xFFFFFFFF);
 
   static const profileMenuHeaderLight = footer;
-  static const profileMenuHeaderDark = Color(
-    0x80FFDDD9,
-  ); // footer com 50% de opacidade
+  static const profileMenuHeaderDark = Color(0x80FFDDD9); // footer com 50% de opacidade
 
   static const footerLight = Color(0xFFFFDDD9);
   static const footerDark = Color(0xFF494949);
 
   static const chatAdminLight = Color(0xFFFFDDD9);
   static const chatAdminDark = Color(0xFFA1916C);
+
+  static Color getHintColor() {
+    return Get.isDarkMode ? hintDark : hintLight;
+  }
+
+  static Color getGreyBunkerColor() {
+    return Get.isDarkMode ? greyBunkerDark : greyBunkerLight;
+  }
+
+  static Color getGreyColor() {
+    return Get.isDarkMode ? greyDark : greyLight;
+  }
 
   // Swatch
   static const Map<int, Color> swatch = {

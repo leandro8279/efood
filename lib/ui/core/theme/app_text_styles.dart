@@ -27,12 +27,12 @@ final class AppTextStyles._() {
     return GoogleFonts.rubik(fontWeight: FontWeight.w300, fontSize: AppDimens.fontSizeDefault, color: color);
   }
 
-  static TextStyle headline2({Color? color}) {
-    return GoogleFonts.rubik(fontWeight: FontWeight.w400, fontSize: AppDimens.fontSizeDefault, color: color);
+  static TextStyle headline2({Color? color, double? fontSize = AppDimens.fontSizeDefault}) {
+    return GoogleFonts.rubik(fontWeight: FontWeight.w400, fontSize: fontSize, color: color);
   }
 
-  static TextStyle headline3({Color? color}) {
-    return GoogleFonts.rubik(fontWeight: FontWeight.w500, fontSize: AppDimens.fontSizeDefault, color: color);
+  static TextStyle headline3({Color? color, double? fontSize = AppDimens.fontSizeDefault}) {
+    return GoogleFonts.rubik(fontWeight: FontWeight.w500, fontSize: fontSize, color: color);
   }
 
   static TextStyle headline4({Color? color}) {
