@@ -4,7 +4,8 @@ class AppConstants._() {
   static const String configUrl = '/config';
   static const String policyPage = '/policy-page';
   static const String loginUrl = "/auth/login";
-
+  static const String registerUrl = "/auth/registration";
+  static const String forgetUrl = "/auth/forgot-password";
   // Shared Key
   static const String THEME = 'theme';
   static const String TOKEN = 'token';
