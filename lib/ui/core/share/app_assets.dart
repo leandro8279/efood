@@ -1,5 +1,6 @@
 final class AppAssets._() {
   static const images = Images._();
+  static const icons = AppIcons._();
 }
 
 final class const Images._() {
@@ -47,4 +48,8 @@ final class const Images._() {
   final String onboardingOne = 'assets/image/onboarding_one.png';
   final String onboardingThree = 'assets/image/onboarding_three.png';
   final String onboardingTwo = 'assets/image/onboarding_two.png';
+}
+
+final class const AppIcons._() {
+  final String closeLock = 'assets/icon/close_lock.png';
 }
