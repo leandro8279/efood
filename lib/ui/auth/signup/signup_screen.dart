@@ -35,7 +35,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void initState() {
     super.initState();
-    _emailController = TextEditingController();
+    _emailController = TextEditingController(text: "joe-doe@email.com");
     _numberController = TextEditingController();
     _countryDialCode = CountryCode.fromCountryCode('BR').dialCode ?? '';
     // Provider.of<AuthProvider>(context, listen: false).clearVerificationMessage();
@@ -260,7 +260,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     switch (command.result.value) {
       case Ok<AuthCheckStatus>(:final value):
         if (value.token == TokenStatus.active) {
-          print("");
+          Get.toNamed(AppRoutes.verify, arguments: {});
         } else {
           Get.toNamed(AppRoutes.register, arguments: contact);
         }

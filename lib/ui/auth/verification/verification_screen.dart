@@ -1,0 +1,129 @@
+import 'package:efood/ui/auth/verification/verification_viewmodel.dart';
+import 'package:efood/ui/core/share/app_assets.dart';
+import 'package:efood/ui/core/share/custom_app_bar.dart';
+import 'package:efood/ui/core/share/custom_button.dart';
+import 'package:efood/ui/core/share/render_conditional.dart';
+import 'package:efood/ui/core/theme/theme.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
+
+class const VerificationScreen({super.key, required final VerificationViewModel viewModel}) extends StatefulWidget {
+  final String emailAddress = "";
+  final bool fromSignUp = false;
+
+  @override
+  State<VerificationScreen> createState() => _VerificationScreenState();
+}
+
+class _VerificationScreenState extends State<VerificationScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CustomAppBar(
+        context: context,
+        title: widget.viewModel.phoneVerification ? 'verify_phone'.tr : 'verify_email'.tr,
+      ),
+      body: SafeArea(
+        child: Scrollbar(
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Center(
+              child: SizedBox(
+                width: 1170,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 55),
+                    RenderConditional(
+                      conditional: widget.viewModel.emailVerification,
+                      widget1: Image.asset(AppAssets.icons.emailWithBackground, width: 142, height: 142),
+                      widget2: Icon(Icons.phone_android_outlined, size: 50, color: Theme.of(context).primaryColor),
+                    ),
+
+                    SizedBox(height: 40),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                      child: Center(
+                        child: Text(
+                          '${'please_enter_4_digit_code'.tr}\n ${widget.emailAddress}',
+                          textAlign: TextAlign.center,
+                          style: AppTextStyles.headline2(color: AppColors.getHintColor()),
+                        ),
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 39, vertical: 35),
+                      child: MaterialPinField(
+                        length: 4,
+                        obscureText: false,
+                        keyboardType: TextInputType.number,
+                        // animationType: AnimationType.fade,
+                        theme: MaterialPinTheme(
+                          shape: MaterialPinShape.circle,
+                          // fieldHeight: 63,
+                          // fieldWidth: 55,
+                          animationDuration: Duration(milliseconds: 300),
+                          borderWidth: 1,
+                          borderRadius: BorderRadius.circular(10),
+                          // selectedColor: AppColors.swatch[200],
+                          // selectedFillColor: Colors.white,
+                          // inactiveFillColor: AppColors.getSearchBg(),
+                          // inactiveColor: AppColors.swatch[200],
+                          // activeColor: AppColors.swatch[400],
+                          // activeFillColor: AppColors.getSearchBg(),
+                        ),
+                        // backgroundColor: Colors.transparent,
+                        // enableActiveFill: true,
+                        onChanged: widget.viewModel.updateVerificationCode,
+                        // beforeTextPaste: (text) => true,
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        'i_didnt_receive_the_code'.tr,
+                        style: AppTextStyles.headline2(color: AppColors.getGreyBunkerColor()),
+                      ),
+                    ),
+
+                    Center(
+                      child: InkWell(
+                        onTap: () {},
+                        child: Padding(
+                          padding: EdgeInsets.all(AppDimens.paddingExtraSmall),
+                          child: Text(
+                            'resend_code'.tr,
+                            style: AppTextStyles.headline3(color: AppColors.getGreyBunkerColor()),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 48),
+
+                    RenderConditional(
+                      conditional: true, //authProvider.isEnableVerificationCode
+                      widget1: RenderConditional(
+                        conditional: true, //!authProvider.isPhoneNumberVerificationButtonLoading
+                        widget1: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: AppDimens.paddingLarge),
+                          child: CustomButton(btnTxt: 'verify'.tr, onTap: () {}),
+                        ),
+                        widget2: Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                          ),
+                        ),
+                      ),
+                      widget2: SizedBox.shrink(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

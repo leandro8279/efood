@@ -7,6 +7,7 @@ final class AppRoutes._() {
   static const login = "/auth/login";
   static const signup = "/auth/signup";
   static const register = "/auth/register";
+  static const verify = "/auth/verify";
   static const forgotPassword = "/auth/forgot_password";
   static const public = {splash, onboarding, login};
 }

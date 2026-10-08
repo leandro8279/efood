@@ -6,6 +6,8 @@ import 'package:efood/ui/auth/register/register_screen.dart';
 import 'package:efood/ui/auth/signup/signup_screen.dart';
 import 'package:efood/ui/auth/signup/signup_bindings.dart';
 import 'package:efood/ui/auth/signup/signup_viewmodel.dart';
+import 'package:efood/ui/auth/verification/verification_bindings.dart';
+import 'package:efood/ui/auth/verification/verification_screen.dart';
 import 'package:get/get.dart';
 import 'package:efood/routing/app_routes.dart';
 // import 'package:efood/routing/auth_middleware.dart';
@@ -50,6 +52,11 @@ class AppRouter._() {
       name: AppRoutes.register,
       binding: RegisterBindings(),
       page: () => RegisterScreen(viewModel: Get.find()),
+    ),
+    GetPage(
+      name: AppRoutes.verify,
+      binding: VerificationBindings(),
+      page: () => VerificationScreen(viewModel: Get.find()),
     ),
     GetPage(
       name: AppRoutes.forgotPassword,

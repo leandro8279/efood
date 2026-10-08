@@ -28,12 +28,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _confirmPasswordFocus = FocusNode();
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _numberController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController(text: "Joe");
+  final TextEditingController _lastNameController = TextEditingController(text: "Doe");
+  final TextEditingController _numberController = TextEditingController(text: "12345678910");
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController(text: "pass@1234");
+  final TextEditingController _confirmPasswordController = TextEditingController(text: "pass@1234");
   String _countryDialCode = '';
 
   @override
@@ -120,54 +120,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
 
                       SizedBox(height: AppDimens.paddingLarge),
-                      RenderConditional(
-                        conditional: widget.viewModel.emailVerification,
-                        widget1: Text('email'.tr, style: AppTextStyles.headline2(color: AppColors.getHintColor())),
-                        widget2: Text(
-                          'mobile_number'.tr,
-                          style: AppTextStyles.headline2(color: AppColors.getHintColor()),
-                        ),
-                      ),
+                      Text('email'.tr, style: AppTextStyles.headline2(color: AppColors.getHintColor())),
                       SizedBox(height: AppDimens.paddingSmall),
 
-                      RenderConditional(
-                        conditional: widget.viewModel.emailVerification,
-                        widget1: CustomTextField(
-                          hintText: 'demo_gmail'.tr,
-                          isShowBorder: true,
-                          controller: _emailController,
-                          focusNode: _emailFocus,
-                          nextFocus: _passwordFocus,
-                          inputType: TextInputType.emailAddress,
-                        ),
-                        widget2: Row(
-                          children: [
-                            CodePickerWidget(
-                              onChanged: (CountryCode countryCode) {
-                                _countryDialCode = countryCode.dialCode ?? '';
-                              },
-                              onInit: (CountryCode countryCode) {
-                                _countryDialCode = countryCode.dialCode ?? '';
-                              },
-                              initialSelection: 'US',
-                              favorite: [_countryDialCode],
-                              showDropDownButton: true,
-                              padding: EdgeInsets.zero,
-                              showFlagMain: true,
-                              textStyle: TextStyle(color: AppTextStyles.headline1().color),
+                      CustomTextField(
+                        hintText: 'demo_gmail'.tr,
+                        isShowBorder: true,
+                        controller: _emailController,
+                        focusNode: _emailFocus,
+                        nextFocus: _passwordFocus,
+                        inputType: TextInputType.emailAddress,
+                      ),
+
+                      SizedBox(height: AppDimens.paddingLarge),
+                      Text('mobile_number'.tr, style: AppTextStyles.headline2(color: AppColors.getHintColor())),
+                      SizedBox(height: AppDimens.paddingSmall),
+                      Row(
+                        children: [
+                          CodePickerWidget(
+                            onChanged: (CountryCode countryCode) {
+                              _countryDialCode = countryCode.dialCode ?? '';
+                            },
+                            onInit: (CountryCode countryCode) {
+                              _countryDialCode = countryCode.dialCode ?? '';
+                            },
+                            initialSelection: 'US',
+                            favorite: [_countryDialCode],
+                            showDropDownButton: true,
+                            padding: EdgeInsets.zero,
+                            showFlagMain: true,
+                            textStyle: TextStyle(color: AppTextStyles.headline1().color),
+                          ),
+                          Expanded(
+                            child: CustomTextField(
+                              hintText: 'number_hint'.tr,
+                              isShowBorder: true,
+                              controller: _numberController,
+                              focusNode: _numberFocus,
+                              nextFocus: _passwordFocus,
+                              inputType: TextInputType.phone,
                             ),
-                            Expanded(
-                              child: CustomTextField(
-                                hintText: 'number_hint'.tr,
-                                isShowBorder: true,
-                                controller: _numberController,
-                                focusNode: _numberFocus,
-                                nextFocus: _passwordFocus,
-                                inputType: TextInputType.phone,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       SizedBox(height: AppDimens.paddingLarge),
 
@@ -272,7 +266,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final email = _emailController.text.trim();
     final password = _passwordController.text;
     final confirmPassword = _confirmPasswordController.text;
-    final emailVerification = widget.viewModel.emailVerification;
 
     if (fName.isEmpty) {
       showCustomSnackBar('enter_first_name'.tr, context);
@@ -284,17 +277,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
       return;
     }
 
-    if (emailVerification && email.isEmpty) {
+    if (email.isEmpty) {
       showCustomSnackBar('enter_email_address'.tr, context);
       return;
     }
 
-    if (emailVerification && !GetUtils.isEmail(email)) {
+    if (!GetUtils.isEmail(email)) {
       showCustomSnackBar('enter_valid_email'.tr, context);
       return;
     }
 
-    if (!emailVerification && number.isEmpty) {
+    if (number.isEmpty) {
       showCustomSnackBar('enter_phone_number'.tr, context);
       return;
     }
@@ -324,8 +317,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     await widget.viewModel.register.execute((
       fName: fName,
       lName: lName,
-      phone: emailVerification ? '' : phone,
-      email: emailVerification ? email : '',
+      phone: phone,
+      email: email,
       password: password,
     ));
 
