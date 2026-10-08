@@ -1,15 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:efood/data/services/api/auth_api.dart';
-import 'package:efood/data/services/api/mappers/auth_check_email_api_model_mapper.dart';
+import 'package:efood/data/services/api/mappers/auth_check_status_api_model_mapper.dart';
 import 'package:efood/data/services/api/mappers/auth_register_api_model_mapper.dart';
 import 'package:efood/data/services/api/mappers/auth_session_api_model_mapper.dart';
 import 'package:efood/data/services/api/mappers/dio_exception_mapper.dart';
 import 'package:efood/data/services/api/model/auth/request/forget_password_request.dart';
 import 'package:efood/data/services/api/model/auth/request/check_email_request.dart';
+import 'package:efood/data/services/api/model/auth/request/check_phone_request.dart';
 import 'package:efood/data/services/api/model/auth/request/login_request.dart';
 import 'package:efood/data/services/api/model/auth/request/register_request.dart';
 import 'package:efood/domain/models/auth/auth_register.dart';
-import 'package:efood/domain/models/auth/auth_check_email.dart';
+import 'package:efood/domain/models/auth/auth_check_status.dart';
 import 'package:efood/domain/models/auth/auth_session.dart';
 import 'package:efood/domain/repositories/auth_repository.dart';
 import 'package:efood/utils/app_exception.dart';
@@ -31,9 +32,19 @@ class AuthRepositoryRemote({required final AuthApi _authApi}) implements AuthRep
   }
 
   @override
-  Future<Result<AuthCheckEmail>> checkEmail(String email) async {
+  Future<Result<AuthCheckStatus>> checkEmail(String email) async {
     try {
       final result = await _authApi.checkEmail(CheckEmailRequest(email: email));
+      return Result.ok(result.toDomain());
+    } on DioException catch (e, st) {
+      return Result.error(e.toAppException(st));
+    }
+  }
+
+  @override
+  Future<Result<AuthCheckStatus>> checkPhone(String phone) async {
+    try {
+      final result = await _authApi.checkPhone(CheckPhoneRequest(phone: phone));
       return Result.ok(result.toDomain());
     } on DioException catch (e, st) {
       return Result.error(e.toAppException(st));

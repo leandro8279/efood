@@ -77,13 +77,13 @@ class _AuthApi implements AuthApi {
   }
 
   @override
-  Future<AuthCheckEmailApiModel> checkEmail(CheckEmailRequest request) async {
+  Future<AuthCheckStatusApiModel> checkEmail(CheckEmailRequest request) async {
     final _extra = <String, dynamic>{'publicRoute': true};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(request.toJson());
-    final _options = _setStreamType<AuthCheckEmailApiModel>(
+    final _options = _setStreamType<AuthCheckStatusApiModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -94,9 +94,37 @@ class _AuthApi implements AuthApi {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late AuthCheckEmailApiModel _value;
+    late AuthCheckStatusApiModel _value;
     try {
-      _value = AuthCheckEmailApiModel.fromJson(_result.data!);
+      _value = AuthCheckStatusApiModel.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options, response: _result);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<AuthCheckStatusApiModel> checkPhone(CheckPhoneRequest request) async {
+    final _extra = <String, dynamic>{'publicRoute': true};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(request.toJson());
+    final _options = _setStreamType<AuthCheckStatusApiModel>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/auth/check-phone',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late AuthCheckStatusApiModel _value;
+    try {
+      _value = AuthCheckStatusApiModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
