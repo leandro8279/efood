@@ -53,7 +53,7 @@ class WelcomeScreen extends StatelessWidget {
                     ),
                     child: CustomButton(
                       btnTxt: 'signup'.tr,
-                      onTap: () => Get.offAllNamed(AppRoutes.register),
+                      onTap: () => Get.offAllNamed(AppRoutes.signup),
                       backgroundColor: Colors.black,
                     ),
                   ),

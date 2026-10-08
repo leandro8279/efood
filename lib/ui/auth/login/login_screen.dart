@@ -168,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   SizedBox(width: AppDimens.paddingSmall),
                                   Text(
                                     'remember_me'.tr,
-                                    style: AppTextStyles.headline2().copyWith(
+                                    style: AppTextStyles.headline2(
                                       fontSize: AppDimens.fontSizeExtraSmall,
                                       color: AppColors.hintDark,
                                     ),
@@ -183,7 +183,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   'forgot_password'.tr,
-                                  style: AppTextStyles.headline2().copyWith(
+                                  style: AppTextStyles.headline2(
                                     fontSize: AppDimens.fontSizeSmall,
                                     color: AppColors.hintDark,
                                   ),
@@ -212,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 command: widget.viewModel.login.result,
                                 widget: (text) => Text(
                                   text,
-                                  style: AppTextStyles.headline2().copyWith(
+                                  style: AppTextStyles.headline2(
                                     fontSize: AppDimens.fontSizeSmall,
                                     color: Theme.of(context).primaryColor,
                                   ),
@@ -247,7 +247,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         // for create an account
                         SizedBox(height: 20),
                         InkWell(
-                          onTap: () => Get.toNamed(AppRoutes.register),
+                          onTap: () => Get.toNamed(AppRoutes.signup),
                           child: Padding(
                             padding: .all(AppDimens.paddingSmall),
                             child: Row(
@@ -255,7 +255,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 Text(
                                   'create_an_account'.tr,
-                                  style: AppTextStyles.headline2().copyWith(
+                                  style: AppTextStyles.headline2(
                                     fontSize: AppDimens.fontSizeSmall,
                                     color: AppColors.greyDark,
                                   ),
@@ -263,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 SizedBox(width: AppDimens.fontSizeSmall),
                                 Text(
                                   'signup'.tr,
-                                  style: AppTextStyles.headline3().copyWith(
+                                  style: AppTextStyles.headline3(
                                     fontSize: AppDimens.fontSizeSmall,
                                     color: AppColors.greyBunkerDark,
                                   ),
