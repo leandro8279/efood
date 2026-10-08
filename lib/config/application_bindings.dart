@@ -55,8 +55,6 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
       ),
       permanent: true,
     );
-
-    Get.find<ConfigRepository>().getConfig();
   }
 
   // dentro do AuthSessionNotifier (ou em um listener no main/bindings)
