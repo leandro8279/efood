@@ -76,7 +76,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         ),
                         // backgroundColor: Colors.transparent,
                         // enableActiveFill: true,
-                        onChanged: widget.viewModel.updateVerificationCode,
+                        onChanged: (value) =>
+                            widget.viewModel.updateVerificationCode(value ?? ''),
                         // beforeTextPaste: (text) => true,
                       ),
                     ),
@@ -101,21 +102,23 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     ),
                     SizedBox(height: 48),
 
-                    RenderConditional(
-                      conditional: true, //authProvider.isEnableVerificationCode
-                      widget1: RenderConditional(
-                        conditional: true, //!authProvider.isPhoneNumberVerificationButtonLoading
-                        widget1: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: AppDimens.paddingLarge),
-                          child: CustomButton(btnTxt: 'verify'.tr, onTap: () {}),
-                        ),
-                        widget2: Center(
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                    Obx(
+                      () => RenderConditional(
+                        conditional: widget.viewModel.isEnableVerificationCode,
+                        widget1: RenderConditional(
+                          conditional: true, //!authProvider.isPhoneNumberVerificationButtonLoading
+                          widget1: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: AppDimens.paddingLarge),
+                            child: CustomButton(btnTxt: 'verify'.tr, onTap: () {}),
+                          ),
+                          widget2: Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                            ),
                           ),
                         ),
+                        widget2: SizedBox.shrink(),
                       ),
-                      widget2: SizedBox.shrink(),
                     ),
                   ],
                 ),
