@@ -56,7 +56,16 @@ class AppRouter._() {
     GetPage(
       name: AppRoutes.verify,
       binding: VerificationBindings(),
-      page: () => VerificationScreen(viewModel: Get.find()),
+      page: () {
+        final arguments =
+            Get.arguments as Map<String, dynamic>? ?? const <String, dynamic>{};
+
+        return VerificationScreen(
+          viewModel: Get.find(),
+          emailAddress: arguments['emailAddress'] as String? ?? '',
+          fromSignUp: arguments['fromSignUp'] as bool? ?? false,
+        );
+      },
     ),
     GetPage(
       name: AppRoutes.forgotPassword,

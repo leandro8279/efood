@@ -260,7 +260,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
     switch (command.result.value) {
       case Ok<AuthCheckStatus>(:final value):
         if (value.token == TokenStatus.active) {
-          Get.toNamed(AppRoutes.verify, arguments: {});
+          Get.toNamed(
+            AppRoutes.verify,
+            arguments: {'emailAddress': contact, 'fromSignUp': true},
+          );
         } else {
           Get.toNamed(AppRoutes.register, arguments: contact);
         }

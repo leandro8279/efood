@@ -1,12 +1,16 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:efood/routing/app_routes.dart';
 import 'package:efood/ui/auth/forgot_password/forgot_password_viewmodel.dart';
 import 'package:efood/ui/core/share/app_assets.dart';
 import 'package:efood/ui/core/share/code_picker_widget.dart';
 import 'package:efood/ui/core/share/custom_app_bar.dart';
 import 'package:efood/ui/core/share/custom_button.dart';
+import 'package:efood/ui/core/share/custom_snackbar.dart';
 import 'package:efood/ui/core/share/custom_text_field.dart';
+import 'package:efood/ui/core/share/error_messages.dart';
 import 'package:efood/ui/core/share/render_conditional.dart';
 import 'package:efood/ui/core/theme/theme.dart';
+import 'package:efood/utils/result.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -144,9 +148,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                   conditional: !widget.viewModel.forgot.running.value, //  !auth.isForgotPasswordLoading
                                   widget1: CustomButton(
                                     btnTxt: 'send'.tr,
-                                    onTap: () {
-                                      widget.viewModel.forgot.execute(_emailController.text.trim());
-                                    },
+                                    onTap: _sendResetCode,
                                   ),
                                   widget2: Center(
                                     child: CircularProgressIndicator(
@@ -168,5 +170,25 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _sendResetCode() async {
+    final command = widget.viewModel.forgot;
+    final email = _emailController.text.trim();
+    await command.execute(email);
+
+    if (!mounted) return;
+
+    switch (command.result.value) {
+      case Ok<void>():
+        Get.toNamed(
+          AppRoutes.verify,
+          arguments: {'emailAddress': email, 'fromSignUp': false},
+        );
+      case Error<void>(:final error):
+        showCustomSnackBar(ErrorMessages.of(error).tr, context);
+      case null:
+        break;
+    }
   }
 }

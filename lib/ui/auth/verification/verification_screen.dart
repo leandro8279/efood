@@ -2,15 +2,23 @@ import 'package:efood/ui/auth/verification/verification_viewmodel.dart';
 import 'package:efood/ui/core/share/app_assets.dart';
 import 'package:efood/ui/core/share/custom_app_bar.dart';
 import 'package:efood/ui/core/share/custom_button.dart';
+import 'package:efood/ui/core/share/custom_snackbar.dart';
+import 'package:efood/ui/core/share/error_messages.dart';
 import 'package:efood/ui/core/share/render_conditional.dart';
 import 'package:efood/ui/core/theme/theme.dart';
+import 'package:efood/utils/result.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class const VerificationScreen({super.key, required final VerificationViewModel viewModel}) extends StatefulWidget {
-  final String emailAddress = "";
-  final bool fromSignUp = false;
+class const VerificationScreen({
+  super.key,
+  required final VerificationViewModel viewModel,
+  this.emailAddress = '',
+  this.fromSignUp = false,
+}) extends StatefulWidget {
+  final String emailAddress;
+  final bool fromSignUp;
 
   @override
   State<VerificationScreen> createState() => _VerificationScreenState();
@@ -88,14 +96,18 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       ),
                     ),
 
-                    Center(
-                      child: InkWell(
-                        onTap: () {},
-                        child: Padding(
-                          padding: EdgeInsets.all(AppDimens.paddingExtraSmall),
-                          child: Text(
-                            'resend_code'.tr,
-                            style: AppTextStyles.headline3(color: AppColors.getGreyBunkerColor()),
+                    Obx(
+                      () => Center(
+                        child: InkWell(
+                          onTap: widget.viewModel.resendCode.running.value
+                              ? null
+                              : _resendCode,
+                          child: Padding(
+                            padding: EdgeInsets.all(AppDimens.paddingExtraSmall),
+                            child: Text(
+                              'resend_code'.tr,
+                              style: AppTextStyles.headline3(color: AppColors.getGreyBunkerColor()),
+                            ),
                           ),
                         ),
                       ),
@@ -128,5 +140,25 @@ class _VerificationScreenState extends State<VerificationScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _resendCode() async {
+    final command = widget.viewModel.resendCode;
+    await command.execute((widget.emailAddress, widget.fromSignUp));
+
+    if (!mounted) return;
+
+    switch (command.result.value) {
+      case Ok<void>():
+        showCustomSnackBar(
+          'resent_code_successful'.tr,
+          context,
+          isError: false,
+        );
+      case Error<void>(:final error):
+        showCustomSnackBar(ErrorMessages.of(error).tr, context);
+      case null:
+        break;
+    }
   }
 }
