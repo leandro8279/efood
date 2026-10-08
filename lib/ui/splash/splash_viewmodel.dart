@@ -7,20 +7,13 @@ import 'package:efood/utils/command.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
-class SplashViewModel extends GetxController {
-  SplashViewModel({
-    required ConfigRepository configRepository,
-    required AuthSessionNotifier authSessionNotifier,
-  }) : _configRepository = configRepository,
-       _authSessionNotifier = authSessionNotifier;
-
-  final ConfigRepository _configRepository;
-  final AuthSessionNotifier _authSessionNotifier;
-
+class SplashViewModel({
+  required final ConfigRepository _configRepository,
+  required final AuthSessionNotifier _authSessionNotifier,
+}) extends GetxController {
   late final loadConfig = Command0(_loadConfig);
 
-  Config? get config =>
-      loadConfig.complete ? _configRepository.config : null;
+  Config? get config => loadConfig.complete ? _configRepository.config : null;
 
   Future<Result<void>> _loadConfig() async {
     final result = await _configRepository.getConfig();

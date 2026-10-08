@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'register_request.g.dart';
 
 @JsonSerializable()
-class RegisterRequest({
+class const RegisterRequest({
   required final String lName,
   required final String fName,
   required final String phone,

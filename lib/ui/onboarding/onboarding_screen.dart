@@ -6,14 +6,31 @@ import 'package:efood/ui/onboarding/onboarding_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}) extends StatelessWidget {
-  final PageController _pageController = PageController();
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key, required this.viewModel});
+
+  final OnBoardingViewModel viewModel;
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _pageController = PageController();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(
-        () => Scrollbar(
+        () => SafeArea(
+          child: Scrollbar(
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Center(
@@ -23,7 +40,7 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       RenderConditional(
-                        conditional: viewModel.selectedIndex != viewModel.onBoardings.length - 1,
+                        conditional: widget.viewModel.selectedIndex != widget.viewModel.onBoardings.length - 1,
                         widget1: Align(
                           alignment: Alignment.topRight,
                           child: TextButton(
@@ -37,16 +54,16 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
                       SizedBox(
                         height: 400,
                         child: PageView.builder(
-                          itemCount: viewModel.onBoardings.length,
+                          itemCount: widget.viewModel.onBoardings.length,
                           controller: _pageController,
                           physics: BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: .all(30),
-                              child: Image.asset(viewModel.onBoardings[index].imageAsset),
+                              child: Image.asset(widget.viewModel.onBoardings[index].imageAsset),
                             );
                           },
-                          onPageChanged: (index) => viewModel.changeSelectIndex(index),
+                          onPageChanged: (index) => widget.viewModel.changeSelectIndex(index),
                         ),
                       ),
 
@@ -56,7 +73,7 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
                           Padding(
                             padding: .only(left: 60, right: 60, top: 50, bottom: 22),
                             child: Text(
-                              viewModel.currentSlide.titleKey.tr,
+                              widget.viewModel.currentSlide.titleKey.tr,
                               style: AppTextStyles.headline3(),
                               textAlign: TextAlign.center,
                             ),
@@ -64,18 +81,19 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
                           Padding(
                             padding: .symmetric(horizontal: AppDimens.fontSizeLarge),
                             child: Text(
-                              viewModel.currentSlide.descriptionKey.tr,
+                              widget.viewModel.currentSlide.descriptionKey.tr,
                               textAlign: TextAlign.center,
                               style: AppTextStyles.headline2(color: AppColors.gray),
                             ),
                           ),
                           Container(
-                            padding: .all(viewModel.selectedIndex == 2 ? 0 : 22),
+                            padding: .all(widget.viewModel.selectedIndex == 2 ? 0 : 22),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 RenderConditional(
-                                  conditional: viewModel.selectedIndex == 0 || viewModel.selectedIndex == 2,
+                                  conditional:
+                                      widget.viewModel.selectedIndex == 0 || widget.viewModel.selectedIndex == 2,
                                   widget1: SizedBox.shrink(),
                                   widget2: TextButton(
                                     onPressed: () {
@@ -86,7 +104,7 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
                                 ),
 
                                 RenderConditional(
-                                  conditional: viewModel.selectedIndex == 2,
+                                  conditional: widget.viewModel.selectedIndex == 2,
                                   widget1: SizedBox.shrink(),
                                   widget2: TextButton(
                                     onPressed: () {
@@ -99,7 +117,7 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
                             ),
                           ),
                           RenderConditional(
-                            conditional: viewModel.selectedIndex == 2,
+                            conditional: widget.viewModel.selectedIndex == 2,
                             widget1: Padding(
                               padding: .all(AppDimens.fontSizeLarge),
                               child: CustomButton(
@@ -117,6 +135,7 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
                 ),
               ),
             ),
+          ),
         ),
       ),
     );
@@ -125,15 +144,15 @@ class OnboardingScreen({super.key, required final OnBoardingViewModel viewModel}
   List<Widget> _pageIndicators(BuildContext context) {
     final List<Container> indicators = [];
 
-    for (int i = 0; i < viewModel.onBoardings.length; i++) {
+    for (int i = 0; i < widget.viewModel.onBoardings.length; i++) {
       indicators.add(
         Container(
-          width: i == viewModel.selectedIndex ? 16 : 7,
+          width: i == widget.viewModel.selectedIndex ? 16 : 7,
           height: 7,
           margin: .only(right: 5),
           decoration: BoxDecoration(
-            color: i == viewModel.selectedIndex ? Theme.of(context).primaryColor : AppColors.gray,
-            borderRadius: i == viewModel.selectedIndex ? BorderRadius.circular(50) : BorderRadius.circular(25),
+            color: i == widget.viewModel.selectedIndex ? Theme.of(context).primaryColor : AppColors.gray,
+            borderRadius: i == widget.viewModel.selectedIndex ? BorderRadius.circular(50) : BorderRadius.circular(25),
           ),
         ),
       );

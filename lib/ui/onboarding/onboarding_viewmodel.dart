@@ -3,13 +3,7 @@ import 'package:get/get.dart';
 import 'package:efood/ui/onboarding/onboarding_content.dart';
 import 'package:efood/ui/onboarding/onboarding_slide.dart';
 
-class OnBoardingViewModel extends GetxController {
-  OnBoardingViewModel({required OnboardingRepository onboardingRepository})
-    : _onboardingRepository = onboardingRepository {
-    _loadShowOnBoardingStatus();
-  }
-
-  final OnboardingRepository _onboardingRepository;
+class OnBoardingViewModel({required final OnboardingRepository _onboardingRepository}) extends GetxController {
   final _selectedIndex = 0.obs;
   final _showOnBoardingStatus = false.obs;
   final List<OnboardingSlide> _onBoardings = OnboardingContent.slides;
@@ -25,5 +19,11 @@ class OnBoardingViewModel extends GetxController {
 
   void changeSelectIndex(int index) {
     _selectedIndex.value = index;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    _loadShowOnBoardingStatus();
   }
 }

@@ -6,11 +6,7 @@ import 'package:efood/domain/models/config/config.dart';
 import 'package:efood/domain/repositories/config_repository.dart';
 import 'package:efood/utils/result.dart';
 
-class ConfigRepositoryRemote implements ConfigRepository {
-  ConfigRepositoryRemote({required SplashApi splashApi}) : _splashApi = splashApi;
-
-  final SplashApi _splashApi;
-
+class ConfigRepositoryRemote({required final SplashApi _splashApi}) implements ConfigRepository {
   Config? _cachedConfig;
   Future<Result<Config>>? _configRequest;
 
