@@ -26,6 +26,6 @@ class AuthMiddleware extends GetMiddleware {
       return isPublic ? null : const RouteSettings(name: AppRoutes.login);
     }
 
-    return isPublic ? const RouteSettings(name: AppRoutes.home) : null;
+    return isPublic ? const RouteSettings(name: AppRoutes.main) : null;
   }
 }
