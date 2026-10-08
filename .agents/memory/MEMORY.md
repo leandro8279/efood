@@ -1,1 +1,0 @@
-- [Shared app configuration](shared-app-config.md) — the user says domain `Config` is used by multiple screens; treat it as shared app data.
