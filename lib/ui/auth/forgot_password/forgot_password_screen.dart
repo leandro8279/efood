@@ -16,16 +16,16 @@ class const ForgotPasswordScreen({super.key, required final ForgotPasswordViewMo
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  TextEditingController _emailController = TextEditingController(text: "leandro@gmail.com");
-  TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController(text: "leandro@gmail.com");
+  final TextEditingController _phoneNumberController = TextEditingController();
   String _countryDialCode = '';
 
-  @override
-  void initState() {
-    //  _countryDialCode = CountryCode.fromCountryCode(
-    //   Provider.of<SplashProvider>(context, listen: false).configModel.countryCode,
-    // ).dialCode;
-  }
+  // @override
+  // void initState() {
+  //   //  _countryDialCode = CountryCode.fromCountryCode(
+  //   //   Provider.of<SplashProvider>(context, listen: false).configModel.countryCode,
+  //   // ).dialCode;
+  // }
 
   @override
   Widget build(BuildContext context) {

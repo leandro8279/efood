@@ -7,15 +7,12 @@ class ForgotPasswordViewModel({required final AuthRepository _authRepository}) e
   late final forgot = Command1<void, String>(_forgotPassword);
 
   Future<Result<void>> _forgotPassword(String emailOrPhone) async {
-    print(emailOrPhone);
     final result = await _authRepository.forgetPassword(emailOrPhone);
 
     switch (result) {
       case Ok<void>():
-        print("SUCESSO");
         return Result.done;
       case Error<void>(:final error):
-        print(error.toString());
         return Result.error(error);
     }
   }
