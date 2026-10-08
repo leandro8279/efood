@@ -10,6 +10,7 @@ class const ConfigApiModel({
   required final String currencySymbol,
   required final bool maintenanceMode,
   required final bool emailVerification,
+  required final bool phoneVerification,
 }) extends Equatable {
   factory ConfigApiModel.fromJson(Map<String, dynamic> json) {
     return _$ConfigApiModelFromJson(json);
@@ -18,5 +19,12 @@ class const ConfigApiModel({
   Map<String, dynamic> toJson() => _$ConfigApiModelToJson(this);
 
   @override
-  List<Object?> get props => [restaurantName, restaurantLogo, currencySymbol, maintenanceMode, emailVerification];
+  List<Object?> get props => [
+    restaurantName,
+    restaurantLogo,
+    currencySymbol,
+    maintenanceMode,
+    emailVerification,
+    phoneVerification,
+  ];
 }

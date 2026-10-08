@@ -6,7 +6,15 @@ class const Config({
   required final String currencySymbol,
   required final bool maintenanceMode,
   required final bool emailVerification,
+  required final bool phoneVerification,
 }) extends Equatable {
   @override
-  List<Object?> get props => [restaurantLogo, restaurantName, currencySymbol, maintenanceMode, emailVerification];
+  List<Object?> get props => [
+    restaurantLogo,
+    restaurantName,
+    currencySymbol,
+    maintenanceMode,
+    emailVerification,
+    phoneVerification,
+  ];
 }

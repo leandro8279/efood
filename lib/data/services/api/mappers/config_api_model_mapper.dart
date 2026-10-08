@@ -8,5 +8,6 @@ extension ConfigApiModelMapper on ConfigApiModel {
     currencySymbol: currencySymbol,
     maintenanceMode: maintenanceMode,
     emailVerification: true,
+    phoneVerification: false,
   );
 }

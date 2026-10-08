@@ -13,6 +13,7 @@ ConfigApiModel _$ConfigApiModelFromJson(Map<String, dynamic> json) =>
       currencySymbol: json['currency_symbol'] as String,
       maintenanceMode: json['maintenance_mode'] as bool,
       emailVerification: json['email_verification'] as bool,
+      phoneVerification: json['phone_verification'] as bool,
     );
 
 Map<String, dynamic> _$ConfigApiModelToJson(ConfigApiModel instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$ConfigApiModelToJson(ConfigApiModel instance) =>
       'currency_symbol': instance.currencySymbol,
       'maintenance_mode': instance.maintenanceMode,
       'email_verification': instance.emailVerification,
+      'phone_verification': instance.phoneVerification,
     };
