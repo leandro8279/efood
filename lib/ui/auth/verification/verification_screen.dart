@@ -118,10 +118,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       () => RenderConditional(
                         conditional: widget.viewModel.isEnableVerificationCode,
                         widget1: RenderConditional(
-                          conditional: true, //!authProvider.isPhoneNumberVerificationButtonLoading
+                          conditional: !widget.viewModel.verifyCode.running.value,
                           widget1: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: AppDimens.paddingLarge),
-                            child: CustomButton(btnTxt: 'verify'.tr, onTap: () {}),
+                            child: CustomButton(btnTxt: 'verify'.tr, onTap: _verifyCode),
                           ),
                           widget2: Center(
                             child: CircularProgressIndicator(
@@ -155,6 +155,34 @@ class _VerificationScreenState extends State<VerificationScreen> {
           context,
           isError: false,
         );
+      case Error<void>(:final error):
+        showCustomSnackBar(ErrorMessages.of(error).tr, context);
+      case null:
+        break;
+    }
+  }
+
+  Future<void> _verifyCode() async {
+    final trimmedContact = widget.emailAddress.trim();
+    final contact = widget.viewModel.phoneVerification
+        ? trimmedContact.startsWith('+')
+              ? trimmedContact
+              : '+$trimmedContact'
+        : trimmedContact;
+
+    if (!widget.fromSignUp) {
+      print('Password reset OTP validation is not implemented yet.');
+      return;
+    }
+
+    final command = widget.viewModel.verifyCode;
+    await command.execute((contact, widget.viewModel.verificationCode));
+
+    if (!mounted) return;
+
+    switch (command.result.value) {
+      case Ok<void>():
+        print('Would navigate to the create-account screen.');
       case Error<void>(:final error):
         showCustomSnackBar(ErrorMessages.of(error).tr, context);
       case null:

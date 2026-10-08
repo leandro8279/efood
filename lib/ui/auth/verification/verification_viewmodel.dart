@@ -13,6 +13,7 @@ class VerificationViewModel({
   final _verificationCode = ''.obs;
 
   late final resendCode = Command1<void, (String, bool)>(_resendCode);
+  late final verifyCode = Command1<void, (String, String)>(_verifyCode);
 
   bool get phoneVerification => _configRepository.config.phoneVerification;
   bool get emailVerification => _configRepository.config.emailVerification;
@@ -34,6 +35,14 @@ class VerificationViewModel({
       Ok<AuthCheckStatus>() => Result.done,
       Error<AuthCheckStatus>(:final error) => Result.error(error),
     };
+  }
+
+  Future<Result<void>> _verifyCode((String, String) request) {
+    final (contact, token) = request;
+
+    return emailVerification
+        ? _authRepository.verifyEmail(email: contact, token: token)
+        : _authRepository.verifyPhone(phone: contact, token: token);
   }
 
   void updateVerificationCode(String query) {
