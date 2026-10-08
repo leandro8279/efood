@@ -45,6 +45,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   @override
+  void dispose() {
+    _emailController.dispose();
+    _numberController.dispose();
+    _numberFocus.dispose();
+    _emailFocus.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
 
@@ -253,7 +262,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (value.token == TokenStatus.active) {
           print("");
         } else {
-          Get.toNamed(AppRoutes.register);
+          Get.toNamed(AppRoutes.register, arguments: contact);
         }
         break;
       case Error<AuthCheckStatus>():

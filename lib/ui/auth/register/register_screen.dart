@@ -37,6 +37,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String _countryDialCode = '';
 
   @override
+  void initState() {
+    super.initState();
+
+    final initialContact = Get.arguments;
+    if (widget.viewModel.emailVerification && initialContact is String) {
+      _emailController.text = initialContact;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
 
