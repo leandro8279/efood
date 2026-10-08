@@ -52,4 +52,5 @@ final class const Images._() {
 
 final class const AppIcons._() {
   final String closeLock = 'assets/icon/close_lock.png';
+  final String emailWithBackground = 'assets/icon/email_with_background.png';
 }

@@ -90,6 +90,10 @@ final class AppColors {
     return Get.isDarkMode ? greyDark : greyLight;
   }
 
+  static Color getSearchBg() {
+    return Get.isDarkMode ? searchBgDark : searchBgLight;
+  }
+
   // Swatch
   static const Map<int, Color> swatch = {
     50: Color(0x10192D6B),

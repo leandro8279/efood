@@ -7,6 +7,7 @@ void showCustomSnackBar(String message, BuildContext context, {bool isError = tr
       SnackBar(
         content: Text(message),
         margin: EdgeInsets.zero,
+
         behavior: SnackBarBehavior.floating,
         backgroundColor: isError ? Colors.red : Colors.green,
       ),
