@@ -5,6 +5,7 @@ import 'package:efood/ui/core/share/app_assets.dart';
 import 'package:efood/ui/core/share/code_picker_widget.dart';
 import 'package:efood/ui/core/share/custom_button.dart';
 import 'package:efood/ui/core/share/custom_text_field.dart';
+import 'package:efood/ui/core/share/render_command_error.dart';
 import 'package:efood/ui/core/share/render_conditional.dart';
 import 'package:efood/ui/core/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -136,18 +137,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            RenderConditional(
-                              conditional: true, // authProvider.verificationMessage.length > 0
-                              widget1: CircleAvatar(backgroundColor: Theme.of(context).primaryColor, radius: 5),
-                              widget2: SizedBox.shrink(),
+                            Obx(
+                              () => RenderConditional(
+                                conditional: widget.viewModel.checkEmail.error,
+                                widget1: CircleAvatar(backgroundColor: Theme.of(context).primaryColor, radius: 5),
+                                widget2: SizedBox.shrink(),
+                              ),
                             ),
                             SizedBox(width: 8),
                             Expanded(
-                              child: Text(
-                                "authProvider.verificationMessage",
-                                style: AppTextStyles.headline2(
-                                  fontSize: AppDimens.fontSizeSmall,
-                                  color: Theme.of(context).primaryColor,
+                              child: RenderCommandError(
+                                command: widget.viewModel.checkEmail.result,
+                                widget: (message) => Text(
+                                  message,
+                                  style: AppTextStyles.headline2(
+                                    fontSize: AppDimens.fontSizeSmall,
+                                    color: Theme.of(context).primaryColor,
+                                  ),
                                 ),
                               ),
                             ),
@@ -156,12 +162,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                         // for continue button
                         SizedBox(height: 12),
-                        RenderConditional(
-                          conditional: true, //  !authProvider.isPhoneNumberVerificationButtonLoading
-                          widget1: CustomButton(btnTxt: 'continue'.tr, onTap: () {}),
-                          widget2: Center(
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                        Obx(
+                          () => RenderConditional(
+                            conditional: !widget.viewModel.checkEmail.running.value,
+                            widget1: CustomButton(btnTxt: 'continue'.tr, onTap: () {}),
+                            widget2: Center(
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                              ),
                             ),
                           ),
                         ),
