@@ -6,18 +6,6 @@ class AppConstants._() {
   static const String loginUrl = "/auth/login";
   static const String registerUrl = "/auth/registration";
   static const String forgetUrl = "/auth/forgot-password";
-  // Shared Key
-  static const String THEME = 'theme';
-  static const String TOKEN = 'token';
-  static const String COUNTRY_CODE = 'country_code';
-  static const String LANGUAGE_CODE = 'language_code';
-  static const String CART_LIST = 'cart_list';
-  static const String USER_PASSWORD = 'user_password';
-  static const String USER_ADDRESS = 'user_address';
-  static const String USER_NUMBER = 'user_number';
-  static const String SEARCH_ADDRESS = 'search_address';
-  static const String TOPIC = 'notify';
-  static const String PLACE_ORDER_DATA = 'place_order_data';
 
   static const List<Map<Object, String>> languages = [
     {'countryCode': 'US', 'languageCode': 'en'},
