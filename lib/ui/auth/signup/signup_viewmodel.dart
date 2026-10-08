@@ -13,6 +13,7 @@ class SignUpViewModel({
   late final checkPhone = Command1<AuthCheckStatus, String>(_checkPhone);
 
   bool get emailVerification => _configRepository.config.emailVerification;
+  Command1<AuthCheckStatus, String> get checkContact => emailVerification ? checkEmail : checkPhone;
 
   Future<Result<AuthCheckStatus>> _checkEmail(String email) {
     return _authRepository.checkEmail(email);

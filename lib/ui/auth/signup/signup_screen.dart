@@ -1,15 +1,20 @@
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:efood/domain/models/auth/auth_check_status.dart';
+import 'package:efood/domain/models/auth/token_status.dart';
 import 'package:efood/routing/app_routes.dart';
 import 'package:efood/ui/auth/signup/signup_viewmodel.dart';
 import 'package:efood/ui/core/share/app_assets.dart';
 import 'package:efood/ui/core/share/code_picker_widget.dart';
 import 'package:efood/ui/core/share/custom_button.dart';
+import 'package:efood/ui/core/share/custom_snackbar.dart';
 import 'package:efood/ui/core/share/custom_text_field.dart';
 import 'package:efood/ui/core/share/render_command_error.dart';
 import 'package:efood/ui/core/share/render_conditional.dart';
 import 'package:efood/ui/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:efood/utils/email_checker.dart';
+import 'package:efood/utils/result.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key, required this.viewModel});
@@ -139,7 +144,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           children: [
                             Obx(
                               () => RenderConditional(
-                                conditional: widget.viewModel.checkEmail.error,
+                                conditional: widget.viewModel.checkContact.error,
                                 widget1: CircleAvatar(backgroundColor: Theme.of(context).primaryColor, radius: 5),
                                 widget2: SizedBox.shrink(),
                               ),
@@ -147,7 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             SizedBox(width: 8),
                             Expanded(
                               child: RenderCommandError(
-                                command: widget.viewModel.checkEmail.result,
+                                command: widget.viewModel.checkContact.result,
                                 widget: (message) => Text(
                                   message,
                                   style: AppTextStyles.headline2(
@@ -164,8 +169,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(height: 12),
                         Obx(
                           () => RenderConditional(
-                            conditional: !widget.viewModel.checkEmail.running.value,
-                            widget1: CustomButton(btnTxt: 'continue'.tr, onTap: () {}),
+                            conditional: !widget.viewModel.checkContact.running.value,
+                            widget1: CustomButton(btnTxt: 'continue'.tr, onTap: _submitContact),
                             widget2: Center(
                               child: CircularProgressIndicator(
                                 valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
@@ -212,5 +217,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _submitContact() async {
+    final bool emailVerification = widget.viewModel.emailVerification;
+    late final String contact;
+
+    if (emailVerification) {
+      final email = _emailController.text.trim();
+      if (email.isEmpty) {
+        showCustomSnackBar('enter_email_address'.tr, context);
+        return;
+      }
+      if (EmailChecker.isNotValid(email)) {
+        showCustomSnackBar('enter_valid_email'.tr, context);
+        return;
+      }
+      contact = email;
+    } else {
+      final phone = _numberController.text.trim();
+      if (phone.isEmpty) {
+        showCustomSnackBar('enter_phone_number'.tr, context);
+        return;
+      }
+      contact = '$_countryDialCode$phone';
+    }
+
+    final command = widget.viewModel.checkContact;
+    await command.execute(contact);
+
+    if (!mounted) return;
+
+    switch (command.result.value) {
+      case Ok<AuthCheckStatus>(:final value):
+        if (value.token == TokenStatus.active) {
+          print("");
+        } else {
+          Get.toNamed(AppRoutes.register);
+        }
+        break;
+      case Error<AuthCheckStatus>():
+      case null:
+        break;
+    }
   }
 }
