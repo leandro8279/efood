@@ -1,6 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:efood/routing/app_routes.dart';
-import 'package:efood/ui/auth/signup_viewmodel.dart';
+import 'package:efood/ui/auth/signup/signup_viewmodel.dart';
 import 'package:efood/ui/core/share/app_assets.dart';
 import 'package:efood/ui/core/share/code_picker_widget.dart';
 import 'package:efood/ui/core/share/custom_button.dart';
