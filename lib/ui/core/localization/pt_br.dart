@@ -72,6 +72,7 @@ const Map<String, String> ptBr = {
   'error_invalid_credentials': 'E-mail ou senha inválidos.',
   'error_forbidden': 'Você não tem permissão para isso.',
   'error_not_found': 'Não encontramos o que você procurou.',
+  'error_invalid_otp': 'Código OTP inválido ou expirado.',
   'error_server': 'Estamos com um problema no servidor. Tente mais tarde.',
   'error_email_already_in_use': 'Este e-mail já tem conta. Entre com ele ou use outro.',
   'error_email_or_phone_already_in_use':

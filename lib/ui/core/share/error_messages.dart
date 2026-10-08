@@ -8,6 +8,7 @@ final class ErrorMessages._() {
     InvalidCredentialsException() => 'error_invalid_credentials',
     ForbiddenException() => 'error_forbidden',
     NotFoundException() => 'error_not_found',
+    InvalidOtpException() => 'error_invalid_otp',
     ServerException() => 'error_server',
     EmailAlreadyInUseException() => 'error_email_already_in_use',
     EmailOrPhoneAlreadyInUseException() => 'error_email_or_phone_already_in_use',

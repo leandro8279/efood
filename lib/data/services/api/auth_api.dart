@@ -3,9 +3,12 @@ import 'package:efood/config/constants.dart';
 import 'package:efood/data/services/api/interceptors/auth_interceptor.dart';
 import 'package:efood/data/services/api/model/auth/request/check_email_request.dart';
 import 'package:efood/data/services/api/model/auth/request/check_phone_request.dart';
+import 'package:efood/data/services/api/model/auth/request/verify_email_request.dart';
+import 'package:efood/data/services/api/model/auth/request/verify_phone_request.dart';
 import 'package:efood/data/services/api/model/auth/request/register_request.dart';
 import 'package:efood/data/services/api/model/auth/response/auth_register_api_model.dart';
 import 'package:efood/data/services/api/model/auth/response/auth_check_status_api_model.dart';
+import 'package:efood/data/services/api/model/auth/response/auth_message_api_model.dart';
 import 'package:efood/data/services/api/model/auth/response/auth_session_api_model.dart';
 import 'package:efood/data/services/api/model/auth/request/forget_password_request.dart';
 import 'package:efood/data/services/api/model/auth/request/login_request.dart';
@@ -36,4 +39,12 @@ abstract class AuthApi {
   @POST(AppConstants.forgetUrl)
   @Extra(AuthInterceptor.publicRoute)
   Future<dynamic> forgetPassword(@Body() ForgetPasswordRequest request);
+
+  @POST(AppConstants.verifyEmailUrl)
+  @Extra(AuthInterceptor.publicRoute)
+  Future<AuthMessageApiModel> verifyEmail(@Body() VerifyEmailRequest request);
+
+  @POST(AppConstants.verifyPhoneUrl)
+  @Extra(AuthInterceptor.publicRoute)
+  Future<AuthMessageApiModel> verifyPhone(@Body() VerifyPhoneRequest request);
 }

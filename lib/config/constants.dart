@@ -8,6 +8,8 @@ class AppConstants._() {
   static const String checkEmailUrl = "/auth/check-email";
   static const String checkPhoneUrl = "/auth/check-phone";
   static const String forgetUrl = "/auth/forgot-password";
+  static const String verifyEmailUrl = "/auth/verify-email";
+  static const String verifyPhoneUrl = "/auth/verify-phone";
 
   static const List<Map<Object, String>> languages = [
     {'countryCode': 'US', 'languageCode': 'en'},

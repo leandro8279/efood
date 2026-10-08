@@ -72,6 +72,7 @@ const Map<String, String> enUs = {
   'error_invalid_credentials': 'Invalid email or password.',
   'error_forbidden': 'You do not have permission to do this.',
   'error_not_found': 'We could not find what you were looking for.',
+  'error_invalid_otp': 'Invalid or expired OTP code.',
   'error_server': 'We are having a server problem. Please try again later.',
   'error_email_already_in_use': 'This email already has an account. Sign in or use another email.',
   'error_email_or_phone_already_in_use':

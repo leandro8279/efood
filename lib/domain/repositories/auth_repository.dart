@@ -7,6 +7,14 @@ abstract interface class AuthRepository {
   Future<Result<AuthSession>> login({String? emailOrPhone, required String type, required String password});
   Future<Result<AuthCheckStatus>> checkEmail(String email);
   Future<Result<AuthCheckStatus>> checkPhone(String phone);
+  Future<Result<void>> verifyEmail({
+    required String email,
+    required String token,
+  });
+  Future<Result<void>> verifyPhone({
+    required String phone,
+    required String token,
+  });
   Future<Result<AuthRegister>> register({
     required String fName,
     required String lName,

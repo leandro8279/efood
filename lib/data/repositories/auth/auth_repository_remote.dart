@@ -9,6 +9,8 @@ import 'package:efood/data/services/api/model/auth/request/check_email_request.d
 import 'package:efood/data/services/api/model/auth/request/check_phone_request.dart';
 import 'package:efood/data/services/api/model/auth/request/login_request.dart';
 import 'package:efood/data/services/api/model/auth/request/register_request.dart';
+import 'package:efood/data/services/api/model/auth/request/verify_email_request.dart';
+import 'package:efood/data/services/api/model/auth/request/verify_phone_request.dart';
 import 'package:efood/domain/models/auth/auth_register.dart';
 import 'package:efood/domain/models/auth/auth_check_status.dart';
 import 'package:efood/domain/models/auth/auth_session.dart';
@@ -47,6 +49,42 @@ class AuthRepositoryRemote({required final AuthApi _authApi}) implements AuthRep
       final result = await _authApi.checkPhone(CheckPhoneRequest(phone: phone));
       return Result.ok(result.toDomain());
     } on DioException catch (e, st) {
+      return Result.error(e.toAppException(st));
+    }
+  }
+
+  @override
+  Future<Result<void>> verifyEmail({
+    required String email,
+    required String token,
+  }) async {
+    try {
+      await _authApi.verifyEmail(
+        VerifyEmailRequest(email: email, token: token),
+      );
+      return Result.ok(null);
+    } on DioException catch (e, st) {
+      if (e.response?.statusCode == 404) {
+        return Result.error(InvalidOtpException(cause: e, stackTrace: st));
+      }
+      return Result.error(e.toAppException(st));
+    }
+  }
+
+  @override
+  Future<Result<void>> verifyPhone({
+    required String phone,
+    required String token,
+  }) async {
+    try {
+      await _authApi.verifyPhone(
+        VerifyPhoneRequest(phone: phone, token: token),
+      );
+      return Result.ok(null);
+    } on DioException catch (e, st) {
+      if (e.response?.statusCode == 404) {
+        return Result.error(InvalidOtpException(cause: e, stackTrace: st));
+      }
       return Result.error(e.toAppException(st));
     }
   }
