@@ -5,6 +5,7 @@ class AppConstants._() {
   static const String policyPage = '/policy-page';
   static const String loginUrl = "/auth/login";
   static const String registerUrl = "/auth/registration";
+  static const String checkEmailUrl = "/auth/check-email";
   static const String forgetUrl = "/auth/forgot-password";
 
   static const List<Map<Object, String>> languages = [

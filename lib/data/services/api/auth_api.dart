@@ -2,7 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:efood/config/constants.dart';
 import 'package:efood/data/services/api/interceptors/auth_interceptor.dart';
 import 'package:efood/data/services/api/model/auth/request/register_request.dart';
+import 'package:efood/data/services/api/model/auth/request/check_email_request.dart';
 import 'package:efood/data/services/api/model/auth/response/auth_register_api_model.dart';
+import 'package:efood/data/services/api/model/auth/response/auth_check_email_api_model.dart';
 import 'package:efood/data/services/api/model/auth/response/auth_session_api_model.dart';
 import 'package:efood/data/services/api/model/auth/request/forget_password_request.dart';
 import 'package:efood/data/services/api/model/auth/request/login_request.dart';
@@ -21,6 +23,10 @@ abstract class AuthApi {
   @POST(AppConstants.registerUrl)
   @Extra(AuthInterceptor.publicRoute)
   Future<AuthRegisterApiModel> register(@Body() RegisterRequest request);
+
+  @POST(AppConstants.checkEmailUrl)
+  @Extra(AuthInterceptor.publicRoute)
+  Future<AuthCheckEmailApiModel> checkEmail(@Body() CheckEmailRequest request);
 
   @POST(AppConstants.forgetUrl)
   @Extra(AuthInterceptor.publicRoute)
