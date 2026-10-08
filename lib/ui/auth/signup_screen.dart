@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:efood/routing/app_routes.dart';
+import 'package:efood/ui/auth/signup_viewmodel.dart';
 import 'package:efood/ui/core/share/app_assets.dart';
 import 'package:efood/ui/core/share/code_picker_widget.dart';
 import 'package:efood/ui/core/share/custom_button.dart';
@@ -10,7 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const new({super.key});
+  const SignUpScreen({super.key, required this.viewModel});
+
+  final SignUpViewModel viewModel;
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -82,7 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(height: 35),
 
                         RenderConditional(
-                          conditional: true, //configModel.emailVerification
+                          conditional: widget.viewModel.emailVerification,
                           widget1: Text('email'.tr, style: AppTextStyles.headline2(color: AppColors.getHintColor())),
                           widget2: Text(
                             'mobile_number'.tr,
@@ -92,7 +95,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         SizedBox(height: AppDimens.paddingSmall),
 
                         RenderConditional(
-                          conditional: true, //configModel.emailVerification,
+                          conditional: widget.viewModel.emailVerification,
                           widget1: CustomTextField(
                             hintText: 'demo_gmail'.tr,
                             isShowBorder: true,
