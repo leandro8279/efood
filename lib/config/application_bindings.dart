@@ -48,7 +48,13 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     );
     Get.put<AuthRepository>(AuthRepositoryRemote(authApi: Get.find()), permanent: true);
     // lazy: false,
-    Get.put(AuthSessionNotifier(sessionEnded: Get.find<AuthInterceptor>().onUnauthorized), permanent: true);
+    Get.put(
+      AuthSessionNotifier(
+        authSessionRepository: Get.find<AuthSessionRepository>(),
+        sessionEnded: Get.find<AuthInterceptor>().onUnauthorized,
+      ),
+      permanent: true,
+    );
 
     Get.find<ConfigRepository>().getConfig();
   }

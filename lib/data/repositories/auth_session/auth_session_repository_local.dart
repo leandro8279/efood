@@ -6,6 +6,15 @@ import 'package:efood/utils/result.dart';
 
 class AuthSessionRepositoryLocal({required final SecureStorageService _storage}) implements AuthSessionRepository {
   @override
+  Future<Result<String?>> readToken() async {
+    try {
+      return Result.ok(await _storage.fetch(StorageKeys.authToken));
+    } on StorageException catch (e) {
+      return Result.error(e);
+    }
+  }
+
+  @override
   Future<Result<void>> delete() async {
     try {
       await _storage.delete(StorageKeys.authToken);
