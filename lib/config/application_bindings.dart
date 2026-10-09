@@ -5,14 +5,11 @@ import 'package:efood/data/repositories/auth_session/auth_session_repository_loc
 import 'package:efood/data/repositories/config/config_repository_remote.dart';
 import 'package:efood/data/repositories/onboarding/onboarding_repository_local.dart';
 import 'package:efood/domain/repositories/repositórios.dart';
-import 'package:efood/data/services/api/auth_api.dart';
-import 'package:efood/data/services/api/interceptors/auth_interceptor.dart';
-import 'package:efood/data/services/local/secure_storage_service.dart';
+import 'package:efood/data/services/api/api.dart';
+import 'package:efood/data/services/local/local.dart';
 import 'package:get/get.dart';
 import 'package:efood/config/environment.dart';
 import 'package:efood/data/repositories/splash/splash_repository_remote.dart';
-import 'package:efood/data/services/api/splash_api.dart';
-import 'package:efood/data/services/local/shared_preferences_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApplicationBindings({required final SharedPreferences sharedPreferences}) extends Bindings {
