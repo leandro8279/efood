@@ -1,0 +1,9 @@
+import 'package:efood/ui/dashboard/dashboard_viewmodel.dart';
+import 'package:get/get.dart';
+
+class DashboardBindings extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => DashboardViewModel());
+  }
+}

@@ -8,6 +8,8 @@ import 'package:efood/ui/auth/signup/signup_bindings.dart';
 import 'package:efood/ui/auth/signup/signup_viewmodel.dart';
 import 'package:efood/ui/auth/verification/verification_bindings.dart';
 import 'package:efood/ui/auth/verification/verification_screen.dart';
+import 'package:efood/ui/dashboard/dashboard_bindings.dart';
+import 'package:efood/ui/dashboard/dashboard_screen.dart';
 import 'package:get/get.dart';
 import 'package:efood/routing/app_routes.dart';
 // import 'package:efood/routing/auth_middleware.dart';
@@ -57,8 +59,7 @@ class AppRouter._() {
       name: AppRoutes.verify,
       binding: VerificationBindings(),
       page: () {
-        final arguments =
-            Get.arguments as Map<String, dynamic>? ?? const <String, dynamic>{};
+        final arguments = Get.arguments as Map<String, dynamic>? ?? const <String, dynamic>{};
 
         return VerificationScreen(
           viewModel: Get.find(),
@@ -71,6 +72,12 @@ class AppRouter._() {
       name: AppRoutes.forgotPassword,
       binding: ForgotPasswordBindings(),
       page: () => ForgotPasswordScreen(viewModel: Get.find()),
+    ),
+
+    GetPage(
+      name: AppRoutes.main,
+      binding: DashboardBindings(),
+      page: () => DashboardScreen(viewModel: Get.find()),
     ),
   ];
 }
