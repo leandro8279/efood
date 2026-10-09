@@ -1,5 +1,4 @@
-import 'package:efood/domain/repositories/auth_repository.dart';
-import 'package:efood/domain/repositories/config_repository.dart';
+import 'package:efood/domain/repositories/repositórios.dart';
 import 'package:efood/ui/auth/verification/verification_viewmodel.dart';
 import 'package:get/get.dart';
 
