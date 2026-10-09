@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:efood/config/constants.dart';
+import 'package:efood/data/services/api/model/profile/profile_message_api_model.dart';
 import 'package:efood/data/services/api/model/profile/profile_api_model.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -11,4 +12,7 @@ abstract class ProfileApi {
 
   @GET(AppConstants.customerInfoUrl)
   Future<ProfileApiModel> getUserInfo();
+
+  @POST(AppConstants.updateProfileUrl)
+  Future<ProfileMessageApiModel> updateProfile(@Body() FormData request);
 }
