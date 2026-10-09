@@ -49,6 +49,7 @@ dependencies:
   universal_platform: ^1.1.0
   modal_bottom_sheet: ^3.0.0
   pin_code_fields: ^10.1.1
+  connectivity_plus: ^7.3.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
