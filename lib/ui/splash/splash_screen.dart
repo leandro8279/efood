@@ -1,6 +1,6 @@
 import 'package:efood/config/constants.dart';
 import 'package:efood/routing/app_routes.dart';
-import 'package:efood/ui/core/share/app_assets.dart';
+import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/app_text_styles.dart';
 import 'package:efood/ui/splash/splash_viewmodel.dart';
 

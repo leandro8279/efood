@@ -1,10 +1,5 @@
 import 'package:efood/ui/auth/verification/verification_viewmodel.dart';
-import 'package:efood/ui/core/share/app_assets.dart';
-import 'package:efood/ui/core/share/custom_app_bar.dart';
-import 'package:efood/ui/core/share/custom_button.dart';
-import 'package:efood/ui/core/share/custom_snackbar.dart';
-import 'package:efood/ui/core/share/error_messages.dart';
-import 'package:efood/ui/core/share/render_conditional.dart';
+import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
 import 'package:efood/utils/result.dart';
 import 'package:flutter/material.dart';

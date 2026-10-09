@@ -1,12 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:efood/domain/models/auth/auth_register.dart';
 import 'package:efood/routing/app_routes.dart';
-import 'package:efood/ui/core/share/code_picker_widget.dart';
-import 'package:efood/ui/core/share/custom_button.dart';
-import 'package:efood/ui/core/share/custom_snackbar.dart';
-import 'package:efood/ui/core/share/custom_text_field.dart';
-import 'package:efood/ui/core/share/render_command_error.dart';
-import 'package:efood/ui/core/share/render_conditional.dart';
+import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
 import 'package:efood/ui/auth/register/register_viewmodel.dart';
 import 'package:flutter/material.dart';
