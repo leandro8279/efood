@@ -2,6 +2,7 @@ class AppConstants._() {
   static const String appName = "eFood";
   static const double appVersion = 9.0;
   static const String configUrl = '/config';
+  static const String customerInfoUrl = '/customer/info';
   static const String policyPage = '/policy-page';
   static const String loginUrl = "/auth/login";
   static const String registerUrl = "/auth/registration";

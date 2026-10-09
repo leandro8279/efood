@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:efood/domain/repositories/auth_session_repository.dart';
+import 'package:efood/utils/result.dart';
 
-class AuthInterceptor() extends Interceptor {
+class AuthInterceptor({required final AuthSessionRepository _authSessionRepository}) extends Interceptor {
   static const publicRoute = <String, Object>{_publicRouteKey: true};
 
   static const _publicRouteKey = 'publicRoute';
@@ -14,7 +16,22 @@ class AuthInterceptor() extends Interceptor {
 
   @override
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
-    handler.next(options);
+    if (options.extra[_publicRouteKey] == true) {
+      handler.next(options);
+      return;
+    }
+
+    switch (await _authSessionRepository.readToken()) {
+      case Ok<String?>(value: final token):
+        if (token != null && token.isNotEmpty && !options.headers.containsKey('Authorization')) {
+          options.headers['Authorization'] = 'Bearer $token';
+        }
+        handler.next(options);
+        return;
+      case Error<String?>(:final error):
+        handler.reject(DioException(requestOptions: options, error: error));
+        return;
+    }
   }
 
   @override
