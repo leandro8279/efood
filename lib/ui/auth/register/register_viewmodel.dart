@@ -1,5 +1,5 @@
 import 'package:efood/domain/models/auth/auth_register.dart';
-import 'package:efood/domain/repositories/repositórios.dart';
+import 'package:efood/domain/repositories/repositories.dart';
 import 'package:efood/utils/command.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';

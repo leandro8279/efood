@@ -1,3 +1,4 @@
+import 'package:efood/routing/app_routes.dart';
 import 'package:efood/ui/auth/verification/verification_viewmodel.dart';
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
@@ -79,8 +80,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         ),
                         // backgroundColor: Colors.transparent,
                         // enableActiveFill: true,
-                        onChanged: (value) =>
-                            widget.viewModel.updateVerificationCode(value ?? ''),
+                        onChanged: (value) => widget.viewModel.updateVerificationCode(value),
                         // beforeTextPaste: (text) => true,
                       ),
                     ),
@@ -94,9 +94,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     Obx(
                       () => Center(
                         child: InkWell(
-                          onTap: widget.viewModel.resendCode.running.value
-                              ? null
-                              : _resendCode,
+                          onTap: widget.viewModel.resendCode.running.value ? null : _resendCode,
                           child: Padding(
                             padding: EdgeInsets.all(AppDimens.paddingExtraSmall),
                             child: Text(
@@ -145,11 +143,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
     switch (command.result.value) {
       case Ok<void>():
-        showCustomSnackBar(
-          'resent_code_successful'.tr,
-          context,
-          isError: false,
-        );
+        showCustomSnackBar('resent_code_successful'.tr, context, isError: false);
       case Error<void>(:final error):
         showCustomSnackBar(ErrorMessages.of(error).tr, context);
       case null:
@@ -177,7 +171,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
     switch (command.result.value) {
       case Ok<void>():
-        print('Would navigate to the create-account screen.');
+        Get.offNamed(AppRoutes.register, arguments: contact);
       case Error<void>(:final error):
         showCustomSnackBar(ErrorMessages.of(error).tr, context);
       case null:

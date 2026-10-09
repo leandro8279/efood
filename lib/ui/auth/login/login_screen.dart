@@ -16,7 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final GlobalKey<FormState> _formKeyLogin = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController(text: "leandro@gmail.com");
-  final TextEditingController _passwordController = TextEditingController(text: "12345678");
+  final TextEditingController _passwordController = TextEditingController(text: "pass@1234");
 
   Worker? _loginWorker;
   bool _redirected = false;

@@ -5,7 +5,7 @@ import 'package:efood/data/repositories/auth_session/auth_session_repository_loc
 import 'package:efood/data/repositories/config/config_repository_remote.dart';
 import 'package:efood/data/repositories/onboarding/onboarding_repository_local.dart';
 import 'package:efood/data/repositories/profile/profile_repository_remote.dart';
-import 'package:efood/domain/repositories/repositórios.dart';
+import 'package:efood/domain/repositories/repositories.dart';
 import 'package:efood/data/services/api/api.dart';
 import 'package:efood/data/services/local/local.dart';
 import 'package:get/get.dart';
@@ -48,10 +48,7 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
       SplashRepositoryRemote(splashApi: Get.find(), sharedPreferencesService: Get.find()),
       permanent: true,
     );
-    Get.put<ProfileRepository>(
-      ProfileRepositoryRemote(profileApi: Get.find<ProfileApi>()),
-      permanent: true,
-    );
+    Get.put<ProfileRepository>(ProfileRepositoryRemote(profileApi: Get.find<ProfileApi>()), permanent: true);
     Get.put<AuthRepository>(AuthRepositoryRemote(authApi: Get.find()), permanent: true);
     // lazy: false,
     Get.put(

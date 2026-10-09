@@ -318,7 +318,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     ));
 
     if (widget.viewModel.register.complete) {
-      Get.offNamed(AppRoutes.login);
+      Get.offNamed(AppRoutes.main);
     }
   }
 
