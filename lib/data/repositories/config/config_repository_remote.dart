@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:efood/data/services/api/mappers/config_api_model_mapper.dart';
-import 'package:efood/data/services/api/mappers/dio_exception_mapper.dart';
+import 'package:efood/data/services/api/mappers/mappers.dart';
 import 'package:efood/data/services/api/splash_api.dart';
 import 'package:efood/domain/models/config/config.dart';
 import 'package:efood/domain/repositories/config_repository.dart';
