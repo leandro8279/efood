@@ -21,9 +21,9 @@ class const Product({
   required final String discountType,
   required final String taxType,
   required final int setMenu,
-  required final String branchId,
+  required final int branchId,
   required final List<String>? colors,
-  required final String popularityCount,
+  required final int popularityCount,
   required final String productType,
   required final List<ProductRating?> rating,
 }) extends Equatable {
