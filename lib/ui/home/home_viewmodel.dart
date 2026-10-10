@@ -38,27 +38,36 @@ class HomeViewModel({
     final result = await _setMenuRepository.getSetMenuList();
 
     return switch (result) {
-      Ok<List<Product>>(:final value) => _setMenuProducts.value = value,
+      Ok<List<Product>>(:final value) => _setSetMenuList(value),
       Error<List<Product>>(:final error) => Result.error(error),
     };
   }
 
-  Future<Result<void>> _loadConfig() async {
+  Future<Result<Config>> _loadConfig() async {
     final result = await _configRepository.getConfig();
 
-    switch (result) {
-      case Ok<Config>(:final value):
-        _config.value = value;
-        return Result.ok(null);
-      case Error<Config>(:final error):
-        return Result.error(error);
-    }
+    return switch (result) {
+      Ok<Config>(:final value) => _setConfig(value),
+      Error<Config>(:final error) => Result.error(error),
+    };
   }
 
   Result<List<Category>> _setCategories(List<Category> categories) {
     _categories.value = categories;
 
     return Result.ok(categories);
+  }
+
+  Result<List<Product>> _setSetMenuList(List<Product> products) {
+    _setMenuProducts.value = products;
+
+    return Result.ok(products);
+  }
+
+  Result<Config> _setConfig(Config config) {
+    _config.value = config;
+
+    return Result.ok(config);
   }
 
   @override
@@ -68,7 +77,7 @@ class HomeViewModel({
     loadCategories.execute();
     loadSetMenu.execute();
 
-    // ever(_config, (value) => print("$value has been changed (ever)"));
+    // ever(_setMenuProducts, (value) => print("$value has been changed (ever)"));
     // ever(_categories, (value) => print("$value has been changed (ever)"));
   }
 }
