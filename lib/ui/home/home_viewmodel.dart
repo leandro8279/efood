@@ -1,8 +1,8 @@
+import 'package:efood/domain/models/banner/banner.dart';
 import 'package:efood/domain/models/category/category.dart';
 import 'package:efood/domain/models/config/config.dart';
 import 'package:efood/domain/models/product/product.dart';
-import 'package:efood/domain/repositories/category_repository.dart';
-import 'package:efood/domain/repositories/set_menu_repository.dart';
+import 'package:efood/domain/repositories/repositories.dart';
 import 'package:efood/utils/app_exception.dart';
 import 'package:efood/utils/command.dart';
 import 'package:efood/utils/config/config_notifier.dart';
@@ -14,17 +14,21 @@ class HomeViewModel({
   required final CategoryRepository _categoryRepository,
   required final ConfigNotifier _configNotifier,
   required final SetMenuRepository _setMenuRepository,
+  required final BannerRepository _bannerRepository,
 }) extends GetxController {
   final _log = AppLogger('HomeViewModel');
+  final RxList<Banner> _banners = <Banner>[].obs;
   final RxList<Category> _categories = <Category>[].obs;
   final RxList<Product> _setMenuProducts = <Product>[].obs;
 
-  Config? get config => _configNotifier.config.value;
+  List<Banner> get banners => _banners;
   List<Category> get categories => _categories;
+  Config? get config => _configNotifier.config.value;
   List<Product> get setMenuProducts => _setMenuProducts;
 
-  late final loadCategories = Command0<List<Category>>(_loadCategories);
+  late final loadBanners = Command0<List<Banner>>(_loadBanners);
   late final loadSetMenu = Command0<List<Product>>(_loadSetMenu);
+  late final loadCategories = Command0<List<Category>>(_loadCategories);
 
   Future<Result<List<Category>>> _loadCategories() async {
     _log.info('Carregando categorias');
@@ -46,6 +50,16 @@ class HomeViewModel({
     };
   }
 
+  Future<Result<List<Banner>>> _loadBanners() async {
+    _log.info('Carregando banners');
+    final result = await _bannerRepository.getBanners();
+
+    return switch (result) {
+      Ok<List<Banner>>(:final value) => _setBanners(value),
+      Error<List<Banner>>(:final error) => _handleLoadError('Falha ao carregar banners', error),
+    };
+  }
+
   Result<List<Category>> _setCategories(List<Category> categories) {
     _categories.value = categories;
     _log.info('Categorias carregadas: ${categories.length}');
@@ -60,6 +74,13 @@ class HomeViewModel({
     return Result.ok(products);
   }
 
+  Result<List<Banner>> _setBanners(List<Banner> banners) {
+    _banners.value = banners;
+    _log.info('Banners carregados: ${banners.length}');
+
+    return Result.ok(banners);
+  }
+
   Result<T> _handleLoadError<T>(String message, AppException error) {
     _log.error(message, error: error, stackTrace: error.stackTrace);
     return Result.error(error);
@@ -70,5 +91,6 @@ class HomeViewModel({
     super.onInit();
     loadCategories.execute();
     loadSetMenu.execute();
+    loadBanners.execute();
   }
 }
