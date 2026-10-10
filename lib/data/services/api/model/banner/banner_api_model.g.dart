@@ -11,11 +11,11 @@ BannerApiModel _$BannerApiModelFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       image: json['image'] as String,
-      productId: (json['product_id'] as num).toInt(),
+      productId: (json['product_id'] as num?)?.toInt(),
       status: (json['status'] as num).toInt(),
       createdAt: json['created_at'] as String,
       updatedAt: json['updated_at'] as String,
-      categoryId: (json['category_id'] as num).toInt(),
+      categoryId: (json['category_id'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$BannerApiModelToJson(BannerApiModel instance) =>

@@ -8,11 +8,11 @@ class const BannerApiModel({
   required final int id,
   required final String title,
   required final String image,
-  required final int productId,
+  final int? productId,
   required final int status,
   required final String createdAt,
   required final String updatedAt,
-  required final int categoryId,
+  final int? categoryId,
 }) extends Equatable {
   factory BannerApiModel.fromJson(Map<String, dynamic> json) => _$BannerApiModelFromJson(json);
 

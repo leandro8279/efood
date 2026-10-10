@@ -62,21 +62,21 @@ class HomeViewModel({
 
   Result<List<Category>> _setCategories(List<Category> categories) {
     _categories.value = categories;
-    _log.info('Categorias carregadas: ${categories.length}');
+    _log.info('Categorias carregadas: ${_categories.length}');
 
     return Result.ok(categories);
   }
 
   Result<List<Product>> _setSetMenuList(List<Product> products) {
     _setMenuProducts.value = products;
-    _log.info('Produtos do menu carregados: ${products.length}');
+    _log.info('Produtos do menu carregados: ${_setMenuProducts.length}');
 
     return Result.ok(products);
   }
 
   Result<List<Banner>> _setBanners(List<Banner> banners) {
     _banners.value = banners;
-    _log.info('Banners carregados: ${banners.length}');
+    _log.info('Banners carregados: ${_banners.length}');
 
     return Result.ok(banners);
   }

@@ -7,7 +7,7 @@ import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
-class ConfigNotifier({required final ConfigRepository _configRepository}) {
+class ConfigNotifier({required final ConfigRepository _configRepository}) extends GetxController {
   final _log = AppLogger('ConfigNotifier');
   final Rxn<Config> _config = Rxn<Config>();
 
@@ -18,10 +18,6 @@ class ConfigNotifier({required final ConfigRepository _configRepository}) {
       throw StateError('Config has not been loaded successfully yet.');
     }
     return config;
-  }
-
-  this {
-    unawaited(_loadConfig());
   }
 
   Future<Result<void>> _loadConfig() async {
@@ -41,11 +37,13 @@ class ConfigNotifier({required final ConfigRepository _configRepository}) {
   }
 
   Result<void> _handleLoadError(AppException error) {
-    _log.error(
-      'Falha ao carregar configuração',
-      error: error,
-      stackTrace: error.stackTrace,
-    );
+    _log.error('Falha ao carregar configuração', error: error, stackTrace: error.stackTrace);
     return Result.error(error);
+  }
+
+  @override
+  void onInit() {
+    _loadConfig();
+    super.onInit();
   }
 }
