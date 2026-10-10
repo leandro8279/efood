@@ -1,17 +1,16 @@
 import 'package:efood/config/constants.dart';
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
+import 'package:efood/ui/home/home_viewmodel.dart';
 import 'package:efood/ui/home/widget/banner_view.dart';
 import 'package:efood/ui/home/widget/category_view.dart';
-import 'package:efood/ui/home/widget/product_view.dart';
 import 'package:efood/ui/home/widget/set_menu_view.dart';
 import 'package:efood/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeScreen extends StatelessWidget {
-  new({super.key, required bool result});
-
+class HomeScreen({super.key, required final HomeViewModel viewModel, required final bool result})
+    extends StatelessWidget {
   final GlobalKey<ScaffoldState> drawerGlobalKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
 
@@ -199,7 +198,7 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CategoryView(),
+                        Obx(() => CategoryView(categories: viewModel.categories, config: viewModel.config)),
                         SetMenuView(),
 
                         BannerView(),

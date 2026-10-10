@@ -77,7 +77,7 @@ class AppRouter._() {
     GetPage(
       name: AppRoutes.main,
       binding: DashboardBindings(),
-      page: () => DashboardScreen(viewModel: Get.find()),
+      page: () => DashboardScreen(viewModel: Get.find(), homeViewModel: Get.find()),
     ),
   ];
 }
