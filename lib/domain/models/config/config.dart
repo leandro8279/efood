@@ -1,3 +1,4 @@
+import 'package:efood/domain/models/config/base_url.dart';
 import 'package:equatable/equatable.dart';
 
 class const Config({
@@ -7,6 +8,7 @@ class const Config({
   required final bool maintenanceMode,
   required final bool emailVerification,
   required final bool phoneVerification,
+  required final BaseUrl baseUrls,
 }) extends Equatable {
   @override
   List<Object?> get props => [
@@ -16,5 +18,6 @@ class const Config({
     maintenanceMode,
     emailVerification,
     phoneVerification,
+    baseUrls,
   ];
 }
