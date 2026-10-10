@@ -7,3 +7,4 @@ export "onboarding_repository.dart";
 export "profile_repository.dart";
 export "set_menu_repository.dart";
 export "splash_repository.dart";
+export "banner_repository.dart";
