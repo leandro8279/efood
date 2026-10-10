@@ -9,6 +9,8 @@ class const Config({
   required final bool emailVerification,
   required final bool phoneVerification,
   required final BaseUrl baseUrls,
+  required final int decimalPointSettings,
+  required final String currencySymbolPosition,
 }) extends Equatable {
   @override
   List<Object?> get props => [
@@ -19,5 +21,7 @@ class const Config({
     emailVerification,
     phoneVerification,
     baseUrls,
+    currencySymbolPosition,
+    decimalPointSettings,
   ];
 }

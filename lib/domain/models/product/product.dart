@@ -23,9 +23,9 @@ class const Product({
   required final int setMenu,
   required final String branchId,
   required final List<String>? colors,
-  required final int popularityCount,
+  required final String popularityCount,
   required final String productType,
-  required final List<Object?> rating,
+  required final List<ProductRating?> rating,
 }) extends Equatable {
   @override
   List<Object?> get props => [
@@ -62,6 +62,11 @@ class const ProductVariation({required final String type, required final double 
   List<Object?> get props => [type, price];
 }
 
+class const ProductRating({required final String average}) extends Equatable {
+  @override
+  List<Object?> get props => [average];
+}
+
 class const ProductAddOn({
   required final int id,
   required final String name,
@@ -74,10 +79,7 @@ class const ProductAddOn({
   List<Object?> get props => [id, name, price, createdAt, updatedAt, translations];
 }
 
-class const ProductCategoryId({
-  required final String id,
-  required final int position,
-}) extends Equatable {
+class const ProductCategoryId({required final String id, required final int position}) extends Equatable {
   @override
   List<Object?> get props => [id, position];
 }
