@@ -35,9 +35,9 @@ ProductApiModel _$ProductApiModelFromJson(
   discountType: json['discount_type'] as String,
   taxType: json['tax_type'] as String,
   setMenu: (json['set_menu'] as num).toInt(),
-  branchId: json['branch_id'] as String,
+  branchId: (json['branch_id'] as num).toInt(),
   colors: (json['colors'] as List<dynamic>?)?.map((e) => e as String).toList(),
-  popularityCount: json['popularity_count'] as String,
+  popularityCount: (json['popularity_count'] as num).toInt(),
   productType: json['product_type'] as String,
   rating: (json['rating'] as List<dynamic>)
       .map(
