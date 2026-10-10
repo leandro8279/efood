@@ -14,7 +14,9 @@ ProductApiModel _$ProductApiModelFromJson(
   description: json['description'] as String,
   image: json['image'] as String,
   price: (json['price'] as num).toDouble(),
-  variations: json['variations'] as List<dynamic>,
+  variations: (json['variations'] as List<dynamic>)
+      .map((e) => ProductVariationApiModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
   addOns: (json['add_ons'] as List<dynamic>)
       .map((e) => ProductAddOnApiModel.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -47,7 +49,7 @@ Map<String, dynamic> _$ProductApiModelToJson(ProductApiModel instance) =>
       'description': instance.description,
       'image': instance.image,
       'price': instance.price,
-      'variations': instance.variations,
+      'variations': instance.variations.map((e) => e.toJson()).toList(),
       'add_ons': instance.addOns.map((e) => e.toJson()).toList(),
       'tax': instance.tax,
       'available_time_starts': instance.availableTimeStarts,
@@ -68,6 +70,14 @@ Map<String, dynamic> _$ProductApiModelToJson(ProductApiModel instance) =>
       'product_type': instance.productType,
       'rating': instance.rating,
     };
+
+ProductVariationApiModel _$ProductVariationApiModelFromJson(Map<String, dynamic> json) =>
+    ProductVariationApiModel(type: json['type'] as String, price: (json['price'] as num).toDouble());
+
+Map<String, dynamic> _$ProductVariationApiModelToJson(ProductVariationApiModel instance) => <String, dynamic>{
+  'type': instance.type,
+  'price': instance.price,
+};
 
 ProductAddOnApiModel _$ProductAddOnApiModelFromJson(
   Map<String, dynamic> json,

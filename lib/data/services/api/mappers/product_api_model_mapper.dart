@@ -8,7 +8,7 @@ extension ProductApiModelMapper on ProductApiModel {
     description: description,
     image: image,
     price: price,
-    variations: variations,
+    variations: variations.map((variation) => ProductVariation(type: variation.type, price: variation.price)).toList(),
     addOns: addOns.map((addOn) => addOn.toDomain()).toList(),
     tax: tax,
     availableTimeStarts: availableTimeStarts,
@@ -38,7 +38,9 @@ extension ProductDomainMapper on Product {
     description: description,
     image: image,
     price: price,
-    variations: variations,
+    variations: variations
+        .map((variation) => ProductVariationApiModel(type: variation.type, price: variation.price))
+        .toList(),
     addOns: addOns
         .map(
           (addOn) => ProductAddOnApiModel(

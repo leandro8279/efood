@@ -10,7 +10,7 @@ class const ProductApiModel({
   required final String description,
   required final String image,
   required final double price,
-  required final List<Object?> variations,
+  required final List<ProductVariationApiModel> variations,
   required final List<ProductAddOnApiModel> addOns,
   required final double tax,
   required final String availableTimeStarts,
@@ -63,6 +63,16 @@ class const ProductApiModel({
     productType,
     rating,
   ];
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class const ProductVariationApiModel({required final String type, required final double price}) extends Equatable {
+  factory ProductVariationApiModel.fromJson(Map<String, dynamic> json) => _$ProductVariationApiModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductVariationApiModelToJson(this);
+
+  @override
+  List<Object?> get props => [type, price];
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)

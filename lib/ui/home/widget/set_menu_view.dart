@@ -39,7 +39,7 @@ class const SetMenuView({super.key, required final List<Product> setMenuProducts
                     double _endingPrice;
                     if (setMenuProducts[index].choiceOptions.isNotEmpty) {
                       List<double> _priceList = [];
-                      setMenuProducts[index].variations.forEach((variation) => _priceList.add(variation?.price));
+                      setMenuProducts[index].variations.forEach((variation) => _priceList.add(variation.price));
                       _priceList.sort((a, b) => a.compareTo(b));
                       _startingPrice = _priceList[0];
                       if (_priceList[0] < _priceList[_priceList.length - 1]) {

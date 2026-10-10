@@ -6,7 +6,7 @@ class const Product({
   required final String description,
   required final String image,
   required final double price,
-  required final List<Object?> variations,
+  required final List<ProductVariation> variations,
   required final List<ProductAddOn> addOns,
   required final double tax,
   required final String availableTimeStarts,
@@ -55,6 +55,11 @@ class const Product({
     productType,
     rating,
   ];
+}
+
+class const ProductVariation({required final String type, required final double price}) extends Equatable {
+  @override
+  List<Object?> get props => [type, price];
 }
 
 class const ProductAddOn({
