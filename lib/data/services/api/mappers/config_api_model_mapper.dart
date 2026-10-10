@@ -12,6 +12,8 @@ extension ConfigApiModelMapper on ConfigApiModel {
     emailVerification: true,
     phoneVerification: false,
     baseUrls: baseUrls.toDomain(),
+    currencySymbolPosition: currencySymbolPosition,
+    decimalPointSettings: decimalPointSettings,
   );
 }
 

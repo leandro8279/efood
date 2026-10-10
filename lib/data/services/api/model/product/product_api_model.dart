@@ -27,9 +27,9 @@ class const ProductApiModel({
   required final int setMenu,
   required final String branchId,
   required final List<String>? colors,
-  required final int popularityCount,
+  required final String popularityCount,
   required final String productType,
-  required final List<Object?> rating,
+  required final List<ProductRatingApiModel?> rating,
 }) extends Equatable {
   factory ProductApiModel.fromJson(Map<String, dynamic> json) => _$ProductApiModelFromJson(json);
 
@@ -100,4 +100,14 @@ class const ProductCategoryIdApiModel({required final String id, required final 
 
   @override
   List<Object?> get props => [id, position];
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class const ProductRatingApiModel({required final String average}) extends Equatable {
+  factory ProductRatingApiModel.fromJson(Map<String, dynamic> json) => _$ProductRatingApiModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductRatingApiModelToJson(this);
+
+  @override
+  List<Object?> get props => [average];
 }

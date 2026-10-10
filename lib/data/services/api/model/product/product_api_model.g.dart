@@ -37,9 +37,15 @@ ProductApiModel _$ProductApiModelFromJson(
   setMenu: (json['set_menu'] as num).toInt(),
   branchId: json['branch_id'] as String,
   colors: (json['colors'] as List<dynamic>?)?.map((e) => e as String).toList(),
-  popularityCount: (json['popularity_count'] as num).toInt(),
+  popularityCount: json['popularity_count'] as String,
   productType: json['product_type'] as String,
-  rating: json['rating'] as List<dynamic>,
+  rating: (json['rating'] as List<dynamic>)
+      .map(
+        (e) => e == null
+            ? null
+            : ProductRatingApiModel.fromJson(e as Map<String, dynamic>),
+      )
+      .toList(),
 );
 
 Map<String, dynamic> _$ProductApiModelToJson(ProductApiModel instance) =>
@@ -68,16 +74,19 @@ Map<String, dynamic> _$ProductApiModelToJson(ProductApiModel instance) =>
       'colors': instance.colors,
       'popularity_count': instance.popularityCount,
       'product_type': instance.productType,
-      'rating': instance.rating,
+      'rating': instance.rating.map((e) => e?.toJson()).toList(),
     };
 
-ProductVariationApiModel _$ProductVariationApiModelFromJson(Map<String, dynamic> json) =>
-    ProductVariationApiModel(type: json['type'] as String, price: (json['price'] as num).toDouble());
+ProductVariationApiModel _$ProductVariationApiModelFromJson(
+  Map<String, dynamic> json,
+) => ProductVariationApiModel(
+  type: json['type'] as String,
+  price: (json['price'] as num).toDouble(),
+);
 
-Map<String, dynamic> _$ProductVariationApiModelToJson(ProductVariationApiModel instance) => <String, dynamic>{
-  'type': instance.type,
-  'price': instance.price,
-};
+Map<String, dynamic> _$ProductVariationApiModelToJson(
+  ProductVariationApiModel instance,
+) => <String, dynamic>{'type': instance.type, 'price': instance.price};
 
 ProductAddOnApiModel _$ProductAddOnApiModelFromJson(
   Map<String, dynamic> json,
@@ -111,3 +120,11 @@ ProductCategoryIdApiModel _$ProductCategoryIdApiModelFromJson(
 Map<String, dynamic> _$ProductCategoryIdApiModelToJson(
   ProductCategoryIdApiModel instance,
 ) => <String, dynamic>{'id': instance.id, 'position': instance.position};
+
+ProductRatingApiModel _$ProductRatingApiModelFromJson(
+  Map<String, dynamic> json,
+) => ProductRatingApiModel(average: json['average'] as String);
+
+Map<String, dynamic> _$ProductRatingApiModelToJson(
+  ProductRatingApiModel instance,
+) => <String, dynamic>{'average': instance.average};

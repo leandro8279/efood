@@ -17,6 +17,8 @@ ConfigApiModel _$ConfigApiModelFromJson(Map<String, dynamic> json) =>
       baseUrls: BaseUrlApiModel.fromJson(
         json['base_urls'] as Map<String, dynamic>,
       ),
+      decimalPointSettings: (json['decimal_point_settings'] as num).toInt(),
+      currencySymbolPosition: json['currency_symbol_position'] as String,
     );
 
 Map<String, dynamic> _$ConfigApiModelToJson(ConfigApiModel instance) =>
@@ -28,4 +30,6 @@ Map<String, dynamic> _$ConfigApiModelToJson(ConfigApiModel instance) =>
       'email_verification': instance.emailVerification,
       'phone_verification': instance.phoneVerification,
       'base_urls': instance.baseUrls.toJson(),
+      'decimal_point_settings': instance.decimalPointSettings,
+      'currency_symbol_position': instance.currencySymbolPosition,
     };

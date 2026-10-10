@@ -27,7 +27,7 @@ extension ProductApiModelMapper on ProductApiModel {
     colors: colors,
     popularityCount: popularityCount,
     productType: productType,
-    rating: rating,
+    rating: rating.isNotEmpty ? rating.map((s) => s!.toDomain()).toList() : [],
   );
 }
 
@@ -72,7 +72,7 @@ extension ProductDomainMapper on Product {
     colors: colors,
     popularityCount: popularityCount,
     productType: productType,
-    rating: rating,
+    rating: rating.isNotEmpty ? rating.map((s) => ProductRatingApiModel(average: s!.average)).toList() : [],
   );
 }
 
@@ -89,4 +89,8 @@ extension ProductAddOnApiModelMapper on ProductAddOnApiModel {
 
 extension ProductCategoryIdApiModelMapper on ProductCategoryIdApiModel {
   ProductCategoryId toDomain() => ProductCategoryId(id: id, position: position);
+}
+
+extension ProductRatingModelMapper on ProductRatingApiModel {
+  ProductRating toDomain() => ProductRating(average: average);
 }

@@ -13,6 +13,8 @@ class const ConfigApiModel({
   required final bool emailVerification,
   required final bool phoneVerification,
   required final BaseUrlApiModel baseUrls,
+  required final int decimalPointSettings,
+  required final String currencySymbolPosition,
 }) extends Equatable {
   factory ConfigApiModel.fromJson(Map<String, dynamic> json) {
     return _$ConfigApiModelFromJson(json);
@@ -29,5 +31,7 @@ class const ConfigApiModel({
     emailVerification,
     phoneVerification,
     baseUrls,
+    decimalPointSettings,
+    currencySymbolPosition,
   ];
 }
