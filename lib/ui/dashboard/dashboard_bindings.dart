@@ -1,5 +1,4 @@
-import 'package:efood/domain/repositories/category_repository.dart';
-import 'package:efood/domain/repositories/set_menu_repository.dart';
+import 'package:efood/domain/repositories/repositories.dart';
 import 'package:efood/ui/dashboard/dashboard_viewmodel.dart';
 import 'package:efood/ui/home/home_viewmodel.dart';
 import 'package:efood/utils/config/config_notifier.dart';
@@ -11,9 +10,10 @@ class DashboardBindings extends Bindings {
     Get.lazyPut(() => DashboardViewModel());
     Get.put<HomeViewModel>(
       HomeViewModel(
-        categoryRepository: Get.find<CategoryRepository>(),
         configNotifier: Get.find<ConfigNotifier>(),
+        bannerRepository: Get.find<BannerRepository>(),
         setMenuRepository: Get.find<SetMenuRepository>(),
+        categoryRepository: Get.find<CategoryRepository>(),
       ),
     );
   }
