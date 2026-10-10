@@ -1,3 +1,4 @@
+import 'package:efood/data/services/api/model/config/base_url_api_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 
@@ -11,6 +12,7 @@ class const ConfigApiModel({
   required final bool maintenanceMode,
   required final bool emailVerification,
   required final bool phoneVerification,
+  required final BaseUrlApiModel baseUrls,
 }) extends Equatable {
   factory ConfigApiModel.fromJson(Map<String, dynamic> json) {
     return _$ConfigApiModelFromJson(json);
@@ -26,5 +28,6 @@ class const ConfigApiModel({
     maintenanceMode,
     emailVerification,
     phoneVerification,
+    baseUrls,
   ];
 }

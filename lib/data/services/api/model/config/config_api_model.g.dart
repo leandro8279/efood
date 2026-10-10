@@ -14,6 +14,9 @@ ConfigApiModel _$ConfigApiModelFromJson(Map<String, dynamic> json) =>
       maintenanceMode: json['maintenance_mode'] as bool,
       emailVerification: json['email_verification'] as bool,
       phoneVerification: json['phone_verification'] as bool,
+      baseUrls: BaseUrlApiModel.fromJson(
+        json['base_urls'] as Map<String, dynamic>,
+      ),
     );
 
 Map<String, dynamic> _$ConfigApiModelToJson(ConfigApiModel instance) =>
@@ -24,4 +27,5 @@ Map<String, dynamic> _$ConfigApiModelToJson(ConfigApiModel instance) =>
       'maintenance_mode': instance.maintenanceMode,
       'email_verification': instance.emailVerification,
       'phone_verification': instance.phoneVerification,
+      'base_urls': instance.baseUrls.toJson(),
     };

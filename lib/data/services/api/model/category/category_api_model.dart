@@ -10,31 +10,15 @@ class const CategoryApiModel({
   required final int parentId,
   required final int position,
   required final int status,
-  required final int priority,
   required final String createdAt,
   required final String updatedAt,
   required final String image,
   required final String? bannerImage,
-  @JsonKey(name: 'childes', defaultValue: <CategoryApiModel>[])
-  required final List<CategoryApiModel> children,
 }) extends Equatable {
-  factory CategoryApiModel.fromJson(Map<String, dynamic> json) =>
-      _$CategoryApiModelFromJson(json);
+  factory CategoryApiModel.fromJson(Map<String, dynamic> json) => _$CategoryApiModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$CategoryApiModelToJson(this);
 
   @override
-  List<Object?> get props => [
-    id,
-    name,
-    parentId,
-    position,
-    status,
-    priority,
-    createdAt,
-    updatedAt,
-    image,
-    bannerImage,
-    children,
-  ];
+  List<Object?> get props => [id, name, parentId, position, status, createdAt, updatedAt, image, bannerImage];
 }
