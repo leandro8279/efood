@@ -15,6 +15,8 @@ class SharedPreferencesService {
     return _prefs.getBool(key) ?? false;
   }
 
+  List<String>? getStringList(String key) => _prefs.getStringList(key);
+
   Future<bool> setString(String key, String value) {
     return _prefs.setString(key, value);
   }

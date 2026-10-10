@@ -1,5 +1,6 @@
 export "auth_repository.dart";
 export "auth_session_repository.dart";
+export "cart_repository.dart";
 export "category_repository.dart";
 export "config_repository.dart";
 export "onboarding_repository.dart";

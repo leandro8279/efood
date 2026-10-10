@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:efood/utils/auth/auth_session_notifier.dart';
 import 'package:efood/data/repositories/auth/auth_repository_remote.dart';
 import 'package:efood/data/repositories/auth_session/auth_session_repository_local.dart';
+import 'package:efood/data/repositories/cart/cart_repository_local.dart';
 import 'package:efood/data/repositories/category/category_repository_remote.dart';
 import 'package:efood/data/repositories/config/config_repository_remote.dart';
 import 'package:efood/data/repositories/onboarding/onboarding_repository_local.dart';
@@ -47,6 +48,10 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
       permanent: true,
     );
     // Repositories (registrados pela abstração)
+    Get.put<CartRepository>(
+      CartRepositoryLocal(sharedPreferencesService: Get.find<SharedPreferencesService>()),
+      permanent: true,
+    );
     Get.put<ConfigRepository>(ConfigRepositoryRemote(splashApi: Get.find<SplashApi>()), permanent: true);
     Get.put<CategoryRepository>(
       CategoryRepositoryRemote(categoryApi: Get.find<CategoryApi>()),

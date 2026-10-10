@@ -4,5 +4,5 @@ final class StorageKeys._() {
   static const countryCode = '';
   static const languageCode = '';
   static const onBoardingSkip = 'on_boarding_skip';
-  static const cartList = '';
+  static const cartList = 'cart_list';
 }
