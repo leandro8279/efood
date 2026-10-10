@@ -21,14 +21,12 @@ class _CategoryApi implements CategoryApi {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<CategoryListApiModel> getCategories({
-    required String languageCode,
-  }) async {
+  Future<List<CategoryApiModel>> getCategories() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'X-localization': languageCode};
+    final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<CategoryListApiModel>(
+    final _options = _setStreamType<List<CategoryApiModel>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -38,10 +36,14 @@ class _CategoryApi implements CategoryApi {
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late CategoryListApiModel _value;
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<CategoryApiModel> _value;
     try {
-      _value = CategoryListApiModel.fromJson(_result.data!);
+      _value = _result.data!
+          .map(
+            (dynamic i) => CategoryApiModel.fromJson(i as Map<String, dynamic>),
+          )
+          .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options, response: _result);
       rethrow;
