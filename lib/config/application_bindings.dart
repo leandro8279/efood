@@ -6,6 +6,7 @@ import 'package:efood/data/repositories/category/category_repository_remote.dart
 import 'package:efood/data/repositories/config/config_repository_remote.dart';
 import 'package:efood/data/repositories/onboarding/onboarding_repository_local.dart';
 import 'package:efood/data/repositories/profile/profile_repository_remote.dart';
+import 'package:efood/data/repositories/set_menu/set_menu_repository_remote.dart';
 import 'package:efood/domain/repositories/repositories.dart';
 import 'package:efood/data/services/api/api.dart';
 import 'package:efood/data/services/local/local.dart';
@@ -38,6 +39,7 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     // Services (primeiro, para serem injetados nos repositories)
     Get.put<AuthApi>(AuthApi(Get.find()), permanent: true);
     Get.put<CategoryApi>(CategoryApi(Get.find()), permanent: true);
+    Get.put<SetMenuApi>(SetMenuApi(Get.find()), permanent: true);
     Get.put<ProfileApi>(ProfileApi(Get.find()), permanent: true);
     Get.put<SplashApi>(SplashApi(Get.find()), permanent: true);
     Get.put<OnboardingRepository>(
@@ -48,6 +50,10 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     Get.put<ConfigRepository>(ConfigRepositoryRemote(splashApi: Get.find<SplashApi>()), permanent: true);
     Get.put<CategoryRepository>(
       CategoryRepositoryRemote(categoryApi: Get.find<CategoryApi>()),
+      permanent: true,
+    );
+    Get.put<SetMenuRepository>(
+      SetMenuRepositoryRemote(setMenuApi: Get.find<SetMenuApi>()),
       permanent: true,
     );
     Get.put<SplashRepository>(
