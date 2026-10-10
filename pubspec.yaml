@@ -51,6 +51,7 @@ dependencies:
   pin_code_fields: ^10.1.1
   connectivity_plus: ^7.3.2
   shimmer_animation: ^2.2.2+1
+  intl: ^0.20.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
