@@ -74,11 +74,11 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
     );
   }
 
-  Scrollbar _scrollView(ScrollController _scrollController, BuildContext context) {
+  Scrollbar _scrollView(ScrollController scrollController, BuildContext context) {
     return Scrollbar(
-      controller: _scrollController,
+      controller: scrollController,
       child: CustomScrollView(
-        controller: _scrollController,
+        controller: scrollController,
         slivers: [
           SliverAppBar(
             floating: true,
@@ -198,16 +198,28 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Obx(() => CategoryView(categories: viewModel.categories, config: viewModel.config)),
-                        // Obx(
-                        //   () => SetMenuView(
-                        //     config: viewModel.config,
-                        //     setMenuProducts: viewModel.setMenuProducts,
-                        //     isLoading: viewModel.loadSetMenu.running.value,
-                        //   ),
-                        // ),
+                        Obx(
+                          () => CategoryView(
+                            config: viewModel.config,
+                            categories: viewModel.categories,
+                            isLoading: viewModel.loadCategories.running.value,
+                          ),
+                        ),
+                        Obx(
+                          () => SetMenuView(
+                            config: viewModel.config,
+                            setMenuProducts: viewModel.setMenuProducts,
+                            isLoading: viewModel.loadSetMenu.running.value,
+                          ),
+                        ),
 
-                        BannerView(),
+                        Obx(
+                          () => BannerView(
+                            config: viewModel.config,
+                            banners: viewModel.banners,
+                            isLoading: viewModel.loadBanners.running.value,
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                           child: TitleWidget(
