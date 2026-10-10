@@ -199,7 +199,13 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Obx(() => CategoryView(categories: viewModel.categories, config: viewModel.config)),
-                        SetMenuView(setMenuProducts: viewModel.setMenuProducts),
+                        // Obx(
+                        //   () => SetMenuView(
+                        //     config: viewModel.config,
+                        //     setMenuProducts: viewModel.setMenuProducts,
+                        //     isLoading: viewModel.loadSetMenu.running.value,
+                        //   ),
+                        // ),
 
                         BannerView(),
                         Padding(

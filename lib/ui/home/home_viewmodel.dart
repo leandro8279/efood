@@ -77,7 +77,7 @@ class HomeViewModel({
     loadCategories.execute();
     loadSetMenu.execute();
 
-    // ever(_setMenuProducts, (value) => print("$value has been changed (ever)"));
-    // ever(_categories, (value) => print("$value has been changed (ever)"));
+    ever(_setMenuProducts, (value) => print("$value has been changed (ever)"));
+    ever(_categories, (value) => print("$value has been changed (ever)"));
   }
 }
