@@ -33,7 +33,8 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
       permanent: true,
     );
     Get.put<Dio>(
-      Dio(BaseOptions(baseUrl: Environment.baseUrl))..interceptors.add(Get.find<AuthInterceptor>()),
+      Dio(BaseOptions(baseUrl: Environment.baseUrl)),
+      // ..interceptors.add(Get.find<AuthInterceptor>()),
       permanent: true,
     );
 
@@ -53,14 +54,8 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
       permanent: true,
     );
     Get.put<ConfigRepository>(ConfigRepositoryRemote(splashApi: Get.find<SplashApi>()), permanent: true);
-    Get.put<CategoryRepository>(
-      CategoryRepositoryRemote(categoryApi: Get.find<CategoryApi>()),
-      permanent: true,
-    );
-    Get.put<SetMenuRepository>(
-      SetMenuRepositoryRemote(setMenuApi: Get.find<SetMenuApi>()),
-      permanent: true,
-    );
+    Get.put<CategoryRepository>(CategoryRepositoryRemote(categoryApi: Get.find<CategoryApi>()), permanent: true);
+    Get.put<SetMenuRepository>(SetMenuRepositoryRemote(setMenuApi: Get.find<SetMenuApi>()), permanent: true);
     Get.put<SplashRepository>(
       SplashRepositoryRemote(splashApi: Get.find(), sharedPreferencesService: Get.find()),
       permanent: true,
