@@ -14,9 +14,5 @@ class AppConstants._() {
   static const String forgetUrl = "/auth/forgot-password";
   static const String verifyEmailUrl = "/auth/verify-email";
   static const String verifyPhoneUrl = "/auth/verify-phone";
-
-  static const List<Map<Object, String>> languages = [
-    {'countryCode': 'US', 'languageCode': 'en'},
-    {'countryCode': 'ES', 'languageCode': 'es'},
-  ];
+  static const String bannersUrl = "/banners";
 }
