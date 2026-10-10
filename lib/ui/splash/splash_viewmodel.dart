@@ -1,35 +1,19 @@
 import 'dart:async';
 
 import 'package:efood/domain/models/config/config.dart';
-import 'package:efood/domain/repositories/config_repository.dart';
 import 'package:efood/utils/auth/auth_session_notifier.dart';
-import 'package:efood/utils/command.dart';
-import 'package:efood/utils/result.dart';
+import 'package:efood/utils/config/config_notifier.dart';
 import 'package:get/get.dart';
 
 class SplashViewModel({
-  required final ConfigRepository _configRepository,
+  required final ConfigNotifier _configNotifier,
   required final AuthSessionNotifier _authSessionNotifier,
 }) extends GetxController {
-  late final loadConfig = Command0(_loadConfig);
-
-  Config? get config => loadConfig.complete ? _configRepository.config : null;
-
-  Future<Result<void>> _loadConfig() async {
-    final result = await _configRepository.getConfig();
-
-    switch (result) {
-      case Ok<Config>():
-        return Result.done;
-      case Error<Config>(:final error):
-        return Result.error(error);
-    }
-  }
+  Rxn<Config?> get config => _configNotifier.config;
 
   @override
   void onInit() {
     super.onInit();
     unawaited(_authSessionNotifier.restoreSession());
-    loadConfig.execute();
   }
 }

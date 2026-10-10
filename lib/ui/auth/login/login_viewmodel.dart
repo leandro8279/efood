@@ -1,14 +1,14 @@
 import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/domain/models/config/config.dart';
-import 'package:efood/domain/repositories/config_repository.dart';
 import 'package:efood/domain/use_cases/auth/auth_login_use_case.dart';
 import 'package:efood/utils/auth/auth_session_notifier.dart';
 import 'package:efood/utils/command.dart';
+import 'package:efood/utils/config/config_notifier.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
 class LoginViewModel({
-  required final ConfigRepository _configRepository,
+  required final ConfigNotifier _configNotifier,
   required final AuthLoginUseCase _loginUseCase,
   required final AuthSessionNotifier _sessionNotifier,
 }) extends GetxController {
@@ -17,7 +17,7 @@ class LoginViewModel({
 
   final _isActiveRememberMe = false.obs;
 
-  Config? get config => _configRepository.config;
+  Config? get config => _configNotifier.config.value;
   bool get isActiveRememberMe => _isActiveRememberMe.value;
 
   void toggleRememberMe() {
@@ -26,7 +26,7 @@ class LoginViewModel({
 
   Future<Result<void>> _login((String, String) credentials) async {
     final (emailOrPhone, password) = credentials;
-    final type = _configRepository.config.emailVerification ? "email" : "phone";
+    final type = _configNotifier.requireConfig.emailVerification ? "email" : "phone";
     final result = await _loginUseCase.login(type: type, emailOrPhone: emailOrPhone, password: password);
 
     switch (result) {

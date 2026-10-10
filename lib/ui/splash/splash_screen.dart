@@ -24,15 +24,13 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    _configWorker = ever(widget.viewModel.loadConfig.result, (_) => _onConfigCommandChanged());
+    _configWorker = ever(widget.viewModel.config, (_) => _onConfigChanged());
 
-    _onConfigCommandChanged();
+    _onConfigChanged();
   }
 
-  void _onConfigCommandChanged() {
-    final command = widget.viewModel.loadConfig;
-
-    if (!mounted || !command.complete || _navigated) return;
+  void _onConfigChanged() {
+    if (!mounted || widget.viewModel.config.value == null || _navigated) return;
 
     _navigated = true;
 

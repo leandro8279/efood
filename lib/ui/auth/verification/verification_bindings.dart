@@ -1,5 +1,6 @@
 import 'package:efood/domain/repositories/repositories.dart';
 import 'package:efood/ui/auth/verification/verification_viewmodel.dart';
+import 'package:efood/utils/config/config_notifier.dart';
 import 'package:get/get.dart';
 
 class VerificationBindings extends Bindings {
@@ -8,7 +9,7 @@ class VerificationBindings extends Bindings {
     Get.lazyPut<VerificationViewModel>(
       () => VerificationViewModel(
         authRepository: Get.find<AuthRepository>(),
-        configRepository: Get.find<ConfigRepository>(),
+        configNotifier: Get.find<ConfigNotifier>(),
       ),
     );
   }

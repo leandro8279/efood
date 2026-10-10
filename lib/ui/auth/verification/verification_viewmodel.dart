@@ -1,12 +1,13 @@
 import 'package:efood/domain/models/auth/auth_check_status.dart';
 import 'package:efood/domain/repositories/repositories.dart';
 import 'package:efood/utils/command.dart';
+import 'package:efood/utils/config/config_notifier.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
 class VerificationViewModel({
   required final AuthRepository _authRepository,
-  required final ConfigRepository _configRepository,
+  required final ConfigNotifier _configNotifier,
 }) extends GetxController {
   final _isEnableVerificationCode = false.obs;
   final _verificationCode = ''.obs;
@@ -14,8 +15,8 @@ class VerificationViewModel({
   late final resendCode = Command1<void, (String, bool)>(_resendCode);
   late final verifyCode = Command1<void, (String, String)>(_verifyCode);
 
-  bool get phoneVerification => _configRepository.config.phoneVerification;
-  bool get emailVerification => _configRepository.config.emailVerification;
+  bool get phoneVerification => _configNotifier.requireConfig.phoneVerification;
+  bool get emailVerification => _configNotifier.requireConfig.emailVerification;
   bool get isEnableVerificationCode => _isEnableVerificationCode.value;
   String get verificationCode => _verificationCode.value;
 

@@ -24,10 +24,6 @@ class DashboardViewModel() extends GetxController {
   void onInit() {
     super.onInit();
 
-    // if (_configRepository.config.policyModel == null) {
-    //   Provider.of<SplashProvider>(context, listen: false).getPolicyPage(context);
-    // }
-
     // Provider.of<OrderProvider>(context, listen: false).changeStatus(true);
     _pageIndex.value = int.tryParse(Get.parameters['pageIndex'] ?? '') ?? 0;
     _pageController = PageController(initialPage: _pageIndex.value);
