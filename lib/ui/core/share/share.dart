@@ -8,3 +8,4 @@ export "error_messages.dart";
 export "render_command_error.dart";
 export "render_conditional.dart";
 export "title_widget.dart";
+export "rating_bar.dart";
