@@ -1,3 +1,5 @@
+import 'package:efood/domain/models/category/category.dart';
+import 'package:efood/domain/models/config/config.dart';
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/app_dimens.dart';
 import 'package:efood/ui/core/theme/app_text_styles.dart';
@@ -5,9 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-class CategoryView extends StatelessWidget {
-  const new({super.key});
-
+class const CategoryView({super.key, required final List<Category> categories, required final Config? config})
+    extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -16,25 +17,24 @@ class CategoryView extends StatelessWidget {
           padding: EdgeInsets.fromLTRB(10, 20, 0, 10),
           child: TitleWidget(title: 'all_categories'.tr),
         ),
+
         Row(
           children: [
             Expanded(
               child: SizedBox(
                 height: 80,
                 child: RenderConditional(
-                  conditional: true, //category.categoryList != null
+                  conditional: categories.isNotEmpty,
                   widget1: RenderConditional(
-                    conditional: true, //category.categoryList.length > 0
+                    conditional: categories.isNotEmpty,
                     widget1: ListView.builder(
-                      itemCount: 0, //category.categoryList.length,
+                      itemCount: categories.length,
                       padding: EdgeInsets.only(left: AppDimens.paddingSmall),
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        String _name = '';
-                        // category.categoryList[index].name.length > 15
-                        //     ? _name = category.categoryList[index].name.substring(0, 15) + ' ...'
-                        //     : _name = category.categoryList[index].name;
+                        final currentName = categories[index].name;
+                        final name = currentName.length > 15 ? '${currentName.substring(0, 15)} ...' : currentName;
                         return Padding(
                           padding: EdgeInsets.only(right: AppDimens.paddingSmall),
                           child: InkWell(
@@ -49,10 +49,9 @@ class CategoryView extends StatelessWidget {
                                     width: 65,
                                     height: 65,
                                     fit: BoxFit.cover,
-                                    // image: Provider.of<SplashProvider>(context, listen: false).baseUrls != null
-                                    //     ? '${Provider.of<SplashProvider>(context, listen: false).baseUrls.categoryImageUrl}/${category.categoryList[index].image}'
-                                    //     : '',
-                                    image: "",
+                                    image: config != null
+                                        ? "${config!.baseUrls.categoryImageUrl}/${categories[index].image}"
+                                        : "",
                                     imageErrorBuilder: (c, o, s) => Image.asset(
                                       AppAssets.images.placeholderImage,
                                       width: 65,
@@ -65,7 +64,7 @@ class CategoryView extends StatelessWidget {
 
                                 Flexible(
                                   child: Text(
-                                    _name,
+                                    name,
                                     style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeSmall),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
@@ -79,7 +78,7 @@ class CategoryView extends StatelessWidget {
                     ),
                     widget2: Center(child: Text('no_category_available'.tr)),
                   ),
-                  widget2: CategoryShimmer(),
+                  widget2: CategoryShimmer(categories: categories),
                 ),
               ),
             ),
@@ -90,7 +89,7 @@ class CategoryView extends StatelessWidget {
   }
 }
 
-class const CategoryShimmer({super.key}) extends StatelessWidget {
+class const CategoryShimmer({super.key, required final List<Category> categories}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -106,7 +105,7 @@ class const CategoryShimmer({super.key}) extends StatelessWidget {
             padding: EdgeInsets.only(right: AppDimens.paddingSmall),
             child: Shimmer(
               duration: Duration(seconds: 2),
-              enabled: false, // Provider.of<CategoryProvider>(context).categoryList == null,
+              enabled: categories.isEmpty,
               child: Column(
                 children: [
                   Container(
@@ -126,7 +125,7 @@ class const CategoryShimmer({super.key}) extends StatelessWidget {
   }
 }
 
-class CategoryAllShimmer extends StatelessWidget {
+class const CategoryAllShimmer({super.key, required final List<Category> categories}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
