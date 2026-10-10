@@ -7,8 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-class const CategoryView({super.key, required final List<Category> categories, required final Config? config})
-    extends StatelessWidget {
+class const CategoryView({
+  super.key,
+  required final bool isLoading,
+  required final List<Category> categories,
+  required final Config? config,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,7 +28,7 @@ class const CategoryView({super.key, required final List<Category> categories, r
               child: SizedBox(
                 height: 80,
                 child: RenderConditional(
-                  conditional: categories.isNotEmpty,
+                  conditional: !isLoading,
                   widget1: RenderConditional(
                     conditional: categories.isNotEmpty,
                     widget1: ListView.builder(
