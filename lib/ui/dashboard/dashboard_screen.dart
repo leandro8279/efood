@@ -2,11 +2,16 @@ import 'package:efood/ui/core/share/render_conditional.dart';
 import 'package:efood/ui/core/theme/theme.dart';
 import 'package:efood/ui/dashboard/dashboard_viewmodel.dart';
 import 'package:efood/ui/home/home_screen.dart';
+import 'package:efood/ui/home/home_viewmodel.dart';
 import 'package:efood/utils/network_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class const DashboardScreen({super.key, required final DashboardViewModel viewModel}) extends StatefulWidget {
+class const DashboardScreen({
+  super.key,
+  required final DashboardViewModel viewModel,
+  required final HomeViewModel homeViewModel,
+}) extends StatefulWidget {
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
@@ -21,7 +26,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     super.initState();
 
     _screens = [
-      HomeScreen(result: true),
+      HomeScreen(result: true, viewModel: widget.homeViewModel),
       // CartScreen(),
       // OrderScreen(),
       // WishListScreen(),
