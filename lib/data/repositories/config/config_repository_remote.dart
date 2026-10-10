@@ -9,11 +9,6 @@ class ConfigRepositoryRemote({required final SplashApi _splashApi}) implements C
   Config? _cachedConfig;
   Future<Result<Config>>? _configRequest;
 
-  this {
-    getConfig();
-    print("ConfigRepositoryRemote");
-  }
-
   @override
   Config get config {
     final cachedConfig = _cachedConfig;
