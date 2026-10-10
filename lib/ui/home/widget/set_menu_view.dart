@@ -1,13 +1,21 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
+import 'package:efood/domain/models/config/config.dart';
 import 'package:efood/domain/models/product/product.dart';
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
+import 'package:efood/utils/date_converter.dart';
+import 'package:efood/utils/price_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-class const SetMenuView({super.key, required final List<Product> setMenuProducts}) extends StatelessWidget {
+class const SetMenuView({
+  super.key,
+  required final bool isLoading,
+  required final Config? config,
+  required final List<Product> setMenuProducts,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,7 +34,7 @@ class const SetMenuView({super.key, required final List<Product> setMenuProducts
           height: 220,
           child: Obx(
             () => RenderConditional(
-              conditional: setMenuProducts.isNotEmpty,
+              conditional: !isLoading,
               widget1: RenderConditional(
                 conditional: setMenuProducts.isNotEmpty,
                 widget1: ListView.builder(
@@ -35,35 +43,34 @@ class const SetMenuView({super.key, required final List<Product> setMenuProducts
                   padding: EdgeInsets.only(left: AppDimens.paddingSmall),
                   itemCount: setMenuProducts.length > 5 ? 5 : setMenuProducts.length,
                   itemBuilder: (context, index) {
-                    double _startingPrice;
-                    double _endingPrice;
-                    if (setMenuProducts[index].choiceOptions.isNotEmpty) {
-                      List<double> _priceList = [];
-                      setMenuProducts[index].variations.forEach((variation) => _priceList.add(variation.price));
-                      _priceList.sort((a, b) => a.compareTo(b));
-                      _startingPrice = _priceList[0];
-                      if (_priceList[0] < _priceList[_priceList.length - 1]) {
-                        _endingPrice = _priceList[_priceList.length - 1];
+                    final setMenuProduct = setMenuProducts[index];
+
+                    late double? startingPrice;
+                    late double? endingPrice = 0;
+                    if (setMenuProduct.choiceOptions.isNotEmpty) {
+                      List<double> priceList = [];
+                      setMenuProduct.variations.forEach((variation) => priceList.add(variation.price));
+                      priceList.sort((a, b) => a.compareTo(b));
+                      startingPrice = priceList[0];
+                      if (priceList[0] < priceList[priceList.length - 1]) {
+                        endingPrice = priceList[priceList.length - 1];
                       }
+                    } else {
+                      startingPrice = setMenuProduct.price;
                     }
-                    //  else {
-                    //   _startingPrice = setMenuProducts[index].price;
-                    // }
 
-                    // double _discount =
-                    //     setMenuProducts[index].price -
-                    //     PriceConverter.convertWithDiscount(
-                    //       context,
-                    //       setMenuProducts[index].price,
-                    //       setMenuProducts[index].discount,
-                    //       setMenuProducts[index].discountType,
-                    //     );
+                    double discount =
+                        setMenuProduct.price -
+                        PriceConverter.convertWithDiscount(
+                          price: setMenuProduct.price,
+                          discount: setMenuProduct.discount,
+                          discountType: setMenuProduct.discountType,
+                        );
 
-                    // bool _isAvailable = DateConverter.isAvailable(
-                    //   setMenuProducts[index].availableTimeStarts,
-                    //   setMenuProducts[index].availableTimeEnds,
-                    //   context,
-                    // );
+                    bool isAvailable = DateConverter.isAvailable(
+                      start: setMenuProduct.availableTimeStarts,
+                      end: setMenuProduct.availableTimeEnds,
+                    );
 
                     return Padding(
                       padding: EdgeInsets.only(right: AppDimens.paddingSmall, bottom: 5),
@@ -96,9 +103,8 @@ class const SetMenuView({super.key, required final List<Product> setMenuProducts
                                       height: 110,
                                       width: 170,
                                       fit: BoxFit.cover,
-                                      // image:
-                                      //     '${Provider.of<SplashProvider>(context, listen: false).baseUrls.productImageUrl}/${setMenu.setMenuList[index].image}',
-                                      image: "",
+                                      image: '${config?.baseUrls.productImageUrl}/${setMenuProduct.image}',
+
                                       imageErrorBuilder: (c, o, s) => Image.asset(
                                         AppAssets.images.placeholderRectangle,
                                         height: 110,
@@ -109,7 +115,7 @@ class const SetMenuView({super.key, required final List<Product> setMenuProducts
                                   ),
 
                                   RenderConditional(
-                                    conditional: true, //_isAvailable
+                                    conditional: isAvailable,
                                     widget1: SizedBox(),
                                     widget2: Positioned(
                                       top: 0,
@@ -144,7 +150,7 @@ class const SetMenuView({super.key, required final List<Product> setMenuProducts
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'setMenu.setMenuList[index].name',
+                                        setMenuProduct.name,
                                         style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeSmall),
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
@@ -152,10 +158,9 @@ class const SetMenuView({super.key, required final List<Product> setMenuProducts
                                       SizedBox(height: AppDimens.paddingExtraSmall),
 
                                       RatingBar(
-                                        rating: 0,
-                                        // setMenu.setMenuList[index].rating.length > 0
-                                        //  ? double.parse(setMenu.setMenuList[index].rating[0].average)
-                                        // : 0.0,
+                                        rating: setMenuProduct.rating.isNotEmpty
+                                            ? double.parse(setMenuProduct.rating[0]!.average)
+                                            : 0.0,
                                         size: 12,
                                       ),
                                       SizedBox(height: AppDimens.paddingExtraSmall),
@@ -165,16 +170,15 @@ class const SetMenuView({super.key, required final List<Product> setMenuProducts
                                         children: [
                                           Flexible(
                                             child: Text(
-                                              "",
-                                              //'${PriceConverter.convertPrice(context, _startingPrice, discount: setMenu.setMenuList[index].discount, discountType: setMenu.setMenuList[index].discountType)}'
-                                              //'${_endingPrice != null ? ' - ${PriceConverter.convertPrice(context, _endingPrice, discount: setMenu.setMenuList[index].discount, discountType: setMenu.setMenuList[index].discountType)}' : ''}',
+                                              '${PriceConverter.convertPrice(price: startingPrice, discount: setMenuProduct.discount, discountType: setMenuProduct.discountType, config: config)}'
+                                              '${' - ${PriceConverter.convertPrice(price: endingPrice, discount: setMenuProduct.discount, discountType: setMenuProduct.discountType, config: config)}'}',
                                               style: AppTextStyles.rubikBold.copyWith(
                                                 fontSize: AppDimens.fontSizeSmall,
                                               ),
                                             ),
                                           ),
                                           RenderConditional(
-                                            conditional: true, // _discount > 0
+                                            conditional: discount > 0,
                                             widget1: SizedBox(),
                                             widget2: Icon(Icons.add, color: AppTextStyles.bodyText1().color),
                                           ),
@@ -182,15 +186,14 @@ class const SetMenuView({super.key, required final List<Product> setMenuProducts
                                       ),
 
                                       RenderConditional(
-                                        conditional: true, // _discount > 0
+                                        conditional: discount > 0,
                                         widget1: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Flexible(
                                               child: Text(
-                                                "0",
-                                                //'${PriceConverter.convertPrice(context, _startingPrice)}'
-                                                //'${_endingPrice != null ? ' - ${PriceConverter.convertPrice(context, _endingPrice)}' : ''}',
+                                                '${PriceConverter.convertPrice(config: config, price: startingPrice)}'
+                                                '${' - ${PriceConverter.convertPrice(config: config, price: endingPrice)}'}',
                                                 style: AppTextStyles.rubikBold.copyWith(
                                                   fontSize: AppDimens.fontSizeExtraSmall,
                                                   color: AppColors.grey,
@@ -216,7 +219,7 @@ class const SetMenuView({super.key, required final List<Product> setMenuProducts
                 ),
                 widget2: Center(child: Text('no_set_menu_available'.tr)),
               ),
-              widget2: SetMenuShimmer(),
+              widget2: SetMenuShimmer(setMenuProducts: setMenuProducts),
             ),
           ),
         ),
@@ -225,7 +228,7 @@ class const SetMenuView({super.key, required final List<Product> setMenuProducts
   }
 }
 
-class const SetMenuShimmer({super.key}) extends StatelessWidget {
+class const SetMenuShimmer({super.key, required final List<Product> setMenuProducts}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -247,7 +250,7 @@ class const SetMenuShimmer({super.key}) extends StatelessWidget {
           child: Shimmer(
             duration: Duration(seconds: 1),
             interval: Duration(seconds: 1),
-            enabled: true, // Provider.of<SetMenuProvider>(context).setMenuList == null,
+            enabled: setMenuProducts.isEmpty,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
