@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:efood/data/repositories/banner/banner_repository_remote.dart';
+import 'package:efood/data/services/api/banner_api.dart';
 import 'package:efood/utils/auth/auth_session_notifier.dart';
 import 'package:efood/utils/config/config_notifier.dart';
 import 'package:efood/data/repositories/auth/auth_repository_remote.dart';
@@ -45,11 +47,12 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     Get.put<SetMenuApi>(SetMenuApi(Get.find()), permanent: true);
     Get.put<ProfileApi>(ProfileApi(Get.find()), permanent: true);
     Get.put<SplashApi>(SplashApi(Get.find()), permanent: true);
+    Get.put<BannerApi>(BannerApi(Get.find()), permanent: true);
+    // Repositories (registrados pela abstração)
     Get.put<OnboardingRepository>(
       OnboardingRepositoryLocal(sharedPreferencesService: Get.find<SharedPreferencesService>()),
       permanent: true,
     );
-    // Repositories (registrados pela abstração)
     Get.put<CartRepository>(
       CartRepositoryLocal(sharedPreferencesService: Get.find<SharedPreferencesService>()),
       permanent: true,
@@ -64,6 +67,7 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     );
     Get.put<ProfileRepository>(ProfileRepositoryRemote(profileApi: Get.find<ProfileApi>()), permanent: true);
     Get.put<AuthRepository>(AuthRepositoryRemote(authApi: Get.find()), permanent: true);
+    Get.put<BannerRepository>(BannerRepositoryRemote(bannerApi: Get.find()), permanent: true);
     // lazy: false,
     Get.put(
       AuthSessionNotifier(
