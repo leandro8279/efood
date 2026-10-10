@@ -83,10 +83,7 @@ class const ProductAddOnApiModel({
 }
 
 @JsonSerializable(fieldRename: FieldRename.snake)
-class const ProductCategoryIdApiModel({
-  required final String id,
-  required final int position,
-}) extends Equatable {
+class const ProductCategoryIdApiModel({required final String id, required final int position}) extends Equatable {
   factory ProductCategoryIdApiModel.fromJson(Map<String, dynamic> json) => _$ProductCategoryIdApiModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductCategoryIdApiModelToJson(this);

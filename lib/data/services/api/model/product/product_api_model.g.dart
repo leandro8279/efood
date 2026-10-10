@@ -6,7 +6,9 @@ part of 'product_api_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProductApiModel _$ProductApiModelFromJson(Map<String, dynamic> json) => ProductApiModel(
+ProductApiModel _$ProductApiModelFromJson(
+  Map<String, dynamic> json,
+) => ProductApiModel(
   id: (json['id'] as num).toInt(),
   name: json['name'] as String,
   description: json['description'] as String,
@@ -38,35 +40,38 @@ ProductApiModel _$ProductApiModelFromJson(Map<String, dynamic> json) => ProductA
   rating: json['rating'] as List<dynamic>,
 );
 
-Map<String, dynamic> _$ProductApiModelToJson(ProductApiModel instance) => <String, dynamic>{
-  'id': instance.id,
-  'name': instance.name,
-  'description': instance.description,
-  'image': instance.image,
-  'price': instance.price,
-  'variations': instance.variations,
-  'add_ons': instance.addOns.map((e) => e.toJson()).toList(),
-  'tax': instance.tax,
-  'available_time_starts': instance.availableTimeStarts,
-  'available_time_ends': instance.availableTimeEnds,
-  'status': instance.status,
-  'created_at': instance.createdAt,
-  'updated_at': instance.updatedAt,
-  'attributes': instance.attributes,
-  'category_ids': instance.categoryIds.map((e) => e.toJson()).toList(),
-  'choice_options': instance.choiceOptions,
-  'discount': instance.discount,
-  'discount_type': instance.discountType,
-  'tax_type': instance.taxType,
-  'set_menu': instance.setMenu,
-  'branch_id': instance.branchId,
-  'colors': instance.colors,
-  'popularity_count': instance.popularityCount,
-  'product_type': instance.productType,
-  'rating': instance.rating,
-};
+Map<String, dynamic> _$ProductApiModelToJson(ProductApiModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'description': instance.description,
+      'image': instance.image,
+      'price': instance.price,
+      'variations': instance.variations,
+      'add_ons': instance.addOns.map((e) => e.toJson()).toList(),
+      'tax': instance.tax,
+      'available_time_starts': instance.availableTimeStarts,
+      'available_time_ends': instance.availableTimeEnds,
+      'status': instance.status,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
+      'attributes': instance.attributes,
+      'category_ids': instance.categoryIds.map((e) => e.toJson()).toList(),
+      'choice_options': instance.choiceOptions,
+      'discount': instance.discount,
+      'discount_type': instance.discountType,
+      'tax_type': instance.taxType,
+      'set_menu': instance.setMenu,
+      'branch_id': instance.branchId,
+      'colors': instance.colors,
+      'popularity_count': instance.popularityCount,
+      'product_type': instance.productType,
+      'rating': instance.rating,
+    };
 
-ProductAddOnApiModel _$ProductAddOnApiModelFromJson(Map<String, dynamic> json) => ProductAddOnApiModel(
+ProductAddOnApiModel _$ProductAddOnApiModelFromJson(
+  Map<String, dynamic> json,
+) => ProductAddOnApiModel(
   id: (json['id'] as num).toInt(),
   name: json['name'] as String,
   price: (json['price'] as num).toDouble(),
@@ -75,7 +80,9 @@ ProductAddOnApiModel _$ProductAddOnApiModelFromJson(Map<String, dynamic> json) =
   translations: json['translations'] as List<dynamic>,
 );
 
-Map<String, dynamic> _$ProductAddOnApiModelToJson(ProductAddOnApiModel instance) => <String, dynamic>{
+Map<String, dynamic> _$ProductAddOnApiModelToJson(
+  ProductAddOnApiModel instance,
+) => <String, dynamic>{
   'id': instance.id,
   'name': instance.name,
   'price': instance.price,
@@ -84,13 +91,13 @@ Map<String, dynamic> _$ProductAddOnApiModelToJson(ProductAddOnApiModel instance)
   'translations': instance.translations,
 };
 
-ProductCategoryIdApiModel _$ProductCategoryIdApiModelFromJson(Map<String, dynamic> json) =>
-    ProductCategoryIdApiModel(
-      id: json['id'] as String,
-      position: (json['position'] as num).toInt(),
-    );
+ProductCategoryIdApiModel _$ProductCategoryIdApiModelFromJson(
+  Map<String, dynamic> json,
+) => ProductCategoryIdApiModel(
+  id: json['id'] as String,
+  position: (json['position'] as num).toInt(),
+);
 
-Map<String, dynamic> _$ProductCategoryIdApiModelToJson(ProductCategoryIdApiModel instance) => <String, dynamic>{
-  'id': instance.id,
-  'position': instance.position,
-};
+Map<String, dynamic> _$ProductCategoryIdApiModelToJson(
+  ProductCategoryIdApiModel instance,
+) => <String, dynamic>{'id': instance.id, 'position': instance.position};
