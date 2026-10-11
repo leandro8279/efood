@@ -83,3 +83,5 @@ class const ProductCategoryId({required final String id, required final int posi
   @override
   List<Object?> get props => [id, position];
 }
+
+enum ProductType { latestProduct, popularProduct }
