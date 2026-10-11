@@ -9,3 +9,5 @@ export "render_command_error.dart";
 export "render_conditional.dart";
 export "title_widget.dart";
 export "rating_bar.dart";
+export 'product_widget.dart';
+export 'product_shimmer.dart';
