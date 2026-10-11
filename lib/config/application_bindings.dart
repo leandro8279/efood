@@ -10,6 +10,7 @@ import 'package:efood/data/repositories/category/category_repository_remote.dart
 import 'package:efood/data/repositories/config/config_repository_remote.dart';
 import 'package:efood/data/repositories/onboarding/onboarding_repository_local.dart';
 import 'package:efood/data/repositories/profile/profile_repository_remote.dart';
+import 'package:efood/data/repositories/product/product_repository_remote.dart';
 import 'package:efood/data/repositories/set_menu/set_menu_repository_remote.dart';
 import 'package:efood/domain/repositories/repositories.dart';
 import 'package:efood/data/services/api/api.dart';
@@ -46,6 +47,7 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     Get.put<CategoryApi>(CategoryApi(Get.find()), permanent: true);
     Get.put<SetMenuApi>(SetMenuApi(Get.find()), permanent: true);
     Get.put<ProfileApi>(ProfileApi(Get.find()), permanent: true);
+    Get.put<ProductApi>(ProductApi(Get.find()), permanent: true);
     Get.put<SplashApi>(SplashApi(Get.find()), permanent: true);
     Get.put<BannerApi>(BannerApi(Get.find()), permanent: true);
     // Repositories (registrados pela abstração)
@@ -61,6 +63,10 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     Get.put<ConfigNotifier>(ConfigNotifier(configRepository: Get.find<ConfigRepository>()), permanent: true);
     Get.put<CategoryRepository>(CategoryRepositoryRemote(categoryApi: Get.find<CategoryApi>()), permanent: true);
     Get.put<SetMenuRepository>(SetMenuRepositoryRemote(setMenuApi: Get.find<SetMenuApi>()), permanent: true);
+    Get.put<ProductRepository>(
+      ProductRepositoryRemote(productApi: Get.find<ProductApi>()),
+      permanent: true,
+    );
     Get.put<SplashRepository>(
       SplashRepositoryRemote(splashApi: Get.find(), sharedPreferencesService: Get.find()),
       permanent: true,

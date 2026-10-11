@@ -4,6 +4,9 @@ class AppConstants._() {
   static const String configUrl = '/config';
   static const String categoriesUrl = '/categories';
   static const String setMenuProductsUrl = '/products/set-menu';
+  static const String latestProductsUrl = '/products/latest';
+  static const String popularProductsUrl = '/products/popular';
+  static const String productDetailsUrl = '/products/details/{productId}';
   static const String customerInfoUrl = '/customer/info';
   static const String updateProfileUrl = '/customer/update-profile';
   static const String policyPage = '/policy-page';
