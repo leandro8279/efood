@@ -11,10 +11,11 @@ import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
 class HomeViewModel({
-  required final CategoryRepository _categoryRepository,
   required final ConfigNotifier _configNotifier,
-  required final SetMenuRepository _setMenuRepository,
   required final BannerRepository _bannerRepository,
+  required final ProductRepository _productRepository,
+  required final SetMenuRepository _setMenuRepository,
+  required final CategoryRepository _categoryRepository,
 }) extends GetxController {
   final _log = AppLogger('HomeViewModel');
   final RxList<Banner> _banners = <Banner>[].obs;

@@ -12,6 +12,7 @@ class DashboardBindings extends Bindings {
       HomeViewModel(
         configNotifier: Get.find<ConfigNotifier>(),
         bannerRepository: Get.find<BannerRepository>(),
+        productRepository: Get.find<ProductRepository>(),
         setMenuRepository: Get.find<SetMenuRepository>(),
         categoryRepository: Get.find<CategoryRepository>(),
       ),
