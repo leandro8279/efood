@@ -1,9 +1,11 @@
 import 'package:efood/config/constants.dart';
+import 'package:efood/domain/models/product/product.dart';
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
 import 'package:efood/ui/home/home_viewmodel.dart';
 import 'package:efood/ui/home/widget/banner_view.dart';
 import 'package:efood/ui/home/widget/category_view.dart';
+import 'package:efood/ui/home/widget/product_view.dart';
 import 'package:efood/ui/home/widget/set_menu_view.dart';
 import 'package:efood/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,7 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
       key: drawerGlobalKey,
       endDrawerEnableOpenDragGesture: false,
       backgroundColor: AppColors.getBackground(),
-      // drawer: ResponsiveHelper.isTab(context) ? Drawer(child: OptionsView(onTap: null)) : SizedBox(),
+      drawer: ResponsiveHelper.isTab(context) ? Text("Drawer 1") : Text("Drawer 2"),
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {},
@@ -39,9 +41,22 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
                       padding: const EdgeInsets.symmetric(vertical: AppDimens.paddingExtraSmall),
                       alignment: Alignment.center,
                       color: Theme.of(context).primaryColor.withOpacity(0.9),
-                      child: Text(
-                        'restaurant_is_close_now'.tr,
-                        style: AppTextStyles.rubikRegular.copyWith(fontSize: 12, color: Colors.white),
+                      child: Row(
+                        children: [
+                          Text(
+                            'restaurant_is_close_now'.tr,
+                            style: AppTextStyles.rubikRegular.copyWith(fontSize: 12, color: Colors.white),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              //  orderProvider.changeStatus(false, notify: true)
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: AppDimens.paddingSmall),
+                              child: Icon(Icons.cancel_outlined, color: Colors.white, size: AppDimens.paddingLarge),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -210,13 +225,31 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
                             },
                           ),
                         ),
-                        // ProductView(productType: ProductType.POPULAR_PRODUCT),
+                        ProductView(
+                          isLoading: true,
+                          latestOffset: 0,
+                          latestPageSize: 0,
+                          config: viewModel.config,
+                          productType: ProductType.popularProduct,
+                          products: [],
+                        ),
 
                         Padding(
                           padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                           child: TitleWidget(title: 'latest_item'.tr),
                         ),
-                        // ProductView(productType: ProductType.LATEST_PRODUCT, scrollController: _scrollController),
+                        ProductView(
+                          config: viewModel.config,
+                          isLoading: true,
+                          latestOffset: 0,
+                          latestPageSize: 0,
+                          products: [],
+                          setLatestOffset: (value) => {},
+                          showBottomLoader: () => {},
+                          reloadLatestProductList: () => {},
+                          scrollController: scrollController,
+                          productType: ProductType.latestProduct,
+                        ),
                       ],
                     ),
                   ),
