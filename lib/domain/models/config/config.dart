@@ -1,4 +1,5 @@
 import 'package:efood/domain/models/config/base_url.dart';
+import 'package:efood/domain/models/config/restaurant_schedule_time.dart';
 import 'package:equatable/equatable.dart';
 
 class const Config({
@@ -11,6 +12,7 @@ class const Config({
   required final BaseUrl baseUrls,
   required final int decimalPointSettings,
   required final String currencySymbolPosition,
+  required final List<RestaurantScheduleTime> restaurantScheduleTime,
 }) extends Equatable {
   @override
   List<Object?> get props => [
@@ -23,5 +25,6 @@ class const Config({
     baseUrls,
     currencySymbolPosition,
     decimalPointSettings,
+    restaurantScheduleTime,
   ];
 }

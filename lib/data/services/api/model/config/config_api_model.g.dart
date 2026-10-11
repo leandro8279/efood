@@ -19,6 +19,14 @@ ConfigApiModel _$ConfigApiModelFromJson(Map<String, dynamic> json) =>
       ),
       decimalPointSettings: (json['decimal_point_settings'] as num).toInt(),
       currencySymbolPosition: json['currency_symbol_position'] as String,
+      restaurantScheduleTime:
+          (json['restaurant_schedule_time'] as List<dynamic>)
+              .map(
+                (e) => RestaurantScheduleTimeApiModel.fromJson(
+                  e as Map<String, dynamic>,
+                ),
+              )
+              .toList(),
     );
 
 Map<String, dynamic> _$ConfigApiModelToJson(ConfigApiModel instance) =>
@@ -32,4 +40,7 @@ Map<String, dynamic> _$ConfigApiModelToJson(ConfigApiModel instance) =>
       'base_urls': instance.baseUrls.toJson(),
       'decimal_point_settings': instance.decimalPointSettings,
       'currency_symbol_position': instance.currencySymbolPosition,
+      'restaurant_schedule_time': instance.restaurantScheduleTime
+          .map((e) => e.toJson())
+          .toList(),
     };

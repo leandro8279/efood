@@ -28,44 +28,25 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
           child: Stack(
             children: [
               _scrollView(_scrollController, context),
-              RenderConditional(
-                conditional: true, //!splashProvider.isRestaurantOpenNow(context)
-                widget1: Positioned(
-                  bottom: AppDimens.paddingExtraSmall,
-                  left: 0,
-                  right: 0,
-                  child: RenderConditional(
-                    conditional: false, //  orderProvider.isRestaurantCloseShow
-                    widget1: Container(
+              Obx(
+                () => RenderConditional(
+                  conditional: viewModel.config != null && !viewModel.isRestaurantOpenNow(),
+                  widget1: Positioned(
+                    bottom: AppDimens.paddingExtraSmall,
+                    left: 0,
+                    right: 0,
+                    child: Container(
                       padding: const EdgeInsets.symmetric(vertical: AppDimens.paddingExtraSmall),
                       alignment: Alignment.center,
                       color: Theme.of(context).primaryColor.withOpacity(0.9),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: AppDimens.paddingDefault),
-                            child: Text(
-                              'restaurant_is_close_now'.tr,
-                              style: AppTextStyles.rubikRegular.copyWith(fontSize: 12, color: Colors.white),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              // orderProvider.changeStatus(false, notify: true)
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: AppDimens.paddingSmall),
-                              child: Icon(Icons.cancel_outlined, color: Colors.white, size: AppDimens.paddingLarge),
-                            ),
-                          ),
-                        ],
+                      child: Text(
+                        'restaurant_is_close_now'.tr,
+                        style: AppTextStyles.rubikRegular.copyWith(fontSize: 12, color: Colors.white),
                       ),
                     ),
-                    widget2: SizedBox(),
                   ),
+                  widget2: const SizedBox.shrink(),
                 ),
-                widget2: SizedBox(),
               ),
             ],
           ),

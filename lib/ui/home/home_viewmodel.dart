@@ -26,6 +26,8 @@ class HomeViewModel({
   Config? get config => _configNotifier.config.value;
   List<Product> get setMenuProducts => _setMenuProducts;
 
+  bool isRestaurantOpenNow() => _configNotifier.isRestaurantOpenNow();
+
   late final loadBanners = Command0<List<Banner>>(_loadBanners);
   late final loadSetMenu = Command0<List<Product>>(_loadSetMenu);
   late final loadCategories = Command0<List<Category>>(_loadCategories);

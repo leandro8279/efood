@@ -1,4 +1,5 @@
 import 'package:efood/data/services/api/model/config/base_url_api_model.dart';
+import 'package:efood/data/services/api/model/config/restaurant_schedule_time_api_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:equatable/equatable.dart';
 
@@ -15,6 +16,7 @@ class const ConfigApiModel({
   required final BaseUrlApiModel baseUrls,
   required final int decimalPointSettings,
   required final String currencySymbolPosition,
+  required final List<RestaurantScheduleTimeApiModel> restaurantScheduleTime,
 }) extends Equatable {
   factory ConfigApiModel.fromJson(Map<String, dynamic> json) {
     return _$ConfigApiModelFromJson(json);
@@ -33,5 +35,6 @@ class const ConfigApiModel({
     baseUrls,
     decimalPointSettings,
     currencySymbolPosition,
+    restaurantScheduleTime,
   ];
 }
