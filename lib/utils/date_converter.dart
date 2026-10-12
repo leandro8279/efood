@@ -1,14 +1,17 @@
+import 'package:efood/utils/notifiers/config_notifier.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class DateConverter._() {
-  static String formatDate({required DateTime dateTime, required String timeFormat, bool isSecond = true}) {
-    return isSecond
-        ? DateFormat('yyyy-MM-dd ${_timeFormatter(timeFormat: timeFormat)}:ss').format(dateTime)
-        : DateFormat('yyyy-MM-dd ${_timeFormatter(timeFormat: timeFormat)}').format(dateTime);
+  static String formatDate({required DateTime dateTime, bool isSecond = true}) {
+    if (isSecond) {
+      DateFormat('yyyy-MM-dd ${_timeFormatter()}:ss').format(dateTime);
+    }
+    return DateFormat('yyyy-MM-dd ${_timeFormatter()}').format(dateTime);
   }
 
-  static String dateToTimeOnly({required DateTime dateTime, required String timeFormat}) {
-    return DateFormat(_timeFormatter(timeFormat: timeFormat)).format(dateTime);
+  static String dateToTimeOnly({required DateTime dateTime}) {
+    return DateFormat(_timeFormatter()).format(dateTime);
   }
 
   static String estimatedDate(DateTime dateTime) {
@@ -19,8 +22,8 @@ class DateConverter._() {
     return DateFormat("yyyy-MM-ddTHH:mm:ss.SSS").parse(dateTime);
   }
 
-  static String localDateToIsoStringAMPM({required DateTime dateTime, required String timeFormat}) {
-    return DateFormat('yyyy-MM-dd ${_timeFormatter(timeFormat: timeFormat)}').format(dateTime);
+  static String localDateToIsoStringAMPM({required DateTime dateTime}) {
+    return DateFormat('yyyy-MM-dd ${_timeFormatter()}').format(dateTime);
   }
 
   static DateTime isoStringToLocalDate(String dateTime) {
@@ -43,8 +46,8 @@ class DateConverter._() {
     return DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').format(dateTime.toUtc());
   }
 
-  static String convertTimeToTime({required String time, required String timeFormat}) {
-    return DateFormat(_timeFormatter(timeFormat: timeFormat)).format(DateFormat('HH:mm').parse(time));
+  static String convertTimeToTime({required String time}) {
+    return DateFormat(_timeFormatter()).format(DateFormat('HH:mm').parse(time));
   }
 
   static bool isAvailable({required String start, required String end, DateTime? time}) {
@@ -89,14 +92,10 @@ class DateConverter._() {
     return DateFormat('HH:mm:ss').parse(time);
   }
 
-  static String deliveryDateAndTimeToDate({
-    required String deliveryDate,
-    required String deliveryTime,
-    required String timeFormat,
-  }) {
+  static String deliveryDateAndTimeToDate({required String deliveryDate, required String deliveryTime}) {
     DateTime date = DateFormat('yyyy-MM-dd').parse(deliveryDate);
     DateTime time = DateFormat('HH:mm').parse(deliveryTime);
-    return '${DateFormat('dd-MMM-yyyy').format(date)} ${DateFormat(_timeFormatter(timeFormat: timeFormat)).format(time)}';
+    return '${DateFormat('dd-MMM-yyyy').format(date)} ${DateFormat(_timeFormatter()).format(time)}';
   }
 
   static DateTime convertStringTimeToDate(String time) {
@@ -107,8 +106,10 @@ class DateConverter._() {
     return DateFormat('EEEE  hh:mm aa').format(date);
   }
 
-  static String _timeFormatter({required String timeFormat}) {
-    return timeFormat == '24' ? 'HH:mm' : 'hh:mm a';
+  static String _timeFormatter() {
+    final configNotifier = Get.find<ConfigNotifier>();
+
+    return configNotifier.config.value?.timeFormat == '24' ? 'HH:mm' : 'hh:mm a';
   }
 
   static String getWeekName(String index) {

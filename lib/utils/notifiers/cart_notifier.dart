@@ -2,7 +2,7 @@ import 'package:efood/domain/models/cart/cart.dart';
 import 'package:efood/domain/models/product/product.dart';
 import 'package:efood/domain/repositories/cart_repository.dart';
 import 'package:efood/utils/app_exception.dart';
-import 'package:efood/utils/auth/auth_session_notifier.dart';
+import 'package:efood/utils/notifiers/auth_session_notifier.dart';
 import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
@@ -20,7 +20,7 @@ class CartNotifier({
   bool get isCartUpdate => _isCartUpdate.value;
   bool get isSignedIn => _authSessionNotifier.isSignedIn;
 
-  int isExistInCart(int productId, String variationType, bool isUpdate, int cartIndex) {
+  int isExistInCart(int productId, String variationType, bool isUpdate, int? cartIndex) {
     for (var index = 0; index < _carts.length; index++) {
       final cart = _carts[index];
       if (cart.product.id == productId && _matchesVariationType(cart, variationType)) {
@@ -148,10 +148,7 @@ class CartNotifier({
     }
 
     final currentCart = _carts[index];
-    final updatedCart = _copyCart(
-      currentCart,
-      quantity: currentCart.quantity + (isIncrement ? 1 : -1),
-    );
+    final updatedCart = _copyCart(currentCart, quantity: currentCart.quantity + (isIncrement ? 1 : -1));
 
     return addToCart(updatedCart, index);
   }
@@ -169,10 +166,7 @@ class CartNotifier({
 
   void _setCartData(List<Cart> carts) {
     _carts.assignAll(carts);
-    _amount.value = carts.fold(
-      0.0,
-      (amount, cart) => amount + (cart.discountedPrice * cart.quantity),
-    );
+    _amount.value = carts.fold(0.0, (amount, cart) => amount + (cart.discountedPrice * cart.quantity));
   }
 
   @override
