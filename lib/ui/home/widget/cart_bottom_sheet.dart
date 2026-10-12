@@ -254,29 +254,22 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  // if (!productProvider.addOnActiveList[index]) {
-                  //   productProvider.addAddOn(true, index);
-                  // } else if (productProvider.addOnQtyList[index] == 1) {
-                  //   productProvider.addAddOn(false, index);
-                  // }
+                  if (!productNotifier.addOnActiveList[index]) {
+                    // productNotifier.addAddOn(true, index);
+                  } else if (productNotifier.addOnQtyList[index] == 1) {
+                    // productNotifier.addAddOn(false, index);
+                  }
                 },
 
                 child: Container(
                   alignment: Alignment.center,
-                  margin: EdgeInsets.only(
-                    bottom:
-                        true // productProvider.addOnActiveList[index]
-                        ? 2
-                        : 20,
-                  ),
+                  margin: EdgeInsets.only(bottom: productNotifier.addOnActiveList[index] ? 2 : 20),
                   decoration: BoxDecoration(
-                    color:
-                        true // productProvider.addOnActiveList[index]
+                    color: productNotifier.addOnActiveList[index]
                         ? Theme.of(context).primaryColor
                         : AppColors.background,
                     borderRadius: BorderRadius.circular(5),
-                    boxShadow:
-                        true // productProvider.addOnActiveList[index]
+                    boxShadow: productNotifier.addOnActiveList[index]
                         ? [
                             BoxShadow(
                               color: Get.isDarkMode ? Colors.grey.shade900 : Colors.grey.shade300,
@@ -298,10 +291,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.center,
                               style: AppTextStyles.rubikMedium.copyWith(
-                                color:
-                                    true // productProvider.addOnActiveList[index]
-                                    ? AppColors.white
-                                    : AppColors.black,
+                                color: productNotifier.addOnActiveList[index] ? AppColors.white : AppColors.black,
                                 fontSize: AppDimens.fontSizeSmall,
                               ),
                             ),
@@ -314,10 +304,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppTextStyles.rubikRegular.copyWith(
-                                color:
-                                    true // productProvider.addOnActiveList[index]
-                                    ? AppColors.white
-                                    : AppColors.black,
+                                color: productNotifier.addOnActiveList[index] ? AppColors.white : AppColors.black,
                                 fontSize: AppDimens.fontSizeExtraSmall,
                               ),
                             ),
@@ -325,7 +312,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                         ),
                       ),
                       RenderConditional(
-                        conditional: true, //  productProvider.addOnActiveList[index]
+                        conditional: productNotifier.addOnActiveList[index],
                         widget1: Container(
                           height: 25,
                           decoration: BoxDecoration(
@@ -338,23 +325,23 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                               Expanded(
                                 child: InkWell(
                                   onTap: () {
-                                    // if (productProvider.addOnQtyList[index] > 1) {
-                                    //   productProvider.setAddOnQuantity(false, index);
-                                    // } else {
-                                    //   productProvider.addAddOn(false, index);
-                                    // }
+                                    if (productNotifier.addOnQtyList[index] > 1) {
+                                      // productNotifier.setAddOnQuantity(false, index);
+                                    } else {
+                                      // productNotifier.addAddOn(false, index);
+                                    }
                                   },
                                   child: Center(child: Icon(Icons.remove, size: 15)),
                                 ),
                               ),
                               Text(
-                                '', // productProvider.addOnQtyList[index].toString(),
+                                productNotifier.addOnQtyList[index].toString(),
                                 style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeSmall),
                               ),
                               Expanded(
                                 child: InkWell(
                                   onTap: () {
-                                    // productProvider.setAddOnQuantity(true, index)
+                                    // productNotifier.setAddOnQuantity(true, index);
                                   },
                                   child: Center(child: Icon(Icons.add, size: 15)),
                                 ),
@@ -420,8 +407,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                     alignment: Alignment.center,
                     padding: EdgeInsets.symmetric(horizontal: AppDimens.paddingExtraSmall),
                     decoration: BoxDecoration(
-                      color:
-                          true // productProvider.variationIndex[index] != i
+                      color: productNotifier.variationIndex[index] != i
                           ? AppColors.background
                           : Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(5),
@@ -431,10 +417,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: AppTextStyles.rubikRegular.copyWith(
-                        color:
-                            true // productProvider.variationIndex[index] != i
-                            ? AppColors.black
-                            : AppColors.white,
+                        color: productNotifier.variationIndex[index] != i ? AppColors.black : AppColors.white,
                       ),
                     ),
                   ),
@@ -631,27 +614,26 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
   }
 
   Widget _quantityButton(BuildContext context, Cart cartModel) {
-    // final productProvider = Provider.of<ProductProvider>(context, listen: false);
     return Container(
       decoration: BoxDecoration(color: AppColors.background, borderRadius: BorderRadius.circular(5)),
       child: Row(
         children: [
           InkWell(
-            onTap: () => null, //  productProvider.quantity > 1 ? productProvider.setQuantity(false) : null,
+            onTap: () {
+              productNotifier.quantity.value > 1 ? productNotifier.setQuantity(false) : null;
+            },
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: AppDimens.paddingSmall, vertical: AppDimens.paddingExtraSmall),
               child: Icon(Icons.remove, size: 20),
             ),
           ),
           Text(
-            '', //  productProvider.quantity.toString(),
+            productNotifier.quantity.toString(),
             style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeExtraSmall),
           ),
 
           InkWell(
-            onTap: () {
-              // productProvider.setQuantity(true)
-            },
+            onTap: () => productNotifier.setQuantity(true),
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: AppDimens.paddingSmall, vertical: AppDimens.paddingExtraSmall),
               child: Icon(Icons.add, size: 20),
