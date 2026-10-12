@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:efood/domain/models/config/config.dart';
-import 'package:efood/utils/auth/auth_session_notifier.dart';
-import 'package:efood/utils/config/config_notifier.dart';
+import 'package:efood/utils/notifiers/auth_session_notifier.dart';
+import 'package:efood/utils/notifiers/config_notifier.dart';
 import 'package:get/get.dart';
 
 class SplashViewModel({
