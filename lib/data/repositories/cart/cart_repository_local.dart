@@ -10,53 +10,29 @@ import "package:efood/data/services/local/mappers/cart_local_model_mapper.dart";
 
 class CartRepositoryLocal({required final SharedPreferencesService _sharedPreferencesService})
     implements CartRepository {
-  final StreamController<List<Cart>> _cartUpdates = StreamController<List<Cart>>.broadcast();
-  List<Cart>? _cachedCartList;
-
   @override
   Result<List<Cart>> getCartList() {
-    final cachedCartList = _cachedCartList;
-    if (cachedCartList != null) {
-      return Result.ok(cachedCartList);
-    }
-
+    List<String> carts = [];
     try {
-      final carts = _sharedPreferencesService.getStringList(StorageKeys.cartList) ?? const <String>[];
-      final cartList = carts.map((s) => s.toDomain()).toList();
-      _cachedCartList = List<Cart>.unmodifiable(cartList);
-      return Result.ok(_cachedCartList!);
+       if(_sharedPreferencesService.contains(StorageKeys.cartList))){
+       carts = _sharedPreferencesService.getStringList(StorageKeys.cartList)!; 
+      }
+      final cartList = carts
+        .map((s) => CartLocalModel.fromJson(
+              jsonDecode(s) as Map<String, dynamic>,
+            ).toDomain())
+        .toList();
+      return Result.ok(cartList);
     } catch (e, st) {
       return Result.error(StorageException(cause: e, stackTrace: st));
     }
   }
 
   @override
-  Stream<List<Cart>> watchCartList() {
-    return Stream<List<Cart>>.multi((controller) {
-      final updatesSubscription = _cartUpdates.stream.listen(controller.add, onError: controller.addError);
-      controller.onCancel = updatesSubscription.cancel;
-
-      switch (getCartList()) {
-        case Ok<List<Cart>>(:final value):
-          controller.add(value);
-        case Error<List<Cart>>(:final error):
-          controller.addError(error, error.stackTrace);
-      }
-    });
-  }
-
-  @override
-  Future<Result<void>> addToCartList(List<Cart> cartProductList) async {
+  Result<void> addToCartList(List<Cart> cartProductList) {
     try {
-      final cartList = List<Cart>.unmodifiable(cartProductList);
       final carts = cartProductList.map((cart) => jsonEncode(CartLocalModel.fromDomain(cart).toJson())).toList();
-      final saved = await _sharedPreferencesService.setStringList(StorageKeys.cartList, carts);
-      if (!saved) {
-        return Result.error(StorageException(cause: StateError('Could not save the cart list.')));
-      }
-
-      _cachedCartList = cartList;
-      _cartUpdates.add(cartList);
+_sharedPreferencesService.setStringList(StorageKeys.cartList, carts);
       return Result.done;
     } catch (e, st) {
       return Result.error(StorageException(cause: e, stackTrace: st));
