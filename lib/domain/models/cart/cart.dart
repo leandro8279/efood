@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 class const Cart({
   required final double price,
   required final double discountedPrice,
-  required final List<Object?> variation,
+  required final List<ProductVariation?> variation,
   required final double discountAmount,
   required final int quantity,
   required final double taxAmount,

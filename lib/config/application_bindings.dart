@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:efood/data/repositories/banner/banner_repository_remote.dart';
 import 'package:efood/data/services/api/banner_api.dart';
 import 'package:efood/utils/auth/auth_session_notifier.dart';
+import 'package:efood/utils/cart/cart_notifier.dart';
 import 'package:efood/utils/config/config_notifier.dart';
 import 'package:efood/data/repositories/auth/auth_repository_remote.dart';
 import 'package:efood/data/repositories/auth_session/auth_session_repository_local.dart';
@@ -79,6 +80,13 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
       AuthSessionNotifier(
         authSessionRepository: Get.find<AuthSessionRepository>(),
         sessionEnded: Get.find<AuthInterceptor>().onUnauthorized,
+      ),
+      permanent: true,
+    );
+    Get.put<CartNotifier>(
+      CartNotifier(
+        authSessionNotifier: Get.find<AuthSessionNotifier>(),
+        cartRepository: Get.find<CartRepository>(),
       ),
       permanent: true,
     );
