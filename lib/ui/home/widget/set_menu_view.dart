@@ -1,11 +1,13 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
 
+import 'package:efood/domain/models/cart/cart.dart';
 import 'package:efood/domain/models/config/config.dart';
 import 'package:efood/domain/models/product/product.dart';
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
 import 'package:efood/ui/home/widget/cart_bottom_sheet.dart';
 import 'package:efood/utils/date_converter.dart';
+import 'package:efood/utils/notifiers/cart_notifier.dart';
 import 'package:efood/utils/price_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,6 +19,8 @@ class const SetMenuView({
   required final Config? config,
   required final List<Product> setMenuProducts,
 }) extends StatelessWidget {
+  CartNotifier get cartNotifier => Get.find<CartNotifier>();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -72,6 +76,7 @@ class const SetMenuView({
                       start: setMenuProduct.availableTimeStarts,
                       end: setMenuProduct.availableTimeEnds,
                     );
+                    int? cartIndex = cartNotifier.getCartIndex(setMenuProduct);
 
                     return Padding(
                       padding: EdgeInsets.only(right: AppDimens.paddingSmall, bottom: 5),
@@ -82,11 +87,11 @@ class const SetMenuView({
                             isScrollControlled: true,
                             backgroundColor: Colors.transparent,
                             builder: (con) => CartBottomSheet(
-                              product: setMenu.setMenuList[index],
                               fromSetMenu: true,
-                              cart: _cartIndex != null ? _cartProvider.cartList[_cartIndex] : null,
-                              // cartIndex: _cartIndex,
-                              callback: (CartModel cartModel) {
+                              cartIndex: cartIndex,
+                              product: setMenuProduct,
+                              cart: cartIndex != null ? cartNotifier.carts[cartIndex] : null,
+                              callback: (Cart cartModel) {
                                 showCustomSnackBar('added_to_cart'.tr, context, isError: false);
                               },
                             ),
@@ -186,7 +191,7 @@ class const SetMenuView({
                                         children: [
                                           Flexible(
                                             child: Text(
-                                              '${startingPrice != null ? PriceConverter.convertPrice(price: startingPrice, discount: setMenuProduct.discount, discountType: setMenuProduct.discountType, config: config) : ''} '
+                                              '${PriceConverter.convertPrice(price: startingPrice, discount: setMenuProduct.discount, discountType: setMenuProduct.discountType, config: config)} '
                                               '${endingPrice != null ? ' - ${PriceConverter.convertPrice(price: endingPrice, discount: setMenuProduct.discount, discountType: setMenuProduct.discountType, config: config)}' : ""}',
                                               style: AppTextStyles.rubikBold.copyWith(
                                                 fontSize: AppDimens.fontSizeSmall,

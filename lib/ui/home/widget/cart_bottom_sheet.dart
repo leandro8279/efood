@@ -17,9 +17,9 @@ class const CartBottomSheet({
   required final Product product,
   required final bool fromSetMenu,
   required final Function callback,
-  required final Cart cart,
-  required final int cartIndex,
-  required final bool fromCart,
+  final Cart? cart,
+  final int? cartIndex,
+  final bool? fromCart,
 }) extends StatefulWidget {
   @override
   State<CartBottomSheet> createState() => _CartBottomSheetState();
