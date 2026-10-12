@@ -39,28 +39,25 @@ class HomeViewModel({
   final RxInt _popularPageSize = 12.obs;
 
   List<Banner> get banners => _banners;
+  int get latestOffset => _latestOffset.value;
   List<Category> get categories => _categories;
+  int get latestPageSize => _latestPageSize.value;
+  int get popularOffset => _popularOffset.value;
+  int get popularPageSize => _popularPageSize.value;
   Config? get config => _configNotifier.config.value;
   List<Product> get latestProducts => _latestProducts;
   List<Product> get popularProductList => _popularProductList;
   List<Product> get setMenuProducts => _setMenuProducts;
 
   bool isRestaurantOpenNow() => _configNotifier.isRestaurantOpenNow();
-  void setLatestOffset(int value) => latestOffset.value = value;
+  void setLatestOffset(int value) => _latestOffset.value = value;
 
   late final loadBanners = Command0<List<Banner>>(_loadBanners);
   late final loadSetMenu = Command0<List<Product>>(_loadSetMenu);
   late final loadCategories = Command0<List<Category>>(_loadCategories);
-  late final loadLatestProductList = Command1<void, (bool, String)>(
-    (args) => _loadLatestProductList(args.$1, args.$2),
-  );
+  late final loadLatestProductList = Command1<void, (bool, String)>((args) => _loadLatestProductList(args.$1, args.$2));
   late final loadPopularProductList = Command1<void, PopularProductListParams>(
-    (params) => _loadPopularProductList(
-      params.reload,
-      params.offset,
-      params.type,
-      params.isUpdate,
-    ),
+    (params) => _loadPopularProductList(params.reload, params.offset, params.type, params.isUpdate),
   );
 
   Future<Result<void>> _loadLatestProductList(bool reload, String _offset) async {
@@ -91,12 +88,7 @@ class HomeViewModel({
     return Result.done;
   }
 
-  Future<Result<void>> _loadPopularProductList(
-    bool reload,
-    String _offset,
-    String type,
-    bool isUpdate,
-  ) async {
+  Future<Result<void>> _loadPopularProductList(bool reload, String _offset, String type, bool isUpdate) async {
     final offset = int.tryParse(_offset);
     if (offset == null || offset < 1) {
       final error = ValidationException('O offset deve ser um número inteiro positivo.');
@@ -109,17 +101,14 @@ class HomeViewModel({
       _popularOffsetList = [];
       _popularProductList.clear();
     }
-    if(isUpdate) {
+    if (isUpdate) {
       update();
     }
     if (!_popularOffsetList.contains(_offset)) {
       _popularOffsetList = [];
       _popularOffsetList.add(_offset);
       _log.info('Carregando produtos populares para offset $_offset e tipo $type');
-      final result = await _productRepository.getPopularProductList(
-        offset: offset,
-        productType: type,
-      );
+      final result = await _productRepository.getPopularProductList(offset: offset, productType: type);
 
       return switch (result) {
         Ok<ProductList>(:final value) => _setPopularProducts(value, reload, _offset),
@@ -187,11 +176,7 @@ class HomeViewModel({
     return Result.done;
   }
 
-  Result<void> _setPopularProducts(
-    ProductList productList,
-    bool reload,
-    String _offset,
-  ) {
+  Result<void> _setPopularProducts(ProductList productList, bool reload, String _offset) {
     if (reload || _offset == '1') {
       _popularProductList.clear();
     }
@@ -221,6 +206,7 @@ class HomeViewModel({
     loadCategories.execute();
     loadSetMenu.execute();
     loadBanners.execute();
-          loadLatestProductList.execute((true, '1'));
+    loadLatestProductList.execute((true, '1'));
+    loadPopularProductList.execute(PopularProductListParams(reload: true, offset: '1'));
   }
 }

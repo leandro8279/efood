@@ -225,13 +225,15 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
                             },
                           ),
                         ),
-                        ProductView(
-                          isLoading: true,
-                          latestOffset: 0,
-                          latestPageSize: 0,
-                          config: viewModel.config,
-                          productType: ProductType.popularProduct,
-                          products: [],
+                        Obx(
+                          () => ProductView(
+                            config: viewModel.config,
+                            latestOffset: viewModel.popularOffset,
+                            productType: ProductType.popularProduct,
+                            latestPageSize: viewModel.popularPageSize,
+                            products: viewModel.popularProductList.toList(),
+                            isLoading: viewModel.loadPopularProductList.running.value,
+                          ),
                         ),
 
                         Padding(
@@ -241,15 +243,13 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
                         Obx(
                           () => ProductView(
                             config: viewModel.config,
-                            isLoading: viewModel.getLatestProductList.running.value,
-                            latestOffset: viewModel.latestOffset.value,
-                            latestPageSize: viewModel.latestPageSize.value,
+                            latestOffset: viewModel.latestOffset,
+                            latestPageSize: viewModel.latestPageSize,
                             products: viewModel.latestProducts.toList(),
                             setLatestOffset: viewModel.setLatestOffset,
+                            isLoading: viewModel.loadLatestProductList.running.value,
                             reloadLatestProductList: () {
-                              viewModel.getLatestProductList.execute(
-                                (false, viewModel.latestOffset.value.toString()),
-                              );
+                              viewModel.loadLatestProductList.execute((false, viewModel.latestOffset.toString()));
                             },
                             scrollController: scrollController,
                             productType: ProductType.latestProduct,
