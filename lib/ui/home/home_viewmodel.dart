@@ -6,7 +6,7 @@ import 'package:efood/domain/models/product/product_list.dart';
 import 'package:efood/domain/repositories/repositories.dart';
 import 'package:efood/utils/app_exception.dart';
 import 'package:efood/utils/command.dart';
-import 'package:efood/utils/config/config_notifier.dart';
+import 'package:efood/utils/notifiers/config_notifier.dart';
 import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
