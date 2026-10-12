@@ -124,4 +124,12 @@ class ProductNotifier extends GetxController {
 
     return _cartIndex.value;
   }
+
+  void setQuantity(bool isIncrement) {
+    if (isIncrement) {
+      _quantity.value = _quantity.value + 1;
+    } else {
+      _quantity.value = _quantity.value - 1;
+    }
+  }
 }
