@@ -12,8 +12,8 @@ abstract class ProductApi {
 
   @GET(AppConstants.latestProductsUrl)
   Future<ProductListApiModel> getLatestProductList({
-    @Query('limit') required int limit,
-    @Query('offset') required int offset,
+    @Query('limit') required String limit,
+    @Query('offset') required String offset,
   });
 
   @GET(AppConstants.popularProductsUrl)

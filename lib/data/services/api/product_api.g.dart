@@ -22,11 +22,14 @@ class _ProductApi implements ProductApi {
 
   @override
   Future<ProductListApiModel> getLatestProductList({
-    required int limit,
-    required int offset,
+    required String limit,
+    required String offset,
   }) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{'limit': limit, 'offset': offset};
+    final queryParameters = <String, dynamic>{
+      r'limit': limit,
+      r'offset': offset,
+    };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<ProductListApiModel>(
@@ -58,9 +61,9 @@ class _ProductApi implements ProductApi {
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      'limit': limit,
-      'offset': offset,
-      'product_type': productType,
+      r'limit': limit,
+      r'offset': offset,
+      r'product_type': productType,
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;

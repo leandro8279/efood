@@ -6,28 +6,25 @@ part of 'config_api_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ConfigApiModel _$ConfigApiModelFromJson(Map<String, dynamic> json) =>
-    ConfigApiModel(
-      restaurantName: json['restaurant_name'] as String,
-      restaurantLogo: json['restaurant_logo'] as String,
-      currencySymbol: json['currency_symbol'] as String,
-      maintenanceMode: json['maintenance_mode'] as bool,
-      emailVerification: json['email_verification'] as bool,
-      phoneVerification: json['phone_verification'] as bool,
-      baseUrls: BaseUrlApiModel.fromJson(
-        json['base_urls'] as Map<String, dynamic>,
-      ),
-      decimalPointSettings: (json['decimal_point_settings'] as num).toInt(),
-      currencySymbolPosition: json['currency_symbol_position'] as String,
-      restaurantScheduleTime:
-          (json['restaurant_schedule_time'] as List<dynamic>)
-              .map(
-                (e) => RestaurantScheduleTimeApiModel.fromJson(
-                  e as Map<String, dynamic>,
-                ),
-              )
-              .toList(),
-    );
+ConfigApiModel _$ConfigApiModelFromJson(
+  Map<String, dynamic> json,
+) => ConfigApiModel(
+  restaurantName: json['restaurant_name'] as String,
+  restaurantLogo: json['restaurant_logo'] as String,
+  currencySymbol: json['currency_symbol'] as String,
+  maintenanceMode: json['maintenance_mode'] as bool,
+  emailVerification: json['email_verification'] as bool,
+  phoneVerification: json['phone_verification'] as bool,
+  baseUrls: BaseUrlApiModel.fromJson(json['base_urls'] as Map<String, dynamic>),
+  decimalPointSettings: (json['decimal_point_settings'] as num).toInt(),
+  currencySymbolPosition: json['currency_symbol_position'] as String,
+  restaurantScheduleTime: (json['restaurant_schedule_time'] as List<dynamic>)
+      .map(
+        (e) =>
+            RestaurantScheduleTimeApiModel.fromJson(e as Map<String, dynamic>),
+      )
+      .toList(),
+);
 
 Map<String, dynamic> _$ConfigApiModelToJson(ConfigApiModel instance) =>
     <String, dynamic>{

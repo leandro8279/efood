@@ -13,8 +13,8 @@ class ProductRepositoryRemote({required final ProductApi _productApi}) implement
   Future<Result<ProductList>> getLatestProductList({required int offset}) async {
     try {
       final productList = await _productApi.getLatestProductList(
-        limit: AppConstants.productsPageLimit,
-        offset: offset,
+        limit: AppConstants.productsPageLimit.toString(),
+        offset: offset.toString(),
       );
       return Result.ok(productList.toDomain());
     } on DioException catch (e, st) {
@@ -23,10 +23,7 @@ class ProductRepositoryRemote({required final ProductApi _productApi}) implement
   }
 
   @override
-  Future<Result<ProductList>> getPopularProductList({
-    required int offset,
-    required String productType,
-  }) async {
+  Future<Result<ProductList>> getPopularProductList({required int offset, required String productType}) async {
     try {
       final productList = await _productApi.getPopularProductList(
         limit: AppConstants.productsPageLimit,
