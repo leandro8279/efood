@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:efood/data/repositories/banner/banner_repository_remote.dart';
 import 'package:efood/data/services/api/banner_api.dart';
-import 'package:efood/utils/auth/auth_session_notifier.dart';
-import 'package:efood/utils/cart/cart_notifier.dart';
-import 'package:efood/utils/config/config_notifier.dart';
+import 'package:efood/utils/notifiers/auth_session_notifier.dart';
+import 'package:efood/utils/notifiers/cart_notifier.dart';
+import 'package:efood/utils/notifiers/config_notifier.dart';
 import 'package:efood/data/repositories/auth/auth_repository_remote.dart';
 import 'package:efood/data/repositories/auth_session/auth_session_repository_local.dart';
 import 'package:efood/data/repositories/cart/cart_repository_local.dart';
@@ -16,6 +16,7 @@ import 'package:efood/data/repositories/set_menu/set_menu_repository_remote.dart
 import 'package:efood/domain/repositories/repositories.dart';
 import 'package:efood/data/services/api/api.dart';
 import 'package:efood/data/services/local/local.dart';
+import 'package:efood/utils/notifiers/product_notifier.dart';
 import 'package:get/get.dart';
 import 'package:efood/config/environment.dart';
 import 'package:efood/data/repositories/splash/splash_repository_remote.dart';
@@ -27,16 +28,10 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     // Local services and session storage
     Get.put<SharedPreferencesService>(SharedPreferencesService(sharedPreferences: sharedPreferences), permanent: true);
     Get.put<SecureStorageService>(SecureStorageService(), permanent: true);
-    Get.put<AuthSessionRepository>(
-      AuthSessionRepositoryLocal(storage: Get.find<SecureStorageService>()),
-      permanent: true,
-    );
+    Get.put<AuthSessionRepository>(AuthSessionRepositoryLocal(storage: Get.find()), permanent: true);
 
     // Authenticated HTTP client
-    Get.put<AuthInterceptor>(
-      AuthInterceptor(authSessionRepository: Get.find<AuthSessionRepository>()),
-      permanent: true,
-    );
+    Get.put<AuthInterceptor>(AuthInterceptor(authSessionRepository: Get.find()), permanent: true);
     Get.put<Dio>(
       Dio(BaseOptions(baseUrl: Environment.baseUrl)),
       // ..interceptors.add(Get.find<AuthInterceptor>()),
@@ -52,22 +47,12 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     Get.put<SplashApi>(SplashApi(Get.find()), permanent: true);
     Get.put<BannerApi>(BannerApi(Get.find()), permanent: true);
     // Repositories (registrados pela abstração)
-    Get.put<OnboardingRepository>(
-      OnboardingRepositoryLocal(sharedPreferencesService: Get.find<SharedPreferencesService>()),
-      permanent: true,
-    );
-    Get.put<CartRepository>(
-      CartRepositoryLocal(sharedPreferencesService: Get.find<SharedPreferencesService>()),
-      permanent: true,
-    );
+    Get.put<OnboardingRepository>(OnboardingRepositoryLocal(sharedPreferencesService: Get.find()), permanent: true);
+    Get.put<CartRepository>(CartRepositoryLocal(sharedPreferencesService: Get.find()), permanent: true);
     Get.put<ConfigRepository>(ConfigRepositoryRemote(splashApi: Get.find<SplashApi>()), permanent: true);
-    Get.put<ConfigNotifier>(ConfigNotifier(configRepository: Get.find<ConfigRepository>()), permanent: true);
     Get.put<CategoryRepository>(CategoryRepositoryRemote(categoryApi: Get.find<CategoryApi>()), permanent: true);
     Get.put<SetMenuRepository>(SetMenuRepositoryRemote(setMenuApi: Get.find<SetMenuApi>()), permanent: true);
-    Get.put<ProductRepository>(
-      ProductRepositoryRemote(productApi: Get.find<ProductApi>()),
-      permanent: true,
-    );
+    Get.put<ProductRepository>(ProductRepositoryRemote(productApi: Get.find<ProductApi>()), permanent: true);
     Get.put<SplashRepository>(
       SplashRepositoryRemote(splashApi: Get.find(), sharedPreferencesService: Get.find()),
       permanent: true,
@@ -75,31 +60,13 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     Get.put<ProfileRepository>(ProfileRepositoryRemote(profileApi: Get.find<ProfileApi>()), permanent: true);
     Get.put<AuthRepository>(AuthRepositoryRemote(authApi: Get.find()), permanent: true);
     Get.put<BannerRepository>(BannerRepositoryRemote(bannerApi: Get.find()), permanent: true);
-    // lazy: false,
+    // #
     Get.put(
-      AuthSessionNotifier(
-        authSessionRepository: Get.find<AuthSessionRepository>(),
-        sessionEnded: Get.find<AuthInterceptor>().onUnauthorized,
-      ),
+      AuthSessionNotifier(authSessionRepository: Get.find(), sessionEnded: Get.find().onUnauthorized),
       permanent: true,
     );
-    Get.put<CartNotifier>(
-      CartNotifier(
-        authSessionNotifier: Get.find<AuthSessionNotifier>(),
-        cartRepository: Get.find<CartRepository>(),
-      ),
-      permanent: true,
-    );
+    Get.put<CartNotifier>(CartNotifier(authSessionNotifier: Get.find(), cartRepository: Get.find()), permanent: true);
+    Get.put<ProductNotifier>(ProductNotifier(), permanent: true);
+    Get.put<ConfigNotifier>(ConfigNotifier(configRepository: Get.find()), permanent: true);
   }
-
-  // dentro do AuthSessionNotifier (ou em um listener no main/bindings)
-  // @override
-  // void onInit() {
-  //   super.onInit();
-
-  //   ever<AuthSessionUser?>(_user, (user) {
-  //     if (!isRestored) return;
-  //     Get.offAllNamed(user == null ? AppRoutes.login : AppRoutes.home);
-  //   });
-  // }
 }
