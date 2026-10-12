@@ -181,7 +181,10 @@ class const ProductWidgetWeb({
                                 },
                                 child: Text(
                                   'quick_view'.tr,
-                                  style: AppTextStyles.robotoRegular.copyWith(fontSize: AppDimens.fontSizeSmall),
+                                  style: AppTextStyles.robotoRegular.copyWith(
+                                    color: AppColors.white,
+                                    fontSize: AppDimens.fontSizeSmall,
+                                  ),
                                 ),
                               ),
                             ),

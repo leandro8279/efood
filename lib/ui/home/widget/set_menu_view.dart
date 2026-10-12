@@ -45,8 +45,8 @@ class const SetMenuView({
                   itemBuilder: (context, index) {
                     final setMenuProduct = setMenuProducts[index];
 
-                    late double? startingPrice;
-                    late double? endingPrice = 0;
+                    double? endingPrice;
+                    double? startingPrice;
                     if (setMenuProduct.choiceOptions.isNotEmpty) {
                       List<double> priceList = [];
                       setMenuProduct.variations.forEach((variation) => priceList.add(variation.price));
@@ -170,8 +170,8 @@ class const SetMenuView({
                                         children: [
                                           Flexible(
                                             child: Text(
-                                              '${PriceConverter.convertPrice(price: startingPrice, discount: setMenuProduct.discount, discountType: setMenuProduct.discountType, config: config)}'
-                                              '${' - ${PriceConverter.convertPrice(price: endingPrice, discount: setMenuProduct.discount, discountType: setMenuProduct.discountType, config: config)}'}',
+                                              '${startingPrice != null ? PriceConverter.convertPrice(price: startingPrice, discount: setMenuProduct.discount, discountType: setMenuProduct.discountType, config: config) : ''} '
+                                              '${endingPrice != null ? ' - ${PriceConverter.convertPrice(price: endingPrice, discount: setMenuProduct.discount, discountType: setMenuProduct.discountType, config: config)}' : ""}',
                                               style: AppTextStyles.rubikBold.copyWith(
                                                 fontSize: AppDimens.fontSizeSmall,
                                               ),
@@ -193,7 +193,7 @@ class const SetMenuView({
                                             Flexible(
                                               child: Text(
                                                 '${PriceConverter.convertPrice(config: config, price: startingPrice)}'
-                                                '${' - ${PriceConverter.convertPrice(config: config, price: endingPrice)}'}',
+                                                '${endingPrice != null ? ' - ${PriceConverter.convertPrice(config: config, price: endingPrice)}' : ''}',
                                                 style: AppTextStyles.rubikBold.copyWith(
                                                   fontSize: AppDimens.fontSizeExtraSmall,
                                                   color: AppColors.grey,
