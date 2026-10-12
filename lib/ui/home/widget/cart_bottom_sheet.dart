@@ -53,7 +53,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
           child: Obx(() {
             double? endingPrice;
             double? startingPrice;
-            //  cartNotifier.setCartUpdate(false);
+            //cartNotifier.setCartUpdate(false);
 
             if (widget.product.choiceOptions.isNotEmpty) {
               List<double> priceList = [];
@@ -255,9 +255,9 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
               return InkWell(
                 onTap: () {
                   if (!productNotifier.addOnActiveList[index]) {
-                    // productNotifier.addAddOn(true, index);
+                    productNotifier.addAddOn(true, index);
                   } else if (productNotifier.addOnQtyList[index] == 1) {
-                    // productNotifier.addAddOn(false, index);
+                    productNotifier.addAddOn(false, index);
                   }
                 },
 
@@ -326,9 +326,9 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                                 child: InkWell(
                                   onTap: () {
                                     if (productNotifier.addOnQtyList[index] > 1) {
-                                      // productNotifier.setAddOnQuantity(false, index);
+                                      productNotifier.setAddOnQuantity(false, index);
                                     } else {
-                                      // productNotifier.addAddOn(false, index);
+                                      productNotifier.addAddOn(false, index);
                                     }
                                   },
                                   child: Center(child: Icon(Icons.remove, size: 15)),
@@ -341,7 +341,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                               Expanded(
                                 child: InkWell(
                                   onTap: () {
-                                    // productNotifier.setAddOnQuantity(true, index);
+                                    productNotifier.setAddOnQuantity(true, index);
                                   },
                                   child: Center(child: Icon(Icons.add, size: 15)),
                                 ),
@@ -401,7 +401,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
               itemBuilder: (context, i) {
                 return InkWell(
                   onTap: () {
-                    // productProvider.setCartVariationIndex(index, i, widget.product, variationType, context);
+                    productNotifier.setCartVariationIndex(index, i, widget.product, variationType);
                   },
                   child: Container(
                     alignment: Alignment.center,

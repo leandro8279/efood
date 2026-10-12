@@ -132,4 +132,21 @@ class ProductNotifier extends GetxController {
       _quantity.value = _quantity.value - 1;
     }
   }
+  void addAddOn(bool isAdd, int index) {
+    _addOnActiveList[index] = isAdd;
+  }
+
+  void setAddOnQuantity(bool isIncrement, int index) {
+    if (isIncrement) {
+      _addOnQtyList[index] = _addOnQtyList[index] + 1;
+    } else {
+      _addOnQtyList[index] = _addOnQtyList[index] - 1;
+    }
+  }
+
+  void setCartVariationIndex(int index, int i, Product product, String variationType) {
+    _variationIndex[index].value = i;
+    _quantity.value = 1;
+    setExistInCart(product);
+  }
 }
