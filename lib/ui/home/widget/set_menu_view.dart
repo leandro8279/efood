@@ -4,6 +4,7 @@ import 'package:efood/domain/models/config/config.dart';
 import 'package:efood/domain/models/product/product.dart';
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
+import 'package:efood/ui/home/widget/cart_bottom_sheet.dart';
 import 'package:efood/utils/date_converter.dart';
 import 'package:efood/utils/price_converter.dart';
 import 'package:flutter/material.dart';
@@ -75,7 +76,22 @@ class const SetMenuView({
                     return Padding(
                       padding: EdgeInsets.only(right: AppDimens.paddingSmall, bottom: 5),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (con) => CartBottomSheet(
+                              product: setMenu.setMenuList[index],
+                              fromSetMenu: true,
+                              cart: _cartIndex != null ? _cartProvider.cartList[_cartIndex] : null,
+                              // cartIndex: _cartIndex,
+                              callback: (CartModel cartModel) {
+                                showCustomSnackBar('added_to_cart'.tr, context, isError: false);
+                              },
+                            ),
+                          );
+                        },
                         child: Container(
                           height: 220,
                           width: 170,
