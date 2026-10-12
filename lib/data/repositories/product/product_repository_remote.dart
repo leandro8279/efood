@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:efood/config/constants.dart';
 import 'package:efood/data/services/api/mappers/mappers.dart';
 import 'package:efood/data/services/api/product_api.dart';
 import 'package:efood/domain/models/product/product.dart';
@@ -8,12 +9,13 @@ import 'package:efood/utils/app_exception.dart';
 import 'package:efood/utils/result.dart';
 
 class ProductRepositoryRemote({required final ProductApi _productApi}) implements ProductRepository {
-  static const int _productsLimit = 12;
-
   @override
   Future<Result<ProductList>> getLatestProductList({required int offset}) async {
     try {
-      final productList = await _productApi.getLatestProductList(limit: _productsLimit, offset: offset);
+      final productList = await _productApi.getLatestProductList(
+        limit: AppConstants.productsPageLimit,
+        offset: offset,
+      );
       return Result.ok(productList.toDomain());
     } on DioException catch (e, st) {
       return Result.error(e.toAppException(st));
@@ -27,7 +29,7 @@ class ProductRepositoryRemote({required final ProductApi _productApi}) implement
   }) async {
     try {
       final productList = await _productApi.getPopularProductList(
-        limit: _productsLimit,
+        limit: AppConstants.productsPageLimit,
         offset: offset,
         productType: productType,
       );

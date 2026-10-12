@@ -238,17 +238,22 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
                           padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                           child: TitleWidget(title: 'latest_item'.tr),
                         ),
-                        ProductView(
-                          config: viewModel.config,
-                          isLoading: true,
-                          latestOffset: 0,
-                          latestPageSize: 0,
-                          products: [],
-                          setLatestOffset: (value) => {},
-                          showBottomLoader: () => {},
-                          reloadLatestProductList: () => {},
-                          scrollController: scrollController,
-                          productType: ProductType.latestProduct,
+                        Obx(
+                          () => ProductView(
+                            config: viewModel.config,
+                            isLoading: viewModel.getLatestProductList.running.value,
+                            latestOffset: viewModel.latestOffset.value,
+                            latestPageSize: viewModel.latestPageSize.value,
+                            products: viewModel.latestProducts.toList(),
+                            setLatestOffset: viewModel.setLatestOffset,
+                            reloadLatestProductList: () {
+                              viewModel.getLatestProductList.execute(
+                                (false, viewModel.latestOffset.value.toString()),
+                              );
+                            },
+                            scrollController: scrollController,
+                            productType: ProductType.latestProduct,
+                          ),
                         ),
                       ],
                     ),

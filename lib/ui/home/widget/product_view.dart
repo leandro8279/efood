@@ -1,3 +1,4 @@
+import 'package:efood/config/constants.dart';
 import 'package:efood/domain/models/config/config.dart';
 import 'package:efood/domain/models/product/product.dart';
 import 'package:efood/ui/core/share/share.dart';
@@ -16,32 +17,62 @@ class const ProductView({
   required final int latestPageSize,
   required final List<Product> products,
   required final ProductType productType,
-  final void Function()? showBottomLoader,
   final ScrollController? scrollController,
   final void Function()? reloadLatestProductList,
   final void Function(int value)? setLatestOffset,
-}) extends StatelessWidget {
+}) extends StatefulWidget {
+  @override
+  State<ProductView> createState() => _ProductViewState();
+}
+
+class _ProductViewState extends State<ProductView> {
+  @override
+  void initState() {
+    super.initState();
+    widget.scrollController?.addListener(_handleScroll);
+  }
+
+  @override
+  void didUpdateWidget(covariant ProductView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.scrollController != widget.scrollController) {
+      oldWidget.scrollController?.removeListener(_handleScroll);
+      widget.scrollController?.addListener(_handleScroll);
+    }
+  }
+
+  void _handleScroll() {
+    final controller = widget.scrollController;
+    if (widget.productType != ProductType.latestProduct ||
+        controller == null ||
+        !controller.hasClients ||
+        controller.position.pixels != controller.position.maxScrollExtent ||
+        widget.products.isEmpty ||
+        widget.isLoading) {
+      return;
+    }
+
+    final pageCount = (widget.latestPageSize / AppConstants.productsPageLimit).ceil();
+    if (widget.latestOffset < pageCount) {
+      widget.setLatestOffset?.call(widget.latestOffset + 1);
+      widget.reloadLatestProductList?.call();
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.scrollController?.removeListener(_handleScroll);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (productType == ProductType.latestProduct) {
-      scrollController?.addListener(() {
-        if (scrollController!.position.pixels == scrollController?.position.maxScrollExtent &&
-            products.isNotEmpty &&
-            !isLoading) {
-          int pageSize = 1;
-          if (productType == ProductType.latestProduct) {
-            pageSize = (latestPageSize / 10).ceil();
-          }
-          if (latestOffset < pageSize) {
-            setLatestOffset!(latestOffset + 1);
-            showBottomLoader!();
-            if (productType == ProductType.latestProduct) {
-              reloadLatestProductList!();
-            }
-          }
-        }
-      });
-    }
+    final isLoading = widget.isLoading;
+    final config = widget.config;
+    final latestOffset = widget.latestOffset;
+    final latestPageSize = widget.latestPageSize;
+    final products = widget.products;
+    final productType = widget.productType;
 
     if (isLoading) {
       return RenderConditional(
@@ -135,7 +166,7 @@ class const ProductView({
                     ),
                   ),
                   widget2: RenderConditional(
-                    conditional: (latestOffset == (latestPageSize / 10).ceil()),
+                    conditional: (latestOffset == (latestPageSize / AppConstants.productsPageLimit).ceil()),
                     widget1: SizedBox(),
                     widget2: SizedBox(
                       width: 500,
