@@ -6,6 +6,7 @@ import 'package:efood/ui/core/theme/theme.dart';
 import 'package:efood/utils/notifiers/cart_notifier.dart';
 import 'package:efood/utils/notifiers/config_notifier.dart';
 import 'package:efood/utils/date_converter.dart';
+import 'package:efood/utils/notifiers/product_notifier.dart';
 import 'package:efood/utils/price_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,10 +29,11 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
   late int cartIndex;
   final CartNotifier cartNotifier = Get.find<CartNotifier>();
   final ConfigNotifier configNotifier = Get.find<ConfigNotifier>();
+  final ProductNotifier productNotifier = Get.find<ProductNotifier>();
 
   @override
   void initState() {
-    // Provider.of<ProductProvider>(context, listen: false).initData(widget.product, widget.cart, context);
+    productNotifier.initData(widget.product, widget.cart);
     super.initState();
   }
 
@@ -39,7 +41,6 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
   Widget build(BuildContext context) {
     ProductVariation variation = ProductVariation(price: 0, type: '');
 
-    // _cartProvider.setCartUpdate(false);
     return Stack(
       children: [
         Container(
@@ -50,11 +51,16 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
             borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           ),
           child: Obx(() {
-            double? startingPrice;
             double? endingPrice;
+            double? startingPrice;
+            //  cartNotifier.setCartUpdate(false);
+
             if (widget.product.choiceOptions.isNotEmpty) {
               List<double> priceList = [];
-              widget.product.variations.forEach((variation) => priceList.add(variation.price));
+              for (var variation in widget.product.variations) {
+                priceList.add(variation.price);
+              }
+
               priceList.sort((a, b) => a.compareTo(b));
               startingPrice = priceList[0];
               if (priceList[0] < priceList[priceList.length - 1]) {
@@ -65,21 +71,22 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
             }
             List<String> variationList = [];
             for (int index = 0; index < widget.product.choiceOptions.length; index++) {
-              // variationList.add(
-              //   widget.product.choiceOptions[index].options[productProvider.variationIndex[index]].replaceAll(' ', ''),
-              // );
+              variationList.add(
+                widget.product.choiceOptions[index]!.options[productNotifier.variationIndex[index]].replaceAll(' ', ''),
+              );
             }
             String variationType = '';
 
             bool isFirst = true;
-            variationList.forEach((variation) {
+
+            for (var variation in variationList) {
               if (isFirst) {
                 variationType = '$variationType$variation';
                 isFirst = false;
               } else {
                 variationType = '$variationType-$variation';
               }
-            });
+            }
 
             double price = widget.product.price;
             for (ProductVariation variation in widget.product.variations) {
@@ -97,12 +104,12 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
             double addonsCost = 0;
             List<CartAddOn> addOnIdList = [];
             for (int index = 0; index < widget.product.addOns.length; index++) {
-              // if (productProvider.addOnActiveList[index]) {
-              //   addonsCost = addonsCost + (widget.product.addOns[index].price * productProvider.addOnQtyList[index]);
-              //   addOnIdList.add(
-              //     AddOn(id: widget.product.addOns[index].id, quantity: productProvider.addOnQtyList[index]),
-              //   );
-              // }
+              if (productNotifier.addOnActiveList[index]) {
+                addonsCost = addonsCost + (widget.product.addOns[index].price * productNotifier.addOnQtyList[index]);
+                addOnIdList.add(
+                  CartAddOn(id: widget.product.addOns[index].id, quantity: productNotifier.addOnQtyList[index]),
+                );
+              }
             }
 
             DateTime currentTime = DateTime.now();
@@ -139,7 +146,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                     discount: widget.product.discount,
                     discountType: widget.product.discountType,
                   )),
-              quantity: 0, // productProvider.quantity,
+              quantity: productNotifier.quantity.value,
               taxAmount:
                   price -
                   PriceConverter.convertWithDiscount(
@@ -159,7 +166,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
             );
             // print('is exit : $_cartIndex');
 
-            double priceWithQuantity = priceWithDiscount * 0; //  productProvider.quantity;
+            double priceWithQuantity = priceWithDiscount * productNotifier.quantity.value;
             double priceWithAddons = priceWithQuantity + addonsCost;
 
             return SingleChildScrollView(
