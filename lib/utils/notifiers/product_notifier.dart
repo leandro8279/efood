@@ -34,7 +34,7 @@ class ProductNotifier extends GetxController {
       int varIndex = 0;
 
       for (var choiceOption in product.choiceOptions) {
-        if (choiceOption!.options.isEmpty) return;
+        if (choiceOption.options.isEmpty) return;
 
         for (int index = 0; index < choiceOption.options.length; index++) {
           if (choiceOption.options[index].trim().replaceAll(' ', '') == variationTypes[varIndex].trim()) {
@@ -81,7 +81,7 @@ class ProductNotifier extends GetxController {
 
     if (product.choiceOptions.isNotEmpty) {
       for (int index = 0; index < product.choiceOptions.length; index++) {
-        variationList.add(product.choiceOptions[index]!.options[variationIndex[index]].replaceAll(' ', ''));
+        variationList.add(product.choiceOptions[index].options[variationIndex[index]].replaceAll(' ', ''));
       }
     }
 
@@ -132,6 +132,7 @@ class ProductNotifier extends GetxController {
       _quantity.value = _quantity.value - 1;
     }
   }
+
   void addAddOn(bool isAdd, int index) {
     _addOnActiveList[index] = isAdd;
   }
@@ -145,7 +146,7 @@ class ProductNotifier extends GetxController {
   }
 
   void setCartVariationIndex(int index, int i, Product product, String variationType) {
-    _variationIndex[index].value = i;
+    _variationIndex[index] = i;
     _quantity.value = 1;
     setExistInCart(product);
   }
