@@ -1,7 +1,7 @@
 import 'package:efood/domain/models/auth/auth_check_status.dart';
 import 'package:efood/domain/repositories/repositories.dart';
 import 'package:efood/utils/command.dart';
-import 'package:efood/utils/config/config_notifier.dart';
+import 'package:efood/utils/notifiers/config_notifier.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
