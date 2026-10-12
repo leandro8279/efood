@@ -33,10 +33,10 @@ class HomeViewModel({
   final RxList<Product> _setMenuProducts = <Product>[].obs;
   List<String> _latestOffsetList = [];
   List<String> _popularOffsetList = [];
-  final RxInt latestOffset = 1.obs;
-  final RxInt latestPageSize = 12.obs;
-  final RxInt popularOffset = 1.obs;
-  final RxInt popularPageSize = 12.obs;
+  final RxInt _latestOffset = 1.obs;
+  final RxInt _latestPageSize = 12.obs;
+  final RxInt _popularOffset = 1.obs;
+  final RxInt _popularPageSize = 12.obs;
 
   List<Banner> get banners => _banners;
   List<Category> get categories => _categories;
@@ -51,11 +51,11 @@ class HomeViewModel({
   late final loadBanners = Command0<List<Banner>>(_loadBanners);
   late final loadSetMenu = Command0<List<Product>>(_loadSetMenu);
   late final loadCategories = Command0<List<Category>>(_loadCategories);
-  late final getLatestProductList = Command1<void, (bool, String)>(
-    (args) => _getLatestProductList(args.$1, args.$2),
+  late final loadLatestProductList = Command1<void, (bool, String)>(
+    (args) => _loadLatestProductList(args.$1, args.$2),
   );
-  late final getPopularProductList = Command1<void, PopularProductListParams>(
-    (params) => _getPopularProductList(
+  late final loadPopularProductList = Command1<void, PopularProductListParams>(
+    (params) => _loadPopularProductList(
       params.reload,
       params.offset,
       params.type,
@@ -63,7 +63,7 @@ class HomeViewModel({
     ),
   );
 
-  Future<Result<void>> _getLatestProductList(bool reload, String _offset) async {
+  Future<Result<void>> _loadLatestProductList(bool reload, String _offset) async {
     final offset = int.tryParse(_offset);
     if (offset == null || offset < 1) {
       final error = ValidationException('O offset deve ser um número inteiro positivo.');
@@ -72,7 +72,7 @@ class HomeViewModel({
     }
 
     if (reload || _offset == '1') {
-      latestOffset.value = 1;
+      _latestOffset.value = 1;
       _latestOffsetList = [];
     }
 
@@ -91,7 +91,7 @@ class HomeViewModel({
     return Result.done;
   }
 
-  Future<Result<void>> _getPopularProductList(
+  Future<Result<void>> _loadPopularProductList(
     bool reload,
     String _offset,
     String type,
@@ -105,11 +105,13 @@ class HomeViewModel({
     }
 
     if (reload || _offset == '1') {
-      popularOffset.value = 1;
+      _popularOffset.value = 1;
       _popularOffsetList = [];
       _popularProductList.clear();
     }
-
+    if(isUpdate) {
+      update();
+    }
     if (!_popularOffsetList.contains(_offset)) {
       _popularOffsetList = [];
       _popularOffsetList.add(_offset);
@@ -120,7 +122,7 @@ class HomeViewModel({
       );
 
       return switch (result) {
-        Ok<ProductList>(:final value) => _setPopularProducts(value, reload, _offset, isUpdate),
+        Ok<ProductList>(:final value) => _setPopularProducts(value, reload, _offset),
         Error<ProductList>(:final error) => _handleLoadError('Falha ao carregar produtos populares', error),
       };
     }
@@ -178,8 +180,8 @@ class HomeViewModel({
       _latestProducts.clear();
     }
     _latestProducts.addAll(productList.products);
-    latestOffset.value = productList.offset;
-    latestPageSize.value = productList.totalSize;
+    _latestOffset.value = productList.offset;
+    _latestPageSize.value = productList.totalSize;
     _log.info('Produtos mais recentes carregados: ${_latestProducts.length}');
 
     return Result.done;
@@ -189,17 +191,13 @@ class HomeViewModel({
     ProductList productList,
     bool reload,
     String _offset,
-    bool isUpdate,
   ) {
     if (reload || _offset == '1') {
       _popularProductList.clear();
     }
     _popularProductList.addAll(productList.products);
-    popularOffset.value = productList.offset;
-    popularPageSize.value = productList.totalSize;
-    if (isUpdate) {
-      update();
-    }
+    _popularOffset.value = productList.offset;
+    _popularPageSize.value = productList.totalSize;
     _log.info('Produtos populares carregados: ${_popularProductList.length}');
 
     return Result.done;
@@ -223,6 +221,6 @@ class HomeViewModel({
     loadCategories.execute();
     loadSetMenu.execute();
     loadBanners.execute();
-    getLatestProductList.execute((true, '1'));
+          loadLatestProductList.execute((true, '1'));
   }
 }
