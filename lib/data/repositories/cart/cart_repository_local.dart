@@ -1,7 +1,7 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:efood/data/services/local/local.dart';
+import 'package:efood/data/services/local/model/cart/cart_local_model.dart';
 import 'package:efood/domain/models/cart/cart.dart';
 import 'package:efood/domain/repositories/cart_repository.dart';
 import 'package:efood/utils/app_exception.dart';
@@ -14,14 +14,12 @@ class CartRepositoryLocal({required final SharedPreferencesService _sharedPrefer
   Result<List<Cart>> getCartList() {
     List<String> carts = [];
     try {
-       if(_sharedPreferencesService.contains(StorageKeys.cartList))){
-       carts = _sharedPreferencesService.getStringList(StorageKeys.cartList)!; 
+      if (_sharedPreferencesService.contains(StorageKeys.cartList)) {
+        carts = _sharedPreferencesService.getStringList(StorageKeys.cartList)!;
       }
       final cartList = carts
-        .map((s) => CartLocalModel.fromJson(
-              jsonDecode(s) as Map<String, dynamic>,
-            ).toDomain())
-        .toList();
+          .map((s) => CartLocalModel.fromJson(jsonDecode(s) as Map<String, dynamic>).toDomain())
+          .toList();
       return Result.ok(cartList);
     } catch (e, st) {
       return Result.error(StorageException(cause: e, stackTrace: st));
@@ -30,12 +28,13 @@ class CartRepositoryLocal({required final SharedPreferencesService _sharedPrefer
 
   @override
   Result<void> addToCartList(List<Cart> cartProductList) {
-    try {
-      final carts = cartProductList.map((cart) => jsonEncode(CartLocalModel.fromDomain(cart).toJson())).toList();
-_sharedPreferencesService.setStringList(StorageKeys.cartList, carts);
-      return Result.done;
-    } catch (e, st) {
-      return Result.error(StorageException(cause: e, stackTrace: st));
-    }
+    // try {
+    //   final carts = cartProductList.map((cart) => jsonEncode(CartLocalModel.fromJson(cart).toJson())).toList();
+    //   _sharedPreferencesService.setStringList(StorageKeys.cartList, carts);
+    //   return Result.done;
+    // } catch (e, st) {
+    //   return Result.error(StorageException(cause: e, stackTrace: st));
+    // }
+    return Result.done;
   }
 }

@@ -7,7 +7,7 @@ class SharedPreferencesService {
 
   bool contains(String key) => _prefs.containsKey(key);
 
-  bool setBool(String key, bool value) {
+  Future<bool> setBool(String key, bool value) async {
     return _prefs.setBool(key, value);
   }
 
@@ -17,11 +17,11 @@ class SharedPreferencesService {
 
   List<String>? getStringList(String key) => _prefs.getStringList(key);
 
-  bool setString(String key, String value) {
+  Future<bool> setString(String key, String value) async {
     return _prefs.setString(key, value);
   }
 
-  bool setStringList(String key, List<String> value) {
+  Future<bool> setStringList(String key, List<String> value) async {
     return _prefs.setStringList(key, value);
   }
 

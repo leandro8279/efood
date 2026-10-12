@@ -11,22 +11,22 @@ class const ProductApiModel({
   required final String image,
   required final double price,
   required final List<ProductVariationApiModel?> variations,
-  final List<ProductAddOnApiModel?> addOns,
+  required final List<ProductAddOnApiModel> addOns,
   required final double tax,
   required final String availableTimeStarts,
   required final String availableTimeEnds,
   required final int status,
   required final String createdAt,
   required final String updatedAt,
-  final List<Object?> attributes,
-  final List<ProductCategoryIdApiModel?> categoryIds,
-final List<ProductChoiceOptionApiModel?> choiceOptions,
+  required final List<Object?> attributes,
+  required final List<ProductCategoryIdApiModel?> categoryIds,
+  required final List<ProductChoiceOptionApiModel?> choiceOptions,
   required final double discount,
   required final String discountType,
   required final String taxType,
   required final int setMenu,
   required final int branchId,
-  final List<String>? colors,
+  required final List<String> colors,
   required final int popularityCount,
   required final String productType,
   required final List<ProductRatingApiModel?> rating,
@@ -82,7 +82,7 @@ class const ProductAddOnApiModel({
   required final double price,
   required final String createdAt,
   required final String updatedAt,
-  final List<Object?> translations,
+  required final List<Object?> translations,
 }) extends Equatable {
   factory ProductAddOnApiModel.fromJson(Map<String, dynamic> json) => _$ProductAddOnApiModelFromJson(json);
 
@@ -113,10 +113,13 @@ class const ProductRatingApiModel({required final String average}) extends Equat
 }
 
 @JsonSerializable()
-class const ProductChoiceOptionApiModel({required final String name,
+class const ProductChoiceOptionApiModel({
+  required final String name,
   required final String title,
-  final List<String?> options}) extends Equatable {
-  factory ProductChoiceOptionApiModel.fromJson(Map<String, dynamic> json) => _$ProductChoiceOptionApiModelFromJson(json);
+  required final List<String?> options,
+}) extends Equatable {
+  factory ProductChoiceOptionApiModel.fromJson(Map<String, dynamic> json) =>
+      _$ProductChoiceOptionApiModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductChoiceOptionApiModelToJson(this);
 

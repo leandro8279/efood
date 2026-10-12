@@ -8,8 +8,8 @@ extension ProductApiModelMapper on ProductApiModel {
     description: description,
     image: image,
     price: price,
-    variations: variations.isNotEmpty ? variations.map((variation) => variation!.toDomain()).toList() : [],
-    addOns: addOns.isNotEmpty ?  addOns.map((addOn) => addOn!.toDomain()).toList() : [],
+    variations: variations.isNotEmpty ? variations.map((s) => s!.toDomain()).toList() : [],
+    addOns: addOns.isNotEmpty ? addOns.map((addOn) => addOn.toDomain()).toList() : [],
     tax: tax,
     availableTimeStarts: availableTimeStarts,
     availableTimeEnds: availableTimeEnds,
@@ -17,14 +17,14 @@ extension ProductApiModelMapper on ProductApiModel {
     createdAt: createdAt,
     updatedAt: updatedAt,
     attributes: attributes,
-    categoryIds: categoryIds.isNotEmpty ?  categoryIds.map((categoryId) => categoryId!.toDomain()).toList() : [],
-    choiceOptions: choiceOptions.isNotEmpty ? choiceOptions.map((s) s!.toDomain()).toList() : [],
+    categoryIds: categoryIds.isNotEmpty ? categoryIds.map((categoryId) => categoryId!.toDomain()).toList() : [],
+    choiceOptions: choiceOptions.isNotEmpty ? choiceOptions.map((e) => e!.toDomain()).toList() : [],
     discount: discount,
     discountType: discountType,
     taxType: taxType,
     setMenu: setMenu,
     branchId: branchId,
-    colors: colors.isNotEmpty ? colors : [],
+    colors: colors,
     popularityCount: popularityCount,
     productType: productType,
     rating: rating.isNotEmpty ? rating.map((s) => s!.toDomain()).toList() : [],
@@ -51,5 +51,15 @@ extension ProductRatingModelMapper on ProductRatingApiModel {
 }
 
 extension ProductChoiceOptionModelMapper on ProductChoiceOptionApiModel {
-  ProductChoiceOption toDomain() => ProductChoiceOption(name: name, title: title, options: options.isNotEmpty ? options : []);
+  ProductChoiceOption toDomain() {
+    return ProductChoiceOption(
+      name: name,
+      title: title,
+      options: options.isNotEmpty ? options.map((s) => s!).toList() : [],
+    );
+  }
+}
+
+extension ProductVariationModelMapper on ProductVariationApiModel {
+  ProductVariation toDomain() => ProductVariation(price: price, type: type);
 }
