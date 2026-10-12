@@ -1,9 +1,9 @@
 import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/domain/models/config/config.dart';
 import 'package:efood/domain/use_cases/auth/auth_login_use_case.dart';
-import 'package:efood/utils/auth/auth_session_notifier.dart';
+import 'package:efood/utils/notifiers/auth_session_notifier.dart';
 import 'package:efood/utils/command.dart';
-import 'package:efood/utils/config/config_notifier.dart';
+import 'package:efood/utils/notifiers/config_notifier.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
