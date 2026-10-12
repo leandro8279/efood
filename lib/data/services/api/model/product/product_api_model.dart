@@ -3,30 +3,30 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'product_api_model.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class const ProductApiModel({
   required final int id,
   required final String name,
   required final String description,
   required final String image,
   required final double price,
-  required final List<ProductVariationApiModel> variations,
-  required final List<ProductAddOnApiModel> addOns,
+  required final List<ProductVariationApiModel?> variations,
+  final List<ProductAddOnApiModel?> addOns,
   required final double tax,
   required final String availableTimeStarts,
   required final String availableTimeEnds,
   required final int status,
   required final String createdAt,
   required final String updatedAt,
-  required final List<Object?> attributes,
-  required final List<ProductCategoryIdApiModel> categoryIds,
-  required final List<Object?> choiceOptions,
+  final List<Object?> attributes,
+  final List<ProductCategoryIdApiModel?> categoryIds,
+final List<ProductChoiceOptionApiModel?> choiceOptions,
   required final double discount,
   required final String discountType,
   required final String taxType,
   required final int setMenu,
   required final int branchId,
-  required final List<String>? colors,
+  final List<String>? colors,
   required final int popularityCount,
   required final String productType,
   required final List<ProductRatingApiModel?> rating,
@@ -65,7 +65,7 @@ class const ProductApiModel({
   ];
 }
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class const ProductVariationApiModel({required final String type, required final double price}) extends Equatable {
   factory ProductVariationApiModel.fromJson(Map<String, dynamic> json) => _$ProductVariationApiModelFromJson(json);
 
@@ -75,14 +75,14 @@ class const ProductVariationApiModel({required final String type, required final
   List<Object?> get props => [type, price];
 }
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class const ProductAddOnApiModel({
   required final int id,
   required final String name,
   required final double price,
   required final String createdAt,
   required final String updatedAt,
-  required final List<Object?> translations,
+  final List<Object?> translations,
 }) extends Equatable {
   factory ProductAddOnApiModel.fromJson(Map<String, dynamic> json) => _$ProductAddOnApiModelFromJson(json);
 
@@ -92,7 +92,7 @@ class const ProductAddOnApiModel({
   List<Object?> get props => [id, name, price, createdAt, updatedAt, translations];
 }
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class const ProductCategoryIdApiModel({required final String id, required final int position}) extends Equatable {
   factory ProductCategoryIdApiModel.fromJson(Map<String, dynamic> json) => _$ProductCategoryIdApiModelFromJson(json);
 
@@ -102,7 +102,7 @@ class const ProductCategoryIdApiModel({required final String id, required final 
   List<Object?> get props => [id, position];
 }
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class const ProductRatingApiModel({required final String average}) extends Equatable {
   factory ProductRatingApiModel.fromJson(Map<String, dynamic> json) => _$ProductRatingApiModelFromJson(json);
 
@@ -110,4 +110,16 @@ class const ProductRatingApiModel({required final String average}) extends Equat
 
   @override
   List<Object?> get props => [average];
+}
+
+@JsonSerializable()
+class const ProductChoiceOptionApiModel({required final String name,
+  required final String title,
+  final List<String?> options}) extends Equatable {
+  factory ProductChoiceOptionApiModel.fromJson(Map<String, dynamic> json) => _$ProductChoiceOptionApiModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductChoiceOptionApiModelToJson(this);
+
+  @override
+  List<Object?> get props => [name, title, options];
 }

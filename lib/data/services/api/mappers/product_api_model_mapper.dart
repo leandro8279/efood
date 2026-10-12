@@ -8,8 +8,8 @@ extension ProductApiModelMapper on ProductApiModel {
     description: description,
     image: image,
     price: price,
-    variations: variations.map((variation) => ProductVariation(type: variation.type, price: variation.price)).toList(),
-    addOns: addOns.map((addOn) => addOn.toDomain()).toList(),
+    variations: variations.isNotEmpty ? variations.map((variation) => variation!.toDomain()).toList() : [],
+    addOns: addOns.isNotEmpty ?  addOns.map((addOn) => addOn!.toDomain()).toList() : [],
     tax: tax,
     availableTimeStarts: availableTimeStarts,
     availableTimeEnds: availableTimeEnds,
@@ -17,62 +17,17 @@ extension ProductApiModelMapper on ProductApiModel {
     createdAt: createdAt,
     updatedAt: updatedAt,
     attributes: attributes,
-    categoryIds: categoryIds.map((categoryId) => categoryId.toDomain()).toList(),
-    choiceOptions: choiceOptions,
+    categoryIds: categoryIds.isNotEmpty ?  categoryIds.map((categoryId) => categoryId!.toDomain()).toList() : [],
+    choiceOptions: choiceOptions.isNotEmpty ? choiceOptions.map((s) s!.toDomain()).toList() : [],
     discount: discount,
     discountType: discountType,
     taxType: taxType,
     setMenu: setMenu,
     branchId: branchId,
-    colors: colors,
+    colors: colors.isNotEmpty ? colors : [],
     popularityCount: popularityCount,
     productType: productType,
     rating: rating.isNotEmpty ? rating.map((s) => s!.toDomain()).toList() : [],
-  );
-}
-
-extension ProductDomainMapper on Product {
-  ProductApiModel toApiModel() => ProductApiModel(
-    id: id,
-    name: name,
-    description: description,
-    image: image,
-    price: price,
-    variations: variations
-        .map((variation) => ProductVariationApiModel(type: variation.type, price: variation.price))
-        .toList(),
-    addOns: addOns
-        .map(
-          (addOn) => ProductAddOnApiModel(
-            id: addOn.id,
-            name: addOn.name,
-            price: addOn.price,
-            createdAt: addOn.createdAt,
-            updatedAt: addOn.updatedAt,
-            translations: addOn.translations,
-          ),
-        )
-        .toList(),
-    tax: tax,
-    availableTimeStarts: availableTimeStarts,
-    availableTimeEnds: availableTimeEnds,
-    status: status,
-    createdAt: createdAt,
-    updatedAt: updatedAt,
-    attributes: attributes,
-    categoryIds: categoryIds
-        .map((categoryId) => ProductCategoryIdApiModel(id: categoryId.id, position: categoryId.position))
-        .toList(),
-    choiceOptions: choiceOptions,
-    discount: discount,
-    discountType: discountType,
-    taxType: taxType,
-    setMenu: setMenu,
-    branchId: branchId,
-    colors: colors,
-    popularityCount: popularityCount,
-    productType: productType,
-    rating: rating.isNotEmpty ? rating.map((s) => ProductRatingApiModel(average: s!.average)).toList() : [],
   );
 }
 
@@ -93,4 +48,8 @@ extension ProductCategoryIdApiModelMapper on ProductCategoryIdApiModel {
 
 extension ProductRatingModelMapper on ProductRatingApiModel {
   ProductRating toDomain() => ProductRating(average: average);
+}
+
+extension ProductChoiceOptionModelMapper on ProductChoiceOptionApiModel {
+  ProductChoiceOption toDomain() => ProductChoiceOption(name: name, title: title, options: options.isNotEmpty ? options : []);
 }

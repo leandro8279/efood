@@ -16,16 +16,16 @@ class const Product({
   required final String updatedAt,
   required final List<Object?> attributes,
   required final List<ProductCategoryId> categoryIds,
-  required final List<ProductChoiceOption?> choiceOptions,
+  required final List<ProductChoiceOption> choiceOptions,
   required final double discount,
   required final String discountType,
   required final String taxType,
   required final int setMenu,
   required final int branchId,
-  required final List<String>? colors,
+  required final List<String> colors,
   required final int popularityCount,
   required final String productType,
-  required final List<ProductRating?> rating,
+  required final List<ProductRating> rating,
 }) extends Equatable {
   @override
   List<Object?> get props => [
