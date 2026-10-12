@@ -16,7 +16,7 @@ class const Product({
   required final String updatedAt,
   required final List<Object?> attributes,
   required final List<ProductCategoryId> categoryIds,
-  required final List<Object?> choiceOptions,
+  required final List<ProductChoiceOption?> choiceOptions,
   required final double discount,
   required final String discountType,
   required final String taxType,
@@ -85,3 +85,12 @@ class const ProductCategoryId({required final String id, required final int posi
 }
 
 enum ProductType { latestProduct, popularProduct }
+
+class const ProductChoiceOption({
+  required final String name,
+  required final String title,
+  required final List<String> options,
+}) extends Equatable {
+  @override
+  List<Object?> get props => [name, title, options];
+}

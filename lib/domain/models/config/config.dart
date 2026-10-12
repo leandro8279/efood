@@ -12,6 +12,7 @@ class const Config({
   required final BaseUrl baseUrls,
   required final int decimalPointSettings,
   required final String currencySymbolPosition,
+  final String? timeFormat,
   required final List<RestaurantScheduleTime> restaurantScheduleTime,
 }) extends Equatable {
   @override
@@ -26,5 +27,6 @@ class const Config({
     currencySymbolPosition,
     decimalPointSettings,
     restaurantScheduleTime,
+    timeFormat,
   ];
 }
