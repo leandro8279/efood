@@ -23,7 +23,7 @@ Future<void> main() async {
       locale: Get.deviceLocale,
       getPages: AppRouter.pages,
       translations: AppTranslations(),
-      initialRoute: AppRoutes.main,
+      initialRoute: AppRoutes.splash,
       fallbackLocale: const Locale('pt', 'BR'),
       debugShowCheckedModeBanner: false,
       initialBinding: ApplicationBindings(sharedPreferences: sharedPreferences),

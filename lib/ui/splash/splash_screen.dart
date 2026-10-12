@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     _configWorker?.dispose();
 
-    if (mounted) Get.offAllNamed(AppRoutes.onboarding);
+    if (mounted) Get.offAllNamed(AppRoutes.main);
   }
 
   @override
