@@ -8,6 +8,7 @@ import 'package:efood/data/repositories/auth/auth_repository_remote.dart';
 import 'package:efood/data/repositories/auth_session/auth_session_repository_local.dart';
 import 'package:efood/data/repositories/cart/cart_repository_local.dart';
 import 'package:efood/data/repositories/category/category_repository_remote.dart';
+import 'package:efood/data/repositories/coupon/coupon_repository_remote.dart';
 import 'package:efood/data/repositories/config/config_repository_remote.dart';
 import 'package:efood/data/repositories/onboarding/onboarding_repository_local.dart';
 import 'package:efood/data/repositories/profile/profile_repository_remote.dart';
@@ -41,6 +42,7 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     // Services (primeiro, para serem injetados nos repositories)
     Get.put<AuthApi>(AuthApi(Get.find()), permanent: true);
     Get.put<CategoryApi>(CategoryApi(Get.find()), permanent: true);
+    Get.put<CouponApi>(CouponApi(Get.find()), permanent: true);
     Get.put<SetMenuApi>(SetMenuApi(Get.find()), permanent: true);
     Get.put<ProfileApi>(ProfileApi(Get.find()), permanent: true);
     Get.put<ProductApi>(ProductApi(Get.find()), permanent: true);
@@ -51,6 +53,7 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     Get.put<CartRepository>(CartRepositoryLocal(sharedPreferencesService: Get.find()), permanent: true);
     Get.put<ConfigRepository>(ConfigRepositoryRemote(splashApi: Get.find<SplashApi>()), permanent: true);
     Get.put<CategoryRepository>(CategoryRepositoryRemote(categoryApi: Get.find<CategoryApi>()), permanent: true);
+    Get.put<CouponRepository>(CouponRepositoryRemote(couponApi: Get.find<CouponApi>()), permanent: true);
     Get.put<SetMenuRepository>(SetMenuRepositoryRemote(setMenuApi: Get.find<SetMenuApi>()), permanent: true);
     Get.put<ProductRepository>(ProductRepositoryRemote(productApi: Get.find<ProductApi>()), permanent: true);
     Get.put<SplashRepository>(
