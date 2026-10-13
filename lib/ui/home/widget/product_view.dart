@@ -144,7 +144,7 @@ class _ProductViewState extends State<ProductView> {
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
-              return ProductWidget(product: products[index], config: config);
+              return ProductWidget(product: products[index]);
             },
           ),
           SizedBox(height: 30),
