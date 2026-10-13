@@ -49,7 +49,6 @@ extension ProductLocalModelMapper on ProductLocalModel {
     taxType: '',
     setMenu: 1,
     branchId: 1,
-    colors: [],
     popularityCount: 1,
     productType: '',
     rating: [],

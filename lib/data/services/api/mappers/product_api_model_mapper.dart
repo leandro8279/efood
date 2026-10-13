@@ -24,7 +24,6 @@ extension ProductApiModelMapper on ProductApiModel {
     taxType: taxType,
     setMenu: setMenu,
     branchId: branchId,
-    colors: colors,
     popularityCount: popularityCount,
     productType: productType,
     rating: rating.isNotEmpty ? rating.map((s) => s!.toDomain()).toList() : [],

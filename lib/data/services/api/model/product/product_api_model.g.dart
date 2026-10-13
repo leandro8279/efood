@@ -6,61 +6,61 @@ part of 'product_api_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProductApiModel _$ProductApiModelFromJson(
-  Map<String, dynamic> json,
-) => ProductApiModel(
-  id: (json['id'] as num).toInt(),
-  name: json['name'] as String,
-  description: json['description'] as String,
-  image: json['image'] as String,
-  price: (json['price'] as num).toDouble(),
-  variations: (json['variations'] as List<dynamic>)
-      .map(
-        (e) => e == null
-            ? null
-            : ProductVariationApiModel.fromJson(e as Map<String, dynamic>),
-      )
-      .toList(),
-  addOns: (json['add_ons'] as List<dynamic>)
-      .map((e) => ProductAddOnApiModel.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  tax: (json['tax'] as num).toDouble(),
-  availableTimeStarts: json['available_time_starts'] as String,
-  availableTimeEnds: json['available_time_ends'] as String,
-  status: (json['status'] as num).toInt(),
-  createdAt: json['created_at'] as String,
-  updatedAt: json['updated_at'] as String,
-  attributes: json['attributes'] as List<dynamic>,
-  categoryIds: (json['category_ids'] as List<dynamic>)
-      .map(
-        (e) => e == null
-            ? null
-            : ProductCategoryIdApiModel.fromJson(e as Map<String, dynamic>),
-      )
-      .toList(),
-  choiceOptions: (json['choice_options'] as List<dynamic>)
-      .map(
-        (e) => e == null
-            ? null
-            : ProductChoiceOptionApiModel.fromJson(e as Map<String, dynamic>),
-      )
-      .toList(),
-  discount: (json['discount'] as num).toDouble(),
-  discountType: json['discount_type'] as String,
-  taxType: json['tax_type'] as String,
-  setMenu: (json['set_menu'] as num).toInt(),
-  branchId: (json['branch_id'] as num).toInt(),
-  colors: (json['colors'] as List<dynamic>).map((e) => e as String).toList(),
-  popularityCount: (json['popularity_count'] as num).toInt(),
-  productType: json['product_type'] as String,
-  rating: (json['rating'] as List<dynamic>)
-      .map(
-        (e) => e == null
-            ? null
-            : ProductRatingApiModel.fromJson(e as Map<String, dynamic>),
-      )
-      .toList(),
-);
+ProductApiModel _$ProductApiModelFromJson(Map<String, dynamic> json) =>
+    ProductApiModel(
+      id: (json['id'] as num).toInt(),
+      name: json['name'] as String,
+      description: json['description'] as String,
+      image: json['image'] as String,
+      price: (json['price'] as num).toDouble(),
+      variations: (json['variations'] as List<dynamic>)
+          .map(
+            (e) => e == null
+                ? null
+                : ProductVariationApiModel.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
+      addOns: (json['add_ons'] as List<dynamic>)
+          .map((e) => ProductAddOnApiModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      tax: (json['tax'] as num).toDouble(),
+      availableTimeStarts: json['available_time_starts'] as String,
+      availableTimeEnds: json['available_time_ends'] as String,
+      status: (json['status'] as num).toInt(),
+      createdAt: json['created_at'] as String,
+      updatedAt: json['updated_at'] as String,
+      attributes: json['attributes'] as List<dynamic>,
+      categoryIds: (json['category_ids'] as List<dynamic>)
+          .map(
+            (e) => e == null
+                ? null
+                : ProductCategoryIdApiModel.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
+      choiceOptions: (json['choice_options'] as List<dynamic>)
+          .map(
+            (e) => e == null
+                ? null
+                : ProductChoiceOptionApiModel.fromJson(
+                    e as Map<String, dynamic>,
+                  ),
+          )
+          .toList(),
+      discount: (json['discount'] as num).toDouble(),
+      discountType: json['discount_type'] as String,
+      taxType: json['tax_type'] as String,
+      setMenu: (json['set_menu'] as num).toInt(),
+      branchId: (json['branch_id'] as num).toInt(),
+      popularityCount: (json['popularity_count'] as num).toInt(),
+      productType: json['product_type'] as String,
+      rating: (json['rating'] as List<dynamic>)
+          .map(
+            (e) => e == null
+                ? null
+                : ProductRatingApiModel.fromJson(e as Map<String, dynamic>),
+          )
+          .toList(),
+    );
 
 Map<String, dynamic> _$ProductApiModelToJson(ProductApiModel instance) =>
     <String, dynamic>{
@@ -85,7 +85,6 @@ Map<String, dynamic> _$ProductApiModelToJson(ProductApiModel instance) =>
       'tax_type': instance.taxType,
       'set_menu': instance.setMenu,
       'branch_id': instance.branchId,
-      'colors': instance.colors,
       'popularity_count': instance.popularityCount,
       'product_type': instance.productType,
       'rating': instance.rating.map((e) => e?.toJson()).toList(),
