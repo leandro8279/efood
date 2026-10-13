@@ -12,9 +12,10 @@ class CartNotifier({
   required final CartRepository _cartRepository,
 }) extends GetxController {
   final _log = AppLogger('CartNotifier');
-  final RxList<Cart> _carts = <Cart>[].obs;
   final RxDouble _amount = 0.0.obs;
   final RxBool _isCartUpdate = false.obs;
+  final RxList<Cart> _carts = <Cart>[].obs;
+
   List<Cart> get carts => _carts;
   double get amount => _amount.value;
   bool get isCartUpdate => _isCartUpdate.value;
