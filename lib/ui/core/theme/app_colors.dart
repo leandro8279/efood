@@ -106,6 +106,10 @@ final class AppColors {
     return Get.isDarkMode ? cartTitleDark : cartTitleLight;
   }
 
+  static Color getWhiteAndBlack() {
+    return Get.isDarkMode ? black : white;
+  }
+
   // Swatch
   static const Map<int, Color> swatch = {
     50: Color(0x10192D6B),
