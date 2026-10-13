@@ -12,7 +12,9 @@ import 'package:efood/ui/auth/verification/verification_screen.dart';
 import 'package:efood/ui/category/category_screen.dart';
 import 'package:efood/ui/category/category_bindings.dart';
 import 'package:efood/ui/category/category_viewmodel.dart';
+import 'package:efood/ui/coupon/coupon_bindings.dart';
 import 'package:efood/ui/coupon/coupon_screen.dart';
+import 'package:efood/ui/coupon/coupon_viewmodel.dart';
 import 'package:efood/ui/dashboard/dashboard_bindings.dart';
 import 'package:efood/ui/dashboard/dashboard_screen.dart';
 import 'package:efood/ui/set_menu/set_menu_screen.dart';
@@ -86,7 +88,12 @@ class AppRouter._() {
       page: () => DashboardScreen(viewModel: Get.find(), homeViewModel: Get.find()),
     ),
 
-    GetPage(middlewares: _auth, name: AppRoutes.coupon, page: () => CouponScreen()),
+    GetPage(
+      middlewares: _auth,
+      name: AppRoutes.coupon,
+      binding: CouponBindings(),
+      page: () => CouponScreen(viewModel: Get.find<CouponViewModel>()),
+    ),
     GetPage(middlewares: _auth, name: AppRoutes.setMenu, page: () => SetMenuScreen()),
 
     GetPage(

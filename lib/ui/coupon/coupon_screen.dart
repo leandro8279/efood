@@ -1,12 +1,14 @@
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
+import 'package:efood/ui/coupon/coupon_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class CouponScreen extends StatelessWidget {
-  const new({super.key});
+  const CouponScreen({super.key, required this.viewModel});
 
+  final CouponViewModel viewModel;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -15,14 +17,14 @@ class CouponScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(title: 'coupon'.tr, context: context),
       body: RenderConditional(
-        conditional: true, //_isLoggedIn
+        conditional: viewModel.isSignedIn,
         widget1: RenderConditional(
-          conditional: true,
+          conditional: viewModel.loadCoupons.running.value,
           widget1: RenderConditional(
-            conditional: true,
+            conditional: viewModel.coupons.isNotEmpty,
             widget1: RefreshIndicator(
               onRefresh: () async {
-                // await Provider.of<CouponProvider>(context, listen: false).getCouponList(context);
+                await viewModel.loadCoupons.execute();
               },
               backgroundColor: Theme.of(context).primaryColor,
               child: Scrollbar(
@@ -56,7 +58,7 @@ class CouponScreen extends StatelessWidget {
                                     padding: EdgeInsets.only(bottom: AppDimens.paddingLarge),
                                     child: InkWell(
                                       onTap: () {
-                                        Clipboard.setData(ClipboardData(text: 'coupon.couponList[index].code'));
+                                        Clipboard.setData(ClipboardData(text: viewModel.coupons[index].code));
                                         showCustomSnackBar('coupon_code_copied'.tr, context, isError: false);
                                       },
                                       child: Stack(
@@ -91,14 +93,13 @@ class CouponScreen extends StatelessWidget {
                                                     mainAxisAlignment: MainAxisAlignment.center,
                                                     children: [
                                                       SelectableText(
-                                                        'coupon.couponList[index].code',
+                                                        viewModel.coupons[index].code,
                                                         style: AppTextStyles.rubikRegular.copyWith(
                                                           color: AppColors.white,
                                                         ),
                                                       ),
                                                       SizedBox(height: AppDimens.paddingExtraSmall),
-                                                      Text(
-                                                        '', //'${coupon.couponList[index].discount}${coupon.couponList[index].discountType == 'percent' ? '%' : Provider.of<SplashProvider>(context, listen: false).configModel.currencySymbol} off',
+                                                      Text('${viewModel.coupons[index].discount}${viewModel.coupons[index].discountType == 'percent' ? '%' : viewModel.config.currencySymbol} off',
                                                         style: AppTextStyles.rubikMedium.copyWith(
                                                           color: AppColors.white,
                                                           fontSize: AppDimens.fontSizeExtraLarge,
@@ -106,7 +107,7 @@ class CouponScreen extends StatelessWidget {
                                                       ),
                                                       SizedBox(height: AppDimens.paddingExtraSmall),
                                                       Text(
-                                                        '', // '${'valid_until'.tr} ${DateConverter.isoStringToLocalDateOnly(coupon.couponList[index].expireDate)}',
+                                                        '${'valid_until'.tr} ${DateConverter.isoStringToLocalDateOnly(viewModel.coupons[index].expireDate)}',
                                                         style: AppTextStyles.rubikRegular.copyWith(
                                                           color: AppColors.white,
                                                           fontSize: AppDimens.fontSizeSmall,
