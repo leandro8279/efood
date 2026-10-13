@@ -8,11 +8,12 @@ import 'package:efood/ui/auth/signup/signup_bindings.dart';
 import 'package:efood/ui/auth/signup/signup_viewmodel.dart';
 import 'package:efood/ui/auth/verification/verification_bindings.dart';
 import 'package:efood/ui/auth/verification/verification_screen.dart';
+import 'package:efood/ui/coupon/coupon_screen.dart';
 import 'package:efood/ui/dashboard/dashboard_bindings.dart';
 import 'package:efood/ui/dashboard/dashboard_screen.dart';
 import 'package:get/get.dart';
 import 'package:efood/routing/app_routes.dart';
-// import 'package:efood/routing/auth_middleware.dart';
+import 'package:efood/routing/auth_middleware.dart';
 import 'package:efood/ui/auth/login/login_screen.dart';
 import 'package:efood/ui/onboarding/onboarding_bindings.dart';
 import 'package:efood/ui/onboarding/onboarding_screen.dart';
@@ -21,7 +22,7 @@ import 'package:efood/ui/splash/splash_screen.dart';
 import 'package:efood/ui/welcome/welcome_screen.dart';
 
 class AppRouter._() {
-  // static final _auth = [AuthMiddleware()];
+  static final _auth = [AuthMiddleware()];
 
   static List<GetPage> pages = [
     GetPage(
@@ -79,5 +80,7 @@ class AppRouter._() {
       binding: DashboardBindings(),
       page: () => DashboardScreen(viewModel: Get.find(), homeViewModel: Get.find()),
     ),
+
+    GetPage(middlewares: _auth, name: AppRoutes.coupon, page: () => CouponScreen()),
   ];
 }
