@@ -10,26 +10,19 @@ import 'package:get/get.dart';
 
 class SetMenuScreen extends StatelessWidget {
   const new({super.key});
-  ConfigNotifier get configNotifier => Get.find<ConfigNotifier>();
 
   @override
   Widget build(BuildContext context) {
-    final productImageUrl = configNotifier.config.value?.baseUrls.productImageUrl ?? '';
+    final productImageUrl = viewModel.config.baseUrls.productImageUrl;
 
     return Scaffold(
       appBar: CustomAppBar(context: context, title: 'set_menu'.tr),
       body: RenderConditional(
-        conditional: true, //setMenu.setMenuList != null
+        conditional: viewModel.isLoading,
         widget1: RenderConditional(
-          conditional: true, //setMenu.setMenuList.length > 0
+          conditional: viewModel.setMenuProducts.isNotEmpty,
           widget1: RefreshIndicator(
-            onRefresh: () async {
-              // await Provider.of<SetMenuProvider>(context, listen: false).getSetMenuList(
-              //   context,
-              //   true,
-              //   Provider.of<LocalizationProvider>(context, listen: false).locale.languageCode,
-              // );
-            },
+            onRefresh: () => viewModel.loadSetMenu.execute(),
             backgroundColor: Theme.of(context).primaryColor,
             child: Scrollbar(
               child: SingleChildScrollView(
@@ -39,7 +32,7 @@ class SetMenuScreen extends StatelessWidget {
                     child: GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: 0, // setMenu.setMenuList.length,
+                      itemCount: viewModel.setMenuProducts.length,
                       padding: EdgeInsets.all(AppDimens.paddingSmall),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisSpacing: 13,
@@ -51,15 +44,18 @@ class SetMenuScreen extends StatelessWidget {
                         double? startingPrice;
                         double? endingPrice;
                         if (setMenu.setMenuList[index].choiceOptions.length != 0) {
-                          // List<double> priceList = [];
-                          // setMenu.setMenuList[index].variations.forEach((variation) => priceList.add(variation.price));
-                          // priceList.sort((a, b) => a.compareTo(b));
-                          // startingPrice = priceList[0];
-                          // if (priceList[0] < priceList[priceList.length - 1]) {
-                          //   _endingPrice = priceList[priceList.length - 1];
-                          // }
+                          List<double> priceList = [];
+                      
+                          for(variantion in viewModel.setMenuProducts[index].variations){
+                      priceList.add(variation.price);      
+                          }
+                           priceList.sort((a, b) => a.compareTo(b));
+                          startingPrice = priceList[0];
+                          if (priceList[0] < priceList[priceList.length - 1]) {
+                          endingPrice = priceList[priceList.length - 1];
+                          }
                         } else {
-                          // startingPrice = setMenu.setMenuList[index].price;
+                          startingPrice = viewModel.setMenuProducts[index].price;
                         }
 
                         double discount =
