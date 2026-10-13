@@ -1,4 +1,5 @@
 import 'package:efood/domain/models/category/category.dart';
+import 'package:efood/ui/category/category_viewmodel.dart';
 import 'package:efood/ui/core/share/render_conditional.dart';
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
@@ -7,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-class const CategoryScreen({super.key, required final Category category}) extends StatefulWidget {
+class const CategoryScreen({super.key, required final Category category, required final CategoryViewModel viewModel})
+    extends StatefulWidget {
   @override
   State<CategoryScreen> createState() => _CategoryScreenState();
 }
@@ -25,16 +27,11 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
   }
 
   void _loadData() async {
-    // _categoryModel = widget.categoryModel;
-    // Provider.of<CategoryProvider>(
-    //   context,
-    //   listen: false,
-    // ).getCategoryList(context, false, Provider.of<LocalizationProvider>(context, listen: false).locale.languageCode);
-    // Provider.of<CategoryProvider>(context, listen: false).getSubCategoryList(
-    //   context,
-    //   _categoryModel.id.toString(),
-    //   Provider.of<LocalizationProvider>(context, listen: false).locale.languageCode,
-    // );
+    widget.viewModel.loadCategories.execute();
+    widget.viewModel.loadSubCategories.execute(widget.category.id.toString());
+    widget.viewModel.loadCategoryProductList.execute(
+      CategoryProductListParams(categoryId: widget.category.id.toString(), type: type),
+    );
   }
 
   @override
@@ -44,7 +41,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
 
     return Scaffold(
       body: RenderConditional(
-        conditional: true, // category.isLoading || category.categoryList == null
+        conditional: widget.viewModel.isLoading,
         widget1: categoryShimmer(context, height),
         widget2: CustomScrollView(
           physics: BouncingScrollPhysics(),
@@ -98,14 +95,14 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
               bottom: PreferredSize(
                 preferredSize: Size.fromHeight(30.0),
                 child: RenderConditional(
-                  conditional: true, //  category.subCategoryList != null
+                  conditional: widget.viewModel.subCategories.isNotEmpty
                   widget1: Container(
                     width: MediaQuery.of(context).size.width,
                     color: Theme.of(context).cardColor,
                     child: TabBar(
                       controller: TabController(
                         initialIndex: tabIndex,
-                        length: 1, // category.subCategoryList.length + 1,
+                        length: widget.viewModel.subCategories.length + 1,
                         vsync: this,
                       ),
                       isScrollable: true,
@@ -119,17 +116,9 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                         type = 'all';
                         tabIndex = index;
                         if (index == 0) {
-                          // category.getCategoryProductList(
-                          //   context,
-                          //   _categoryModel.id.toString(),
-                          //   Provider.of<LocalizationProvider>(context, listen: false).locale.languageCode,
-                          // );
+                          widget.viewModel.loadCategoryProductList.execute(CategoryProductListParams(categoryId: widget.category.id.toString()));
                         } else {
-                          // category.getCategoryProductList(
-                          //   context,
-                          //   category.subCategoryList[index - 1].id.toString(),
-                          //   Provider.of<LocalizationProvider>(context, listen: false).locale.languageCode,
-                          // );
+                          widget.viewModel.loadCategoryProductList.execute(CategoryProductListParams(categoryId: widget.viewModel.subCategories[index - 1].id.toString()));
                         }
                       },
                     ),
@@ -145,15 +134,10 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                 children: [
                   FilterButtonWidget(
                     type: type,
-                    items: 0, // Provider.of<ProductProvider>(context).productTypeList,
+                    items: widget.viewModel.categoryProducts.length,
                     onSelected: (selected) {
                       type = selected;
-                      // category.getCategoryProductList(
-                      //   context,
-                      //   category.selectedSubCategoryId,
-                      //   Provider.of<LocalizationProvider>(context, listen: false).locale.languageCode,
-                      //   type: _type,
-                      // );
+                       widget.viewModel.loadCategoryProductList.execute(CategoryProductListParams(categoryId: widget.viewModel.selectedSubCategoryId, type: type));
                     },
                   ),
 
@@ -162,9 +146,9 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                     child: SizedBox(
                       width: 1170,
                       child: RenderConditional(
-                        conditional: true, //  category.categoryProductList != null
+                        conditional: widget.viewModel.loadCategoryProductList.running.value,
                         widget1: RenderConditional(
-                          conditional: true, //category.categoryProductList.length > 0
+                          conditional: widget.viewModel.categoryProducts.isNotEmpty,
                           widget1: GridView.builder(
                             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisSpacing: 13,
@@ -172,12 +156,12 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                               childAspectRatio: 4,
                               crossAxisCount: 1,
                             ),
-                            itemCount: 0, // category.categoryProductList.length,
+                            itemCount: widget.viewModel.categoryProducts.length,
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             padding: EdgeInsets.all(AppDimens.paddingSmall),
                             itemBuilder: (context, index) {
-                              return ProductWidget(product: widget.category.categoryProductList[index]);
+                              return ProductWidget(product: widget.viewModel.categoryProducts[index]);
                             },
                           ),
                           widget2: NoDataScreen(isFooter: false),
@@ -194,7 +178,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                             crossAxisCount: 1,
                           ),
                           itemBuilder: (context, index) {
-                            return ProductShimmer(isEnabled: widget.category.categoryProductList == null);
+                            return ProductShimmer(isEnabled: widget.viewModel.categoryProducts.isEmpty);
                           },
                         ),
                       ),
@@ -212,7 +196,9 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
   List<Tab> _tabs() {
     List<Tab> tabList = [];
     tabList.add(Tab(text: 'All'));
-    // category.subCategoryList.forEach((subCategory) => tabList.add(Tab(text: subCategory.name)));
+    for(subCategory in widget.viewModel.subCategories) {
+      tabList.add(Tab(text: subCategory.name));
+    }
     return tabList;
   }
 
@@ -244,7 +230,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                         crossAxisCount: 1,
                       ),
                       itemBuilder: (context, index) {
-                        return ProductShimmer(isEnabled: category.categoryProductList == null);
+                        return ProductShimmer(isEnabled: widget.viewModel.categoryProducts.isEmpty);
                       },
                     ),
                   ],

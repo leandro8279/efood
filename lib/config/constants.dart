@@ -3,6 +3,8 @@ class AppConstants._() {
   static const double appVersion = 9.0;
   static const String configUrl = '/config';
   static const String categoriesUrl = '/categories';
+  static const String subCategoriesUrl = '/categories/childes/{categoryId}';
+  static const String categoryProductsUrl = '/categories/products/{categoryId}';
   static const String couponListUrl = '/coupon/list';
   static const String setMenuProductsUrl = '/products/set-menu';
   static const String latestProductsUrl = '/products/latest';

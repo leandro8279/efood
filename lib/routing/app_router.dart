@@ -10,6 +10,8 @@ import 'package:efood/ui/auth/signup/signup_viewmodel.dart';
 import 'package:efood/ui/auth/verification/verification_bindings.dart';
 import 'package:efood/ui/auth/verification/verification_screen.dart';
 import 'package:efood/ui/category/category_screen.dart';
+import 'package:efood/ui/category/category_bindings.dart';
+import 'package:efood/ui/category/category_viewmodel.dart';
 import 'package:efood/ui/coupon/coupon_screen.dart';
 import 'package:efood/ui/dashboard/dashboard_bindings.dart';
 import 'package:efood/ui/dashboard/dashboard_screen.dart';
@@ -90,10 +92,11 @@ class AppRouter._() {
     GetPage(
       middlewares: _auth,
       name: AppRoutes.category,
+      binding: CategoryBindings(),
       page: () {
         final category = Get.arguments as Category;
 
-        return CategoryScreen(category: category);
+        return CategoryScreen(category: category, viewModel: Get.find<CategoryViewModel>());
       },
     ),
   ];
