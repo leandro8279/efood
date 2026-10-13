@@ -62,7 +62,7 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     Get.put<BannerRepository>(BannerRepositoryRemote(bannerApi: Get.find()), permanent: true);
     // #
     Get.put(
-      AuthSessionNotifier(authSessionRepository: Get.find(), sessionEnded: Get.find().onUnauthorized),
+      AuthSessionNotifier(authSessionRepository: Get.find(), sessionEnded: Get.find<AuthInterceptor>().onUnauthorized),
       permanent: true,
     );
     Get.put<CartNotifier>(CartNotifier(authSessionNotifier: Get.find(), cartRepository: Get.find()), permanent: true);
