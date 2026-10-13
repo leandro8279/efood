@@ -23,9 +23,7 @@ class CouponScreen extends StatelessWidget {
           widget1: RenderConditional(
             conditional: viewModel.coupons.isNotEmpty,
             widget1: RefreshIndicator(
-              onRefresh: () async {
-                await viewModel.loadCoupons.execute();
-              },
+              onRefresh: () => viewModel.loadCoupons.execute(),
               backgroundColor: Theme.of(context).primaryColor,
               child: Scrollbar(
                 child: SingleChildScrollView(
@@ -49,7 +47,7 @@ class CouponScreen extends StatelessWidget {
                                     )
                                   : null,
                               child: ListView.builder(
-                                itemCount: 0,
+                                itemCount: viewModel.coupons.length,
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
                                 padding: EdgeInsets.all(AppDimens.paddingLarge),
