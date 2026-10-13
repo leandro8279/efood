@@ -12,17 +12,17 @@ import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
 class CouponViewModel({
+  required final ConfigNotifier _configNotifier,
   required final CouponRepository _couponRepository,
   required final AuthSessionNotifier _authSessionNotifier,
-  required final ConfigNotifier _configNotifier
 }) extends GetxController {
   final _log = AppLogger('CouponViewModel');
   final RxList<Coupon> _coupons = <Coupon>[].obs;
 
   List<Coupon> get coupons => _coupons;
+  Config get config => _configNotifier.config.value!;
   bool get isSignedIn => _authSessionNotifier.isSignedIn;
-  Config get config => _configNotifier.config!;
-  
+
   late final loadCoupons = Command0<List<Coupon>>(_loadCoupons);
 
   Future<Result<List<Coupon>>> _loadCoupons() async {

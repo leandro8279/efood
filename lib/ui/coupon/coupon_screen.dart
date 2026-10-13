@@ -1,6 +1,7 @@
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
 import 'package:efood/ui/coupon/coupon_viewmodel.dart';
+import 'package:efood/utils/date_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -97,7 +98,8 @@ class CouponScreen extends StatelessWidget {
                                                         ),
                                                       ),
                                                       SizedBox(height: AppDimens.paddingExtraSmall),
-                                                      Text('${viewModel.coupons[index].discount}${viewModel.coupons[index].discountType == 'percent' ? '%' : viewModel.config.currencySymbol} off',
+                                                      Text(
+                                                        '${viewModel.coupons[index].discount}${viewModel.coupons[index].discountType == 'percent' ? '%' : viewModel.config.currencySymbol} off',
                                                         style: AppTextStyles.rubikMedium.copyWith(
                                                           color: AppColors.white,
                                                           fontSize: AppDimens.fontSizeExtraLarge,
