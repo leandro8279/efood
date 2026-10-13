@@ -4,29 +4,32 @@ import 'package:efood/domain/repositories/category_repository.dart';
 import 'package:efood/utils/app_exception.dart';
 import 'package:efood/utils/command.dart';
 import 'package:efood/utils/logging/app_logger.dart';
+import 'package:efood/utils/notifiers/product_notifier.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
 class const CategoryProductListParams({required final String categoryId, final String type = 'all'});
 
-class CategoryViewModel({required final CategoryRepository _categoryRepository}) extends GetxController {
+class CategoryViewModel({
+  required final ProductNotifier _productNotifier,
+  required final CategoryRepository _categoryRepository,
+}) extends GetxController {
   final _log = AppLogger('CategoryViewModel');
+  final RxString _selectedSubCategoryId = "".obs;
   final RxList<Category> _categories = <Category>[].obs;
   final RxList<Category> _subCategories = <Category>[].obs;
   final RxList<Product> _categoryProducts = <Product>[].obs;
-  final RxInt _selectedSubCategoryId = "";
 
-  String get selectedSubCategoryId => _selectedSubCategoryId.value;
   List<Category> get categories => _categories;
   List<Category> get subCategories => _subCategories;
   List<Product> get categoryProducts => _categoryProducts;
-  bool get isLoading =>
-      loadCategories.running.value || loadSubCategories.running.value;
+  String get selectedSubCategoryId => _selectedSubCategoryId.value;
+  List<String> get productTypeList => _productNotifier.productTypeList;
+  bool get isLoading => loadCategories.running.value || loadSubCategories.running.value;
 
   late final loadCategories = Command0<List<Category>>(_loadCategories);
   late final loadSubCategories = Command1<List<Category>, String>(_loadSubCategories);
-  late final loadCategoryProductList =
-      Command1<List<Product>, CategoryProductListParams>(_loadCategoryProductList);
+  late final loadCategoryProductList = Command1<List<Product>, CategoryProductListParams>(_loadCategoryProductList);
 
   Future<Result<List<Category>>> _loadCategories() async {
     _log.info('Carregando categorias');

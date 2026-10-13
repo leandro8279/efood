@@ -95,7 +95,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
               bottom: PreferredSize(
                 preferredSize: Size.fromHeight(30.0),
                 child: RenderConditional(
-                  conditional: widget.viewModel.subCategories.isNotEmpty
+                  conditional: widget.viewModel.subCategories.isNotEmpty,
                   widget1: Container(
                     width: MediaQuery.of(context).size.width,
                     color: Theme.of(context).cardColor,
@@ -116,9 +116,15 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                         type = 'all';
                         tabIndex = index;
                         if (index == 0) {
-                          widget.viewModel.loadCategoryProductList.execute(CategoryProductListParams(categoryId: widget.category.id.toString()));
+                          widget.viewModel.loadCategoryProductList.execute(
+                            CategoryProductListParams(categoryId: widget.category.id.toString()),
+                          );
                         } else {
-                          widget.viewModel.loadCategoryProductList.execute(CategoryProductListParams(categoryId: widget.viewModel.subCategories[index - 1].id.toString()));
+                          widget.viewModel.loadCategoryProductList.execute(
+                            CategoryProductListParams(
+                              categoryId: widget.viewModel.subCategories[index - 1].id.toString(),
+                            ),
+                          );
                         }
                       },
                     ),
@@ -134,10 +140,12 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
                 children: [
                   FilterButtonWidget(
                     type: type,
-                    items: widget.viewModel.categoryProducts.length,
+                    items: widget.viewModel.productTypeList,
                     onSelected: (selected) {
                       type = selected;
-                       widget.viewModel.loadCategoryProductList.execute(CategoryProductListParams(categoryId: widget.viewModel.selectedSubCategoryId, type: type));
+                      widget.viewModel.loadCategoryProductList.execute(
+                        CategoryProductListParams(categoryId: widget.viewModel.selectedSubCategoryId, type: type),
+                      );
                     },
                   ),
 
@@ -196,7 +204,7 @@ class _CategoryScreenState extends State<CategoryScreen> with TickerProviderStat
   List<Tab> _tabs() {
     List<Tab> tabList = [];
     tabList.add(Tab(text: 'All'));
-    for(subCategory in widget.viewModel.subCategories) {
+    for (var subCategory in widget.viewModel.subCategories) {
       tabList.add(Tab(text: subCategory.name));
     }
     return tabList;
