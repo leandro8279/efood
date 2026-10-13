@@ -1,16 +1,16 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:efood/domain/models/cart/cart.dart';
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
+import 'package:efood/ui/home/widget/cart_bottom_sheet.dart';
+import 'package:efood/ui/set_menu/set_menu_viewmodel.dart';
 import 'package:efood/utils/date_converter.dart';
-import 'package:efood/utils/notifiers/config_notifier.dart';
 import 'package:efood/utils/price_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SetMenuScreen extends StatelessWidget {
-  const new({super.key});
-
+class const SetMenuScreen({super.key, required final SetMenuViewModel viewModel}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productImageUrl = viewModel.config.baseUrls.productImageUrl;
@@ -41,67 +41,53 @@ class SetMenuScreen extends StatelessWidget {
                         crossAxisCount: 2,
                       ),
                       itemBuilder: (context, index) {
-                        double? startingPrice;
+                        double startingPrice;
                         double? endingPrice;
-                        if (setMenu.setMenuList[index].choiceOptions.length != 0) {
+                        if (viewModel.setMenuProducts[index].choiceOptions.isNotEmpty) {
                           List<double> priceList = [];
-                      
-                          for(variantion in viewModel.setMenuProducts[index].variations){
-                      priceList.add(variation.price);      
+
+                          for (var variantion in viewModel.setMenuProducts[index].variations) {
+                            priceList.add(variantion.price);
                           }
-                           priceList.sort((a, b) => a.compareTo(b));
+                          priceList.sort((a, b) => a.compareTo(b));
                           startingPrice = priceList[0];
                           if (priceList[0] < priceList[priceList.length - 1]) {
-                          endingPrice = priceList[priceList.length - 1];
+                            endingPrice = priceList[priceList.length - 1];
                           }
                         } else {
                           startingPrice = viewModel.setMenuProducts[index].price;
                         }
 
                         double discount =
-                            setMenu.setMenuList[index].price -
+                            viewModel.setMenuProducts[index].price -
                             PriceConverter.convertWithDiscount(
-                              price: setMenu.setMenuList[index].price,
-                              discount: setMenu.setMenuList[index].discount,
-                              discountType: setMenu.setMenuList[index].discountType,
+                              price: viewModel.setMenuProducts[index].price,
+                              discount: viewModel.setMenuProducts[index].discount,
+                              discountType: viewModel.setMenuProducts[index].discountType,
                             );
 
                         bool isAvailable = DateConverter.isAvailable(
-                          start: setMenu.setMenuList[index].availableTimeStarts,
-                          end: setMenu.setMenuList[index].availableTimeEnds,
+                          start: viewModel.setMenuProducts[index].availableTimeStarts,
+                          end: viewModel.setMenuProducts[index].availableTimeEnds,
                         );
 
                         return Obx(() {
-                          int cartIndex = 0; //_cartProvider.getCartIndex(setMenu.setMenuList[index]);
+                          int? cartIndex = viewModel.cartNotifier.getCartIndex(viewModel.setMenuProducts[index]);
                           return InkWell(
                             onTap: () {
-                              // ResponsiveHelper.isMobile(context)
-                              //     ? showModalBottomSheet(
-                              //         context: context,
-                              //         isScrollControlled: true,
-                              //         backgroundColor: Colors.transparent,
-                              //         builder: (con) => CartBottomSheet(
-                              //           product: setMenu.setMenuList[index],
-                              //           fromSetMenu: true,
-                              //           cart: cartIndex != null ? _cartProvider.cartList[cartIndex] : null,
-                              //           callback: (CartModel cartModel) {
-                              //             showCustomSnackBar('added_to_cart'.tr, context, isError: false);
-                              //           },
-                              //         ),
-                              //       )
-                              //     : showDialog(
-                              //         context: context,
-                              //         builder: (con) => Dialog(
-                              //           child: CartBottomSheet(
-                              //             product: setMenu.setMenuList[index],
-                              //             fromSetMenu: true,
-                              //             cart: cartIndex != null ? _cartProvider.cartList[cartIndex] : null,
-                              //             callback: (CartModel cartModel) {
-                              //               showCustomSnackBar('added_to_cart'.tr, context, isError: false);
-                              //             },
-                              //           ),
-                              //         ),
-                              //       );
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (con) => CartBottomSheet(
+                                  product: viewModel.setMenuProducts[index],
+                                  fromSetMenu: true,
+                                  cart: cartIndex != null ? viewModel.cartNotifier.carts[cartIndex] : null,
+                                  callback: (Cart cartModel) {
+                                    showCustomSnackBar('added_to_cart'.tr, context, isError: false);
+                                  },
+                                ),
+                              );
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -127,7 +113,7 @@ class SetMenuScreen extends StatelessWidget {
                                           height: 110,
                                           width: MediaQuery.of(context).size.width / 2,
                                           fit: BoxFit.cover,
-                                          image: '$productImageUrl/${setMenu.setMenuList[index].image}',
+                                          image: '$productImageUrl/${viewModel.setMenuProducts[index].image}',
                                           imageErrorBuilder: (c, o, s) => Image.asset(
                                             AppAssets.images.placeholderRectangle,
                                             height: 110,
@@ -172,7 +158,7 @@ class SetMenuScreen extends StatelessWidget {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            setMenu.setMenuList[index].name,
+                                            viewModel.setMenuProducts[index].name,
                                             style: AppTextStyles.rubikMedium.copyWith(
                                               fontSize: AppDimens.fontSizeSmall,
                                             ),
@@ -182,8 +168,8 @@ class SetMenuScreen extends StatelessWidget {
                                           SizedBox(height: AppDimens.paddingExtraSmall),
 
                                           RatingBar(
-                                            rating: setMenu.setMenuList[index].rating.length > 0
-                                                ? double.parse(setMenu.setMenuList[index].rating[0].average)
+                                            rating: viewModel.setMenuProducts[index].rating.isNotEmpty
+                                                ? double.parse(viewModel.setMenuProducts[index].rating[0].average)
                                                 : 0.0,
                                             size: 12,
                                           ),
@@ -193,15 +179,17 @@ class SetMenuScreen extends StatelessWidget {
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                '${PriceConverter.convertPrice(context, startingPrice, discount: setMenu.setMenuList[index].discount, discountType: setMenu.setMenuList[index].discountType)}'
-                                                '${endingPrice != null ? ' - ${PriceConverter.convertPrice(price: endingPrice, discount: setMenu.setMenuList[index].discount, discountType: setMenu.setMenuList[index].discountType, config: configNotifier.config.value)}' : ''}',
+                                                '${PriceConverter.convertPrice(price: startingPrice, discount: viewModel.setMenuProducts[index].discount, discountType: viewModel.setMenuProducts[index].discountType, config: viewModel.config)}'
+                                                '${endingPrice != null ? ' - ${PriceConverter.convertPrice(price: endingPrice, discount: viewModel.setMenuProducts[index].discount, discountType: viewModel.setMenuProducts[index].discountType, config: viewModel.config)}' : ''}',
                                                 style: AppTextStyles.rubikBold.copyWith(
                                                   fontSize: AppDimens.fontSizeSmall,
                                                 ),
                                               ),
-                                              discount > 0
-                                                  ? SizedBox()
-                                                  : Icon(Icons.add, color: AppTextStyles.bodyText1().color),
+                                              RenderConditional(
+                                                conditional: discount > 0,
+                                                widget1: SizedBox(),
+                                                widget2: Icon(Icons.add, color: AppTextStyles.bodyText1().color),
+                                              ),
                                             ],
                                           ),
                                           RenderConditional(
@@ -210,8 +198,8 @@ class SetMenuScreen extends StatelessWidget {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(
-                                                  '${PriceConverter.convertPrice(price: startingPrice, config: configNotifier.config.value)}'
-                                                  '${endingPrice != null ? ' - ${PriceConverter.convertPrice(price: endingPrice, config: configNotifier.config.value)}' : ''}',
+                                                  '${PriceConverter.convertPrice(price: startingPrice, config: viewModel.config)}'
+                                                  '${endingPrice != null ? ' - ${PriceConverter.convertPrice(price: endingPrice, config: viewModel.config)}' : ''}',
                                                   style: AppTextStyles.rubikBold.copyWith(
                                                     fontSize: AppDimens.fontSizeExtraSmall,
                                                     color: AppColors.getGreyColor(),
