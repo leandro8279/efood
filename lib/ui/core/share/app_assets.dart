@@ -48,7 +48,7 @@ final class const Images._() {
   final String onboardingOne = 'assets/image/onboarding_one.png';
   final String onboardingThree = 'assets/image/onboarding_three.png';
   final String onboardingTwo = 'assets/image/onboarding_two.png';
-
+  final String noAddress = 'assets/image/no_address.png';
   String getImageUrl(String key) {
     return logo;
   }
