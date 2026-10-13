@@ -1,19 +1,21 @@
-import 'package:efood/domain/models/config/config.dart';
 import 'package:efood/domain/models/product/product.dart';
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/share/wish_button.dart';
 import 'package:efood/ui/core/theme/theme.dart';
 import 'package:efood/utils/date_converter.dart';
+import 'package:efood/utils/notifiers/config_notifier.dart';
 import 'package:efood/utils/price_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class const ProductWidget({super.key, required final Product product, required final Config? config})
-    extends StatelessWidget {
+class const ProductWidget({super.key, required final Product product}) extends StatelessWidget {
+  ConfigNotifier get configNotifier => Get.find<ConfigNotifier>();
+
   @override
   Widget build(BuildContext context) {
     double? endingPrice;
     double? startingPrice;
+    final config = configNotifier.config.value;
 
     String imagePathUrl = config?.baseUrls.productImageUrl ?? '';
 
