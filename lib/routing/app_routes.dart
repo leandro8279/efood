@@ -11,5 +11,6 @@ final class AppRoutes._() {
   static const forgotPassword = "/auth/forgot_password";
   static const coupon = "/coupon";
   static const category = "/category";
+  static const setMenu = "/setMenu";
   static const public = {splash, onboarding, login};
 }

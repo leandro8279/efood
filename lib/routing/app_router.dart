@@ -13,6 +13,7 @@ import 'package:efood/ui/category/category_screen.dart';
 import 'package:efood/ui/coupon/coupon_screen.dart';
 import 'package:efood/ui/dashboard/dashboard_bindings.dart';
 import 'package:efood/ui/dashboard/dashboard_screen.dart';
+import 'package:efood/ui/set_menu/set_menu_screen.dart';
 import 'package:get/get.dart';
 import 'package:efood/routing/app_routes.dart';
 import 'package:efood/routing/auth_middleware.dart';
@@ -84,6 +85,7 @@ class AppRouter._() {
     ),
 
     GetPage(middlewares: _auth, name: AppRoutes.coupon, page: () => CouponScreen()),
+    GetPage(middlewares: _auth, name: AppRoutes.setMenu, page: () => SetMenuScreen()),
 
     GetPage(
       middlewares: _auth,
