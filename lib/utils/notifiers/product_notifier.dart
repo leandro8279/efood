@@ -10,6 +10,7 @@ class ProductNotifier extends GetxController {
   final RxList<int> _addOnQtyList = <int>[].obs;
   final RxInt _quantity = 1.obs;
   final RxInt _cartIndex = RxInt(-1);
+  final List<String> _productTypeList = ['all', 'non_veg', 'veg'];
 
   Rx<Product?> get product => _product;
   List<int> get variationIndex => _variationIndex;
@@ -17,6 +18,7 @@ class ProductNotifier extends GetxController {
   List<int> get addOnQtyList => _addOnQtyList;
   RxInt get quantity => _quantity;
   RxInt get cartIndex => _cartIndex;
+  List<String> get productTypeList => _productTypeList;
 
   void initData(Product product, Cart? cart) {
     _addOnQtyList.value = [];
