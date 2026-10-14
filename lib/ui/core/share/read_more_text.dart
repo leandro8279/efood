@@ -209,8 +209,6 @@ class ReadMoreTextState extends State<ReadMoreText> {
               textSpan = TextSpan(style: effectiveTextStyle, text: widget.data);
             }
             break;
-          default:
-            throw Exception('TrimMode type: ${widget.trimMode} is not supported');
         }
 
         return AnimatedSize(

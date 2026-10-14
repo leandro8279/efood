@@ -175,9 +175,4 @@ class CartNotifier({
     super.onInit();
     getCartData();
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }

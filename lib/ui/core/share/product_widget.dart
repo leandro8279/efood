@@ -136,7 +136,7 @@ class const ProductWidget({super.key, required final Product product}) extends S
                     RenderConditional(
                       conditional: product.rating.isNotEmpty,
                       widget1: RatingBar(
-                        rating: product.rating.isNotEmpty ? double.parse(product.rating[0]!.average) : 0.0,
+                        rating: product.rating.isNotEmpty ? double.parse(product.rating[0].average) : 0.0,
                         size: 10,
                       ),
                       widget2: SizedBox(),
