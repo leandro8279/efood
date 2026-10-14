@@ -13,10 +13,11 @@ class AuthSessionNotifier({
   final _log = AppLogger('AuthSessionNotifier');
   final RxnString _token = RxnString();
   final RxBool _restored = false.obs;
+  final RxBool _isSignedIn = false.obs;
   late final StreamSubscription<void> _sessionEnded;
 
   bool get isRestored => _restored.value;
-  bool get isSignedIn => _token.value?.isNotEmpty == true;
+  RxBool get isSignedIn => _isSignedIn;
 
   this {
     _sessionEnded = sessionEnded.listen((_) => unawaited(_clearSession()));

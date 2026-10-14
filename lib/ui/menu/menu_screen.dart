@@ -5,8 +5,7 @@ import 'package:efood/utils/notifiers/config_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MenuScreen extends StatefulWidget {
-  const new({super.key});
+class const MenuScreen({super.key, required final MenuViewModel viewModel}) extends StatefulWidget {
 
   @override
   State<MenuScreen> createState() => _MenuScreenState();
@@ -51,7 +50,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                     child: ClipOval(
                       child: RenderConditional(
-                        conditional: true, //_isLoggedIn
+                        conditional: viewModel.isSignedIn,
                         widget1: FadeInImage.assetNetwork(
                           placeholder: AppAssets.images.placeholderUser,
                           height: 80,
@@ -76,7 +75,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     children: [
                       SizedBox(height: 20),
                       RenderConditional(
-                        conditional: true, //_isLoggedIn
+                        conditional: viewModel.isSignedIn,
                         widget1: RenderConditional(
                           conditional: true, //  profileProvider.userInfoModel != null
                           widget1: Text(
@@ -96,7 +95,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
                       SizedBox(height: 10),
                       RenderConditional(
-                        conditional: true, //_isLoggedIn
+                        conditional: viewModel.isSignedIn,
                         widget1: RenderConditional(
                           conditional: true, // profileProvider.userInfoModel != null
                           widget1: Text(
@@ -115,7 +114,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       ),
                       SizedBox(height: 10),
                       RenderConditional(
-                        conditional: true, //_isLoggedIn
+                        conditional: viewModel.isSignedIn,
                         widget1: RenderConditional(
                           conditional: true, //profileProvider.userInfoModel != null
                           widget1: Text(
