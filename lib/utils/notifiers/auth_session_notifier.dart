@@ -5,65 +5,100 @@ import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
-class AuthSessionNotifier({
-  required final AuthSessionRepository authSessionRepository,
-  required final Stream<void> sessionEnded,
-}) extends GetxController {
-  final AuthSessionRepository _authSessionRepository = authSessionRepository;
-  final _log = AppLogger('AuthSessionNotifier');
-  final RxnString _token = RxnString();
+class AuthSessionNotifier extends GetxController {
+  AuthSessionNotifier({
+    required ProfileGetUserInfoUseCase profileGetUserInfoUseCase,
+    required Stream<void> sessionEnded,
+  }) : _profileGetUserInfoUseCase = profileGetUserInfoUseCase {
+    _log.info('Inicializando gerenciador de sessão.');
+
+    unawaited(_getUserInfo());
+
+    _sessionEnded = sessionEnded.listen(
+      (_) {
+        _log.info('Evento de encerramento de sessão recebido.');
+        unawaited(logout());
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        _log.error(
+          'Erro no fluxo de encerramento da sessão.',
+          error: error,
+          stackTrace: stackTrace,
+        );
+      },
+    );
+  }
+
+  final ProfileGetUserInfoUseCase _profileGetUserInfoUseCase;
+  final AppLogger _log = AppLogger('AuthSessionNotifier');
+
   final RxBool _restored = false.obs;
   final RxBool _isSignedIn = false.obs;
+  final Rx<Profile?> _profile = Rx<Profile?>(null);
+
   late final StreamSubscription<void> _sessionEnded;
 
   bool get isRestored => _restored.value;
   RxBool get isSignedIn => _isSignedIn;
+  Rx<Profile?> get profile => _profile;
 
-  this {
-    _sessionEnded = sessionEnded.listen((_) => unawaited(_clearSession()));
+  Future<void> _getUserInfo() async {
+    _log.info('Iniciando restauração da sessão.');
+
+      final result = await _profileGetUserInfoUseCase.getUserInfo();
+
+      if (_restored.value) {
+        _log.info('Sessão já restaurada. Ignorando resultado.');
+        return;
+      }
+
+      switch (result) {
+        case Ok(:final value):
+          _profile.value = value;
+          _isSignedIn.value = value != null;
+
+          if (value != null) {
+            _log.info('Sessão restaurada com sucesso. Usuário autenticado.');
+          } else {
+            _log.info('Nenhum usuário autenticado encontrado.');
+          }
+
+        case Error(:final error):
+          _profile.value = null;
+          _isSignedIn.value = false;
+
+          _log.error(
+            'Falha ao recuperar os dados do usuário.',
+            error: error,
+          );
+      }
+
+      _restored.value = true;
+      _log.info('Processo de restauração da sessão finalizado.');
   }
 
-  Future<void> restoreSession() => _restore();
+  Future<void> signedIn() async {
+    _log.info('Solicitada atualização da sessão após o login.');
 
-  Future<void> _restore() async {
-    switch (await _authSessionRepository.readToken()) {
-      case Ok<String?>(:final value):
-        _token.value = value?.isNotEmpty == true ? value : null;
-        _restored.value = true;
-      case Error<String?>(:final error):
-        _log.error(
-          'Falha ao restaurar a sessão',
-          error: error,
-          stackTrace: error.stackTrace,
-        );
-    }
+    _restored.value = false;
+    await _getUserInfo();
   }
 
-  void signedIn(String token) {
-    _token.value = token.isNotEmpty ? token : null;
-    _restored.value = true;
-  }
+  Future<void> logout() async {
+    _log.info('Iniciando encerramento da sessão.');
 
-  void signedOut() {
-    _token.value = null;
-    _restored.value = true;
-  }
+    _profile.value = null;
+    _isSignedIn.value = false;
 
-  Future<void> _clearSession() async {
-    signedOut();
-    final result = await _authSessionRepository.delete();
-    if (result case Error<void>(:final error)) {
-      _log.error(
-        'Falha ao remover o token da sessão',
-        error: error,
-        stackTrace: error.stackTrace,
-      );
-    }
+    _log.info('Sessão encerrada. Dados do usuário removidos.');
   }
 
   @override
-  void dispose() {
-    _sessionEnded.cancel();
-    super.dispose();
+  void onClose() {
+    _log.info('Encerrando AuthSessionNotifier.');
+
+    unawaited(_sessionEnded.cancel());
+
+    super.onClose();
   }
 }
