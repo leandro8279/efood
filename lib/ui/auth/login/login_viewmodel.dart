@@ -32,7 +32,7 @@ class LoginViewModel({
     switch (result) {
       case Ok<String>(:final value):
         _log.info("RESULT $value");
-        _sessionNotifier.signedIn(value);
+        _sessionNotifier.signedIn();
         return Result.done;
       case Error<String>(:final error):
         _log.error('Falha ao entrar', error: error, stackTrace: error.stackTrace);

@@ -49,6 +49,10 @@ final class const Images._() {
   final String onboardingThree = 'assets/image/onboarding_three.png';
   final String onboardingTwo = 'assets/image/onboarding_two.png';
   final String noAddress = 'assets/image/no_address.png';
+  final String returnPolicy = 'assets/image/return_policy.png';
+  final String refundPolicy = 'assets/image/refound_policy.png';
+  final String cancellationPolicy = 'assets/image/cancellation_policy.png';
+
   String getImageUrl(String key) {
     return logo;
   }
@@ -57,4 +61,6 @@ final class const Images._() {
 final class const AppIcons._() {
   final String closeLock = 'assets/icon/close_lock.png';
   final String emailWithBackground = 'assets/icon/email_with_background.png';
+  final String location = 'assets/icon/location.png';
+  final String version = 'assets/icon/version.png';
 }

@@ -1,32 +1,12 @@
-import 'package:efood/domain/models/config/config.dart';
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
-import 'package:efood/utils/notifiers/config_notifier.dart';
+import 'package:efood/ui/menu/menu_viewmodel.dart';
+import 'package:efood/ui/menu/widget/options_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class const MenuScreen({super.key, required final MenuViewModel viewModel}) extends StatefulWidget {
-
-  @override
-  State<MenuScreen> createState() => _MenuScreenState();
-}
-
-class _MenuScreenState extends State<MenuScreen> {
-  ConfigNotifier configNotifier = Get.find<ConfigNotifier>();
-
-  Config? config;
-
-  @override
-  void initState() {
-    config = configNotifier.config.value!;
-    // TODO: implement initState
-    super.initState();
-    // _isLoggedIn = Provider.of<AuthProvider>(context, listen: false).isLoggedIn();
-    // if (_isLoggedIn) {
-    //   Provider.of<ProfileProvider>(context, listen: false).getUserInfo(context);
-    // }
-  }
-
+class const MenuScreen({super.key, required final Function onTap, required final MenuViewModel viewModel})
+    extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,8 +37,8 @@ class _MenuScreenState extends State<MenuScreen> {
                           width: 80,
                           fit: BoxFit.cover,
                           image:
-                              '${config!.baseUrls.customerImageUrl}/'
-                              '${profileProvider.userInfoModel != null ? profileProvider.userInfoModel.image : ''}',
+                              '${viewModel.config.baseUrls.customerImageUrl}/'
+                              '${viewModel.profile != null ? viewModel.profile!.image : ''}',
                           imageErrorBuilder: (c, o, s) =>
                               Image.asset(AppAssets.images.placeholderUser, height: 80, width: 80, fit: BoxFit.cover),
                         ),
@@ -77,9 +57,9 @@ class _MenuScreenState extends State<MenuScreen> {
                       RenderConditional(
                         conditional: viewModel.isSignedIn,
                         widget1: RenderConditional(
-                          conditional: true, //  profileProvider.userInfoModel != null
+                          conditional: viewModel.profile != null,
                           widget1: Text(
-                            '${profileProvider.userInfoModel.fName ?? ''} ${profileProvider.userInfoModel.lName ?? ''}',
+                            '${viewModel.profile?.fName} ${viewModel.profile?.lName ?? ''}',
                             style: AppTextStyles.rubikRegular.copyWith(
                               fontSize: AppDimens.fontSizeExtraLarge,
                               color: AppColors.white,
@@ -89,7 +69,10 @@ class _MenuScreenState extends State<MenuScreen> {
                         ),
                         widget2: Text(
                           'guest'.tr,
-                          style: rubikRegular.copyWith(fontSize: AppDimens.fontSizeExtraLarge, color: AppColors.white),
+                          style: AppTextStyles.rubikRegular.copyWith(
+                            fontSize: AppDimens.fontSizeExtraLarge,
+                            color: AppColors.white,
+                          ),
                         ),
                       ),
 
@@ -97,9 +80,9 @@ class _MenuScreenState extends State<MenuScreen> {
                       RenderConditional(
                         conditional: viewModel.isSignedIn,
                         widget1: RenderConditional(
-                          conditional: true, // profileProvider.userInfoModel != null
+                          conditional: viewModel.profile != null,
                           widget1: Text(
-                            '${profileProvider.userInfoModel.email ?? ''}',
+                            '${viewModel.profile?.email ?? ''}',
                             style: AppTextStyles.rubikRegular.copyWith(color: AppColors.background),
                           ),
                           widget2: Container(height: 15, width: 100, color: Colors.white),
@@ -116,9 +99,9 @@ class _MenuScreenState extends State<MenuScreen> {
                       RenderConditional(
                         conditional: viewModel.isSignedIn,
                         widget1: RenderConditional(
-                          conditional: true, //profileProvider.userInfoModel != null
+                          conditional: viewModel.profile != null,
                           widget1: Text(
-                            '${'points'.tr}: ${profileProvider.userInfoModel.point ?? ''}',
+                            '${'points'.tr}: ${viewModel.profile?.point ?? ''}',
                             style: AppTextStyles.rubikRegular.copyWith(color: AppColors.background),
                           ),
                           widget2: Container(height: 15, width: 100, color: Colors.white),
@@ -131,7 +114,16 @@ class _MenuScreenState extends State<MenuScreen> {
               ),
             ),
           ),
-          Expanded(child: OptionsView(onTap: widget.onTap)),
+          Expanded(
+            child: Obx(
+              () => OptionsView(
+                onTap: onTap,
+                config: viewModel.config,
+                isSignedIn: viewModel.isSignedIn,
+                policy: viewModel.policy,
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -1,13 +1,19 @@
+import 'package:efood/domain/models/config/config.dart';
+import 'package:efood/domain/models/config/policy.dart';
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class const OptionsView({super.key, required final Function onTap}) extends StatelessWidget {
+class const OptionsView({
+  super.key,
+  required final Function onTap,
+  required final Policy? policy,
+  required final bool isSignedIn,
+  required final Config? config,
+}) extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final bool isLoggedIn = Provider.of<AuthProvider>(context, listen: false).isLoggedIn();
-    final policyModel = Provider.of<SplashProvider>(context, listen: false).policyModel;
     return Scrollbar(
       child: SingleChildScrollView(
         padding: EdgeInsets.zero,
@@ -19,10 +25,9 @@ class const OptionsView({super.key, required final Function onTap}) extends Stat
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 0),
-
                 SwitchListTile(
-                  value: true, //Provider.of<ThemeProvider>(context).darkTheme,
-                  onChanged: (bool isActive) => Provider.of<ThemeProvider>(context, listen: false).toggleTheme(),
+                  value: Get.isDarkMode,
+                  onChanged: (bool isActive) => Get.changeTheme(isActive ? ThemeData.fallback() : ThemeData.light()),
                   title: Text(
                     'dark_theme'.tr,
                     style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeLarge),
@@ -63,7 +68,7 @@ class const OptionsView({super.key, required final Function onTap}) extends Stat
                     // Navigator.pushNamed(context, Routes.getAddressRoute())
                   },
                   leading: Image.asset(
-                    AppAssets.images.location,
+                    AppAssets.icons.location,
                     width: 20,
                     height: 20,
                     color: AppTextStyles.bodyText1().color,
@@ -105,7 +110,9 @@ class const OptionsView({super.key, required final Function onTap}) extends Stat
                 ),
 
                 ListTile(
-                  onTap: () => Navigator.pushNamed(context, Routes.getLanguageRoute('menu')),
+                  onTap: () {
+                    // Navigator.pushNamed(context, Routes.getLanguageRoute('menu')),
+                  },
                   leading: Image.asset(
                     AppAssets.images.language,
                     width: 20,
@@ -118,11 +125,13 @@ class const OptionsView({super.key, required final Function onTap}) extends Stat
                   ),
                 ),
                 ListTile(
-                  onTap: () => Navigator.pushNamed(context, Routes.getSupportRoute()),
-                  leading: Container(
+                  onTap: () {
+                    // Navigator.pushNamed(context, Routes.getSupportRoute())
+                  },
+                  leading: SizedBox(
                     width: 20,
                     height: 20,
-                    child: Image.asset(AppAssets.images.help_support, color: AppColors.getWhiteAndBlack(context)),
+                    child: Image.asset(AppAssets.images.helpSupport, color: AppColors.getWhiteAndBlack()),
                   ),
                   title: Text(
                     'help_and_support'.tr,
@@ -130,11 +139,13 @@ class const OptionsView({super.key, required final Function onTap}) extends Stat
                   ),
                 ),
                 ListTile(
-                  onTap: () => Navigator.pushNamed(context, Routes.getPolicyRoute()),
-                  leading: Container(
+                  onTap: () {
+                    // Navigator.pushNamed(context, Routes.getPolicyRoute())
+                  },
+                  leading: SizedBox(
                     width: 20,
                     height: 20,
-                    child: Image.asset(AppAssets.images.privacy_policy, color: AppColors.getWhiteAndBlack(context)),
+                    child: Image.asset(AppAssets.images.privacyPolicy, color: AppColors.getWhiteAndBlack()),
                   ),
                   title: Text(
                     'privacy_policy'.tr,
@@ -142,14 +153,13 @@ class const OptionsView({super.key, required final Function onTap}) extends Stat
                   ),
                 ),
                 ListTile(
-                  onTap: () => Navigator.pushNamed(context, Routes.getTermsRoute()),
-                  leading: Container(
+                  onTap: () {
+                    // Navigator.pushNamed(context, Routes.getTermsRoute())
+                  },
+                  leading: SizedBox(
                     width: 20,
                     height: 20,
-                    child: Image.asset(
-                      AppAssets.images.terms_and_condition,
-                      color: AppColors.getWhiteAndBlack(context),
-                    ),
+                    child: Image.asset(AppAssets.images.termsAndCondition, color: AppColors.getWhiteAndBlack()),
                   ),
                   title: Text(
                     'terms_and_condition'.tr,
@@ -157,9 +167,12 @@ class const OptionsView({super.key, required final Function onTap}) extends Stat
                   ),
                 ),
 
-                if (policyModel != null && policyModel.returnPage != null && policyModel.returnPage.status)
-                  ListTile(
-                    onTap: () => Navigator.pushNamed(context, Routes.getReturnPolicyRoute()),
+                RenderConditional(
+                  conditional: policy != null && policy?.returnPage != null && policy!.returnPage?.status != null,
+                  widget1: ListTile(
+                    onTap: () {
+                      // Navigator.pushNamed(context, Routes.getReturnPolicyRoute())
+                    },
                     leading: Image.asset(
                       AppAssets.images.returnPolicy,
                       width: 20,
@@ -171,10 +184,15 @@ class const OptionsView({super.key, required final Function onTap}) extends Stat
                       style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeLarge),
                     ),
                   ),
+                  widget2: SizedBox.shrink(),
+                ),
 
-                if (policyModel != null && policyModel.refundPage != null && policyModel.refundPage.status)
-                  ListTile(
-                    onTap: () => Navigator.pushNamed(context, Routes.getRefundPolicyRoute()),
+                RenderConditional(
+                  conditional: policy != null && policy?.refundPage != null && policy!.refundPage?.status != null,
+                  widget1: ListTile(
+                    onTap: () {
+                      // Navigator.pushNamed(context, Routes.getRefundPolicyRoute())
+                    },
                     leading: Image.asset(
                       AppAssets.images.refundPolicy,
                       width: 20,
@@ -186,9 +204,15 @@ class const OptionsView({super.key, required final Function onTap}) extends Stat
                       style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeLarge),
                     ),
                   ),
-                if (policyModel != null && policyModel.cancellationPage != null && policyModel.cancellationPage.status)
-                  ListTile(
-                    onTap: () => Navigator.pushNamed(context, Routes.getCancellationPolicyRoute()),
+                  widget2: SizedBox.shrink(),
+                ),
+                RenderConditional(
+                  conditional:
+                      policy != null && policy!.cancellationPage != null && policy!.cancellationPage?.status != null,
+                  widget1: ListTile(
+                    onTap: () {
+                      // Navigator.pushNamed(context, Routes.getCancellationPolicyRoute())
+                    },
                     leading: Image.asset(
                       AppAssets.images.cancellationPolicy,
                       width: 20,
@@ -200,10 +224,14 @@ class const OptionsView({super.key, required final Function onTap}) extends Stat
                       style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeLarge),
                     ),
                   ),
+                  widget2: SizedBox.shrink(),
+                ),
 
                 ListTile(
-                  onTap: () => Navigator.pushNamed(context, Routes.getAboutUsRoute()),
-                  leading: Container(
+                  onTap: () {
+                    // Navigator.pushNamed(context, Routes.getAboutUsRoute())
+                  },
+                  leading: SizedBox(
                     width: 20,
                     height: 20,
                     child: Image.asset(AppAssets.images.aboutUs, color: AppColors.getWhiteAndBlack()),
@@ -216,23 +244,23 @@ class const OptionsView({super.key, required final Function onTap}) extends Stat
 
                 ListTile(
                   leading: Image.asset(
-                    AppAssets.images.version,
+                    AppAssets.icons.version,
                     width: 20,
                     height: 20,
                     color: AppTextStyles.bodyText1().color,
                   ),
                   title: Text(
-                    '${'version'.tr}',
+                    'version'.tr,
                     style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeLarge),
                   ),
                   trailing: Text(
-                    '${Provider.of<SplashProvider>(context, listen: false).configModel.softwareVersion ?? ''}',
+                    '${config?.softwareVersion ?? ''}',
                     style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeLarge),
                   ),
                   //
                 ),
                 RenderConditional(
-                  conditional: isLoggedIn,
+                  conditional: isSignedIn,
                   widget1: ListTile(
                     onTap: () {
                       // showAnimatedDialog(
@@ -282,13 +310,13 @@ class const OptionsView({super.key, required final Function onTap}) extends Stat
                     // }
                   },
                   leading: Image.asset(
-                    AppAssets.AppAssets.images.login,
+                    AppAssets.images.login,
                     width: 20,
                     height: 20,
                     color: AppTextStyles.bodyText1().color,
                   ),
                   title: Text(
-                    isLoggedIn ? 'logout' : 'login'.tr,
+                    isSignedIn ? 'logout' : 'login'.tr,
                     style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeLarge),
                   ),
                 ),

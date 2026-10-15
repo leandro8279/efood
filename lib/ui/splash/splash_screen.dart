@@ -7,10 +7,7 @@ import 'package:efood/ui/splash/splash_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class const SplashScreen({
-  super.key,
-  required final SplashViewModel viewModel,
-}) extends StatefulWidget {
+class const SplashScreen({super.key, required final SplashViewModel viewModel}) extends StatefulWidget {
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -36,7 +33,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
     _configWorker?.dispose();
 
-    if (mounted) Get.offAllNamed(AppRoutes.main);
+    if (mounted) {
+      if (widget.viewModel.isSignedIn) {
+        Get.offAllNamed(AppRoutes.main);
+      } else {
+        Get.offAllNamed(AppRoutes.welcome);
+      }
+    }
   }
 
   @override

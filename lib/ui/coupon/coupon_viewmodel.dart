@@ -21,7 +21,7 @@ class CouponViewModel({
 
   List<Coupon> get coupons => _coupons;
   Config get config => _configNotifier.config.value!;
-  bool get isSignedIn => _authSessionNotifier.isSignedIn;
+  bool get isSignedIn => _authSessionNotifier.isSignedIn.value;
 
   late final loadCoupons = Command0<List<Coupon>>(_loadCoupons);
 
