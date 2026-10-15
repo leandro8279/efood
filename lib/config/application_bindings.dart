@@ -65,10 +65,13 @@ class ApplicationBindings({required final SharedPreferences sharedPreferences}) 
     Get.put<BannerRepository>(BannerRepositoryRemote(bannerApi: Get.find()), permanent: true);
     // #
     Get.put(
-      AuthSessionNotifier(authSessionRepository: Get.find(), sessionEnded: Get.find<AuthInterceptor>().onUnauthorized),
+      AuthSessionNotifier(
+        profileGetUserInfoUseCase: Get.find(),
+        sessionEnded: Get.find<AuthInterceptor>().onUnauthorized,
+      ),
       permanent: true,
     );
-    Get.put<CartNotifier>(CartNotifier(authSessionNotifier: Get.find(), cartRepository: Get.find()), permanent: true);
+    Get.put<CartNotifier>(CartNotifier(cartRepository: Get.find()), permanent: true);
     Get.put<ProductNotifier>(ProductNotifier(), permanent: true);
     Get.put<ConfigNotifier>(ConfigNotifier(configRepository: Get.find()), permanent: true);
   }
