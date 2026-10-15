@@ -2,15 +2,11 @@ import 'package:efood/domain/models/cart/cart.dart';
 import 'package:efood/domain/models/product/product.dart';
 import 'package:efood/domain/repositories/cart_repository.dart';
 import 'package:efood/utils/app_exception.dart';
-import 'package:efood/utils/notifiers/auth_session_notifier.dart';
 import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
-class CartNotifier({
-  required final AuthSessionNotifier _authSessionNotifier,
-  required final CartRepository _cartRepository,
-}) extends GetxController {
+class CartNotifier({required final CartRepository _cartRepository}) extends GetxController {
   final _log = AppLogger('CartNotifier');
   final RxDouble _amount = 0.0.obs;
   final RxBool _isCartUpdate = false.obs;
@@ -19,7 +15,6 @@ class CartNotifier({
   List<Cart> get carts => _carts;
   double get amount => _amount.value;
   bool get isCartUpdate => _isCartUpdate.value;
-  bool get isSignedIn => _authSessionNotifier.isSignedIn;
 
   int isExistInCart(int productId, String variationType, bool isUpdate, int? cartIndex) {
     for (var index = 0; index < _carts.length; index++) {

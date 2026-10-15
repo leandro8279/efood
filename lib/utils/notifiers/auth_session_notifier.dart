@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:efood/domain/repositories/auth_session_repository.dart';
+import 'package:efood/domain/models/profile/profile.dart';
+import 'package:efood/domain/use_cases/profile/profile_get_user_info_use_case.dart';
 import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
@@ -20,11 +21,7 @@ class AuthSessionNotifier extends GetxController {
         unawaited(logout());
       },
       onError: (Object error, StackTrace stackTrace) {
-        _log.error(
-          'Erro no fluxo de encerramento da sessão.',
-          error: error,
-          stackTrace: stackTrace,
-        );
+        _log.error('Erro no fluxo de encerramento da sessão.', error: error, stackTrace: stackTrace);
       },
     );
   }
@@ -45,36 +42,33 @@ class AuthSessionNotifier extends GetxController {
   Future<void> _getUserInfo() async {
     _log.info('Iniciando restauração da sessão.');
 
-      final result = await _profileGetUserInfoUseCase.getUserInfo();
+    final result = await _profileGetUserInfoUseCase.getUserInfo();
 
-      if (_restored.value) {
-        _log.info('Sessão já restaurada. Ignorando resultado.');
-        return;
-      }
+    if (_restored.value) {
+      _log.info('Sessão já restaurada. Ignorando resultado.');
+      return;
+    }
 
-      switch (result) {
-        case Ok(:final value):
-          _profile.value = value;
-          _isSignedIn.value = value != null;
+    switch (result) {
+      case Ok(:final value):
+        _profile.value = value;
+        _isSignedIn.value = value != null;
 
-          if (value != null) {
-            _log.info('Sessão restaurada com sucesso. Usuário autenticado.');
-          } else {
-            _log.info('Nenhum usuário autenticado encontrado.');
-          }
+        if (value != null) {
+          _log.info('Sessão restaurada com sucesso. Usuário autenticado.');
+        } else {
+          _log.info('Nenhum usuário autenticado encontrado.');
+        }
 
-        case Error(:final error):
-          _profile.value = null;
-          _isSignedIn.value = false;
+      case Error(:final error):
+        _profile.value = null;
+        _isSignedIn.value = false;
 
-          _log.error(
-            'Falha ao recuperar os dados do usuário.',
-            error: error,
-          );
-      }
+        _log.error('Falha ao recuperar os dados do usuário.', error: error);
+    }
 
-      _restored.value = true;
-      _log.info('Processo de restauração da sessão finalizado.');
+    _restored.value = true;
+    _log.info('Processo de restauração da sessão finalizado.');
   }
 
   Future<void> signedIn() async {
