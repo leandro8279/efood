@@ -22,7 +22,7 @@ class AuthMiddleware extends GetMiddleware {
 
     final isPublic = AppRoutes.public.contains(route);
 
-    if (!session.isSignedIn) {
+    if (!session.isSignedIn.value) {
       return isPublic ? null : const RouteSettings(name: AppRoutes.login);
     }
 
