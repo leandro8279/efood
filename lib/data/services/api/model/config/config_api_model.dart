@@ -16,6 +16,8 @@ class const ConfigApiModel({
   required final BaseUrlApiModel baseUrls,
   required final int decimalPointSettings,
   required final String currencySymbolPosition,
+  required final String softwareVersion,
+  required final String? timeFormat,
   required final List<RestaurantScheduleTimeApiModel> restaurantScheduleTime,
 }) extends Equatable {
   factory ConfigApiModel.fromJson(Map<String, dynamic> json) {

@@ -14,21 +14,17 @@ extension ConfigApiModelMapper on ConfigApiModel {
     emailVerification: true,
     phoneVerification: false,
     baseUrls: baseUrls.toDomain(),
+    softwareVersion: softwareVersion,
+    timeFormat: timeFormat,
     currencySymbolPosition: currencySymbolPosition,
     decimalPointSettings: decimalPointSettings,
-    restaurantScheduleTime: restaurantScheduleTime
-        .map((schedule) => schedule.toDomain())
-        .toList(),
+    restaurantScheduleTime: restaurantScheduleTime.map((schedule) => schedule.toDomain()).toList(),
   );
 }
 
-extension RestaurantScheduleTimeApiModelMapper
-    on RestaurantScheduleTimeApiModel {
-  RestaurantScheduleTime toDomain() => RestaurantScheduleTime(
-    day: day,
-    openingTime: openingTime,
-    closingTime: closingTime,
-  );
+extension RestaurantScheduleTimeApiModelMapper on RestaurantScheduleTimeApiModel {
+  RestaurantScheduleTime toDomain() =>
+      RestaurantScheduleTime(day: day, openingTime: openingTime, closingTime: closingTime);
 }
 
 extension BaseUrlApiModelMapper on BaseUrlApiModel {

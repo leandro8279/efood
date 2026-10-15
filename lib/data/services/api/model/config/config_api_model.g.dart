@@ -6,9 +6,7 @@ part of 'config_api_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ConfigApiModel _$ConfigApiModelFromJson(
-  Map<String, dynamic> json,
-) => ConfigApiModel(
+ConfigApiModel _$ConfigApiModelFromJson(Map<String, dynamic> json) => ConfigApiModel(
   restaurantName: json['restaurant_name'] as String,
   restaurantLogo: json['restaurant_logo'] as String,
   currencySymbol: json['currency_symbol'] as String,
@@ -19,25 +17,19 @@ ConfigApiModel _$ConfigApiModelFromJson(
   decimalPointSettings: (json['decimal_point_settings'] as num).toInt(),
   currencySymbolPosition: json['currency_symbol_position'] as String,
   restaurantScheduleTime: (json['restaurant_schedule_time'] as List<dynamic>)
-      .map(
-        (e) =>
-            RestaurantScheduleTimeApiModel.fromJson(e as Map<String, dynamic>),
-      )
+      .map((e) => RestaurantScheduleTimeApiModel.fromJson(e as Map<String, dynamic>))
       .toList(),
 );
 
-Map<String, dynamic> _$ConfigApiModelToJson(ConfigApiModel instance) =>
-    <String, dynamic>{
-      'restaurant_name': instance.restaurantName,
-      'restaurant_logo': instance.restaurantLogo,
-      'currency_symbol': instance.currencySymbol,
-      'maintenance_mode': instance.maintenanceMode,
-      'email_verification': instance.emailVerification,
-      'phone_verification': instance.phoneVerification,
-      'base_urls': instance.baseUrls.toJson(),
-      'decimal_point_settings': instance.decimalPointSettings,
-      'currency_symbol_position': instance.currencySymbolPosition,
-      'restaurant_schedule_time': instance.restaurantScheduleTime
-          .map((e) => e.toJson())
-          .toList(),
-    };
+Map<String, dynamic> _$ConfigApiModelToJson(ConfigApiModel instance) => <String, dynamic>{
+  'restaurant_name': instance.restaurantName,
+  'restaurant_logo': instance.restaurantLogo,
+  'currency_symbol': instance.currencySymbol,
+  'maintenance_mode': instance.maintenanceMode,
+  'email_verification': instance.emailVerification,
+  'phone_verification': instance.phoneVerification,
+  'base_urls': instance.baseUrls.toJson(),
+  'decimal_point_settings': instance.decimalPointSettings,
+  'currency_symbol_position': instance.currencySymbolPosition,
+  'restaurant_schedule_time': instance.restaurantScheduleTime.map((e) => e.toJson()).toList(),
+};

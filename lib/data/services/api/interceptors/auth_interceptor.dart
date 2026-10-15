@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:efood/domain/repositories/auth_session_repository.dart';
+import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/utils/result.dart';
 
 class AuthInterceptor({required final AuthSessionRepository _authSessionRepository}) extends Interceptor {
@@ -12,7 +13,7 @@ class AuthInterceptor({required final AuthSessionRepository _authSessionReposito
 
   final _unauthorized = StreamController.broadcast();
   final _log = AppLogger('AuthInterceptor');
-  
+
   Stream<void> get onUnauthorized => _unauthorized.stream;
 
   @override
@@ -22,15 +23,16 @@ class AuthInterceptor({required final AuthSessionRepository _authSessionReposito
     }
 
     final result = await _authSessionRepository.readToken();
-   return switch (result) {
-        case Ok<String?>(value: final token):
-          if (token != null && token.isNotEmpty && !options.headers.containsKey('Authorization')) {
-            options.headers['Authorization'] = 'Bearer $token';
-          }
-         return handler.next(options);
-        case Error<String?>(:final error):
-            return handler.next(options);
+    switch (result) {
+      case Ok<String?>(:final value):
+        if (value != null && value.isNotEmpty && !options.headers.containsKey('Authorization')) {
+          options.headers['Authorization'] = 'Bearer $value';
+        }
+        return handler.next(options);
+      default:
     }
+
+    return handler.next(options);
   }
 
   @override
