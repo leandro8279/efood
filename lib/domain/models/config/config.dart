@@ -12,6 +12,8 @@ class const Config({
   required final BaseUrl baseUrls,
   required final int decimalPointSettings,
   required final String currencySymbolPosition,
+  required final String softwareVersion,
+  required final double deliveryCharge,
   final String? timeFormat,
   required final List<RestaurantScheduleTime> restaurantScheduleTime,
 }) extends Equatable {
@@ -28,5 +30,6 @@ class const Config({
     decimalPointSettings,
     restaurantScheduleTime,
     timeFormat,
+    deliveryCharge,
   ];
 }
