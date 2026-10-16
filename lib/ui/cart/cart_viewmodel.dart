@@ -7,7 +7,6 @@ import 'package:efood/utils/command.dart';
 import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/utils/notifiers/cart_notifier.dart';
 import 'package:efood/utils/notifiers/config_notifier.dart';
-import 'package:efood/utils/price_converter.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
@@ -22,19 +21,17 @@ class CartViewModel({
   final RxString _code = RxString("");
   final RxString _orderType = RxString('delivery');
 
-  Coupon? get coupon => _coupon.value;
-  Config get config => _configNotifier.config.value!;
-  double get discount => _discount.value;
   String get code => _code.value;
+  Coupon? get coupon => _coupon.value;
+  double get discount => _discount.value;
   String get orderType => _orderType.value;
-  bool get kmWiseCharge => _configNotifier.config.value!.deliveryManagement.status == 1;
   List<Cart> get carts => _cartNotifier.carts;
-  bool get homeDelivery => _configNotifier.config.value!.homeDelivery;
+  Config get config => _configNotifier.config.value!;
   bool get selfPickup => _configNotifier.config.value!.selfPickup;
+  bool get homeDelivery => _configNotifier.config.value!.homeDelivery;
+  bool get kmWiseCharge => _configNotifier.config.value!.deliveryManagement.status == 1;
 
-  late final applyCoupon = Command1<double, (String, double)>(
-    (args) => _applyCoupon(args.$1, args.$2),
-  );
+  late final applyCoupon = Command1<double, (String, double)>((args) => _applyCoupon(args.$1, args.$2));
 
   void removeCouponData() {
     _coupon.value = null;
@@ -57,35 +54,34 @@ class CartViewModel({
   Result<double> _setCoupon(Coupon coupon, double order) {
     _coupon.value = coupon;
     _code.value = coupon.code;
-    if (_coupon.value.minPurchase != null && _coupon.value.minPurchase <= order) {
-      if(_coupon.value.discountType == 'percent') {
-        if(_coupon.value.maxDiscount != null && _coupon.value.maxDiscount != 0) {
-          _discount.value = (_coupon.value.discount * order / 100) < _coupon.value.maxDiscount ? (_coupon.value.discount * order / 100) : _coupon.value.maxDiscount;
-        }else {
-          _discount.value = _coupon.value.discount * order / 100;
+
+    if (coupon.minPurchase != null && coupon.minPurchase <= order) {
+      if (coupon.discountType == 'percent') {
+        if (coupon.maxDiscount != null && coupon.maxDiscount != 0) {
+          _discount.value = (coupon.discount * order / 100) < coupon.maxDiscount ? (coupon.discount * order / 100) : coupon.maxDiscount;
+        } else {
+          _discount.value = coupon.discount * order / 100;
         }
-      }else {
-        if(_coupon.value.maxDiscount != null){
-          _discount.value = _coupon.value.discount;
+      } else {
+        if (coupon.maxDiscount != null) {
+          _discount.value = coupon.discount;
         }
-        _discount.value = _coupon.value.discount;
+        _discount.value = coupon.discount;
       }
     } else {
       _discount.value = 0.0;
     }
-    
+
     return Result.ok(_discount.value);
   }
 
   Result<double> _handleApplyCouponError(AppException error) {
-    _log.error(
-      'Falha ao aplicar cupom',
-      error: error,
-      stackTrace: error.stackTrace,
-    );
+    _log.error('Falha ao aplicar cupom', error: error, stackTrace: error.stackTrace);
     _discount.value = 0.0;
     return Result.error(error);
   }
+
+  void setOrderType(String value) => _orderType.value = value;
 
   @override
   void onInit() {
