@@ -52,6 +52,7 @@ dependencies:
   connectivity_plus: ^7.3.2
   shimmer_animation: ^2.2.2+1
   intl: ^0.20.3
+  image_picker: ^1.2.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
