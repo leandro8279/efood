@@ -6,6 +6,7 @@ class AppConstants._() {
   static const String subCategoriesUrl = '/categories/childes/{categoryId}';
   static const String categoryProductsUrl = '/categories/products/{categoryId}';
   static const String couponListUrl = '/coupon/list';
+  static const String couponApplyUrl = '/coupon/apply';
   static const String setMenuProductsUrl = '/products/set-menu';
   static const String latestProductsUrl = '/products/latest';
   static const String popularProductsUrl = '/products/popular';

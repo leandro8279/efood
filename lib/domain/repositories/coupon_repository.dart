@@ -3,4 +3,6 @@ import 'package:efood/utils/result.dart';
 
 abstract interface class CouponRepository {
   Future<Result<List<Coupon>>> getCouponList();
+
+  Future<Result<Coupon>> applyCoupon(String couponCode);
 }

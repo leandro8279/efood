@@ -65,12 +65,14 @@ class CartNotifier({required final CartRepository _cartRepository}) extends Getx
   }
 
   void getCartData() {
+    _log.info('Carregando itens do carrinho');
     _carts.clear();
     _amount.value = 0.0;
 
     switch (_cartRepository.getCartList()) {
       case Ok<List<Cart>>(:final value):
         _setCartData(value);
+        _log.info('Carrinho carregado: ${_carts.length} itens, total ${_amount.value}');
       case Error<List<Cart>>(:final error):
         _log.error('Falha ao carregar o carrinho', error: error, stackTrace: error.stackTrace);
     }
@@ -117,12 +119,14 @@ class CartNotifier({required final CartRepository _cartRepository}) extends Getx
   Future<Result<void>> clearCartList() async => _saveCartList(<Cart>[]);
 
   Future<Result<void>> _saveCartList(List<Cart> updatedCarts) async {
+    _log.info('Salvando carrinho: ${updatedCarts.length} itens');
     _isCartUpdate.value = true;
     try {
       final result = await _cartRepository.addToCartList(updatedCarts);
       switch (result) {
         case Ok<void>():
           _setCartData(updatedCarts);
+          _log.info('Carrinho salvo: ${_carts.length} itens, total ${_amount.value}');
         case Error<void>(:final error):
           _log.error('Falha ao salvar o carrinho', error: error, stackTrace: error.stackTrace);
       }
@@ -168,6 +172,7 @@ class CartNotifier({required final CartRepository _cartRepository}) extends Getx
   @override
   void onInit() {
     super.onInit();
+    _log.info('Inicializando CartNotifier');
     getCartData();
   }
 }

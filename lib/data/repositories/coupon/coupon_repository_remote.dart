@@ -15,4 +15,14 @@ class CouponRepositoryRemote({required final CouponApi _couponApi}) implements C
       return Result.error(e.toAppException(st));
     }
   }
+
+  @override
+  Future<Result<Coupon>> applyCoupon(String couponCode) async {
+    try {
+      final coupon = await _couponApi.applyCoupon(couponCode);
+      return Result.ok(coupon.toDomain());
+    } on DioException catch (e, st) {
+      return Result.error(e.toAppException(st));
+    }
+  }
 }

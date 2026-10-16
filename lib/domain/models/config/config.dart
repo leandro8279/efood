@@ -1,11 +1,23 @@
 import 'package:efood/domain/models/config/base_url.dart';
+import 'package:efood/domain/models/config/delivery_management.dart';
+import 'package:efood/domain/models/config/promotion_campaign.dart';
+import 'package:efood/domain/models/config/restaurant_branch.dart';
+import 'package:efood/domain/models/config/restaurant_location_coverage.dart';
 import 'package:efood/domain/models/config/restaurant_schedule_time.dart';
+import 'package:efood/domain/models/config/store_config.dart';
 import 'package:equatable/equatable.dart';
 
 class const Config({
   required final String restaurantName,
   required final String restaurantLogo,
+  required final String? restaurantOpenTime,
+  required final String? restaurantCloseTime,
+  required final String restaurantAddress,
+  required final String restaurantPhone,
+  required final String restaurantEmail,
   required final String currencySymbol,
+  required final RestaurantLocationCoverage restaurantLocationCoverage,
+  required final double minimumOrderValue,
   required final bool maintenanceMode,
   required final bool emailVerification,
   required final bool phoneVerification,
@@ -14,22 +26,62 @@ class const Config({
   required final String currencySymbolPosition,
   required final String softwareVersion,
   required final double deliveryCharge,
+  required final bool homeDelivery,
+  required final bool selfPickup,
+  required final DeliveryManagement deliveryManagement,
+  required final String cashOnDelivery,
+  required final String digitalPayment,
+  required final List<RestaurantBranch> branches,
+  required final String termsAndConditions,
+  required final String privacyPolicy,
+  required final String aboutUs,
   final String? timeFormat,
   required final List<RestaurantScheduleTime> restaurantScheduleTime,
+  required final String country,
+  required final StoreConfig playStoreConfig,
+  required final StoreConfig appStoreConfig,
+  required final List<Object?> socialMediaLink,
+  required final String footerText,
+  required final int scheduleOrderSlotDuration,
+  required final List<PromotionCampaign> promotionCampaign,
 }) extends Equatable {
   @override
   List<Object?> get props => [
     restaurantLogo,
     restaurantName,
+    restaurantOpenTime,
+    restaurantCloseTime,
+    restaurantAddress,
+    restaurantPhone,
+    restaurantEmail,
     currencySymbol,
+    restaurantLocationCoverage,
+    minimumOrderValue,
     maintenanceMode,
     emailVerification,
     phoneVerification,
     baseUrls,
     currencySymbolPosition,
     decimalPointSettings,
+    softwareVersion,
     restaurantScheduleTime,
     timeFormat,
     deliveryCharge,
+    homeDelivery,
+    selfPickup,
+    deliveryManagement,
+    cashOnDelivery,
+    digitalPayment,
+    branches,
+    termsAndConditions,
+    privacyPolicy,
+    aboutUs,
+    country,
+    playStoreConfig,
+    appStoreConfig,
+    socialMediaLink,
+    footerText,
+    scheduleOrderSlotDuration,
+    promotionCampaign,
   ];
 }

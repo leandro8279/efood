@@ -11,4 +11,7 @@ abstract class CouponApi {
 
   @GET(AppConstants.couponListUrl)
   Future<List<CouponApiModel>> getCouponList();
+
+  @GET(AppConstants.couponApplyUrl)
+  Future<CouponApiModel> applyCoupon(@Query('code') String couponCode);
 }

@@ -4,26 +4,16 @@ import 'package:efood/utils/price_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CartScreen extends StatefulWidget {
-  const new({super.key});
+class const CartScreen({super.key, required final CartViewModel viewModel}) extends StatefulWidget {
 
   @override
   State<CartScreen> createState() => _CartScreenState();
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final CartViewModel viewMode = widget.viewModel;
   final TextEditingController couponController = TextEditingController();
   final GlobalKey<ScaffoldMessengerState> scaffoldKey = GlobalKey<ScaffoldMessengerState>();
-
-  @override
-  void initState() {
-    super.initState();
-    // Provider.of<CouponProvider>(context, listen: false).removeCouponData(false);
-    // Provider.of<OrderProvider>(context, listen: false).setOrderType(
-    //   Provider.of<SplashProvider>(context, listen: false).configModel.homeDelivery ? 'delivery' : 'take_away',
-    //   notify: false,
-    // );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +24,7 @@ class _CartScreenState extends State<CartScreen> {
       appBar: CustomAppBar(context: context, title: 'my_cart'.tr),
       body: Obx(
         () => RenderConditional(
-          conditional: true, //cart.cartList.length > 0
+          conditional: viewModel.carts.isNotEmpty,
           widget1: Column(
             children: [
               Expanded(
@@ -163,7 +153,7 @@ class _CartScreenState extends State<CartScreen> {
                                               ),
                                             ),
                                             RenderConditional(
-                                              conditional: true, // Provider.of<SplashProvider>(context, listen: false).configModel.homeDelivery
+                                              conditional: viewModel.homeDelivery,
                                               widget1: DeliveryOptionButton(
                                                 value: 'delivery',
                                                 title: 'delivery'.tr,
@@ -194,7 +184,7 @@ class _CartScreenState extends State<CartScreen> {
                                             ),
 
                                             RenderConditional(
-                                              conditional: true, // Provider.of<SplashProvider>(context, listen: false).configModel.selfPickup
+                                              conditional: viewModel.selfPickup,
                                               widget1: DeliveryOptionButton(
                                                 value: 'take_away',
                                                 title: 'take_away'.tr,
@@ -254,7 +244,8 @@ class _CartScreenState extends State<CartScreen> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  '(+) ${PriceConverter.convertPrice(price: tax)}',
+                                                  '(+) ${PriceConverter.convertPrice(
+                  config: viewModel.config,                                  price: tax)}',
                                                   style: AppTextStyles.rubikRegular.copyWith(
                                                     fontSize: AppDimens.fontSizeLarge,
                                                   ),
@@ -273,7 +264,7 @@ class _CartScreenState extends State<CartScreen> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  '(+) ${PriceConverter.convertPrice(price: addOns)}',
+                                                  '(+) ${PriceConverter.convertPrice(price: addOns, config: viewModel.config)}',
                                                   style: AppTextStyles.rubikRegular.copyWith(
                                                     fontSize: AppDimens.fontSizeLarge,
                                                   ),
@@ -292,7 +283,7 @@ class _CartScreenState extends State<CartScreen> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  '(-) ${PriceConverter.convertPrice(price: discount)}',
+                                                  '(-) ${PriceConverter.convertPrice(price: discount, config: viewModel.config)}',
                                                   style: AppTextStyles.rubikRegular.copyWith(
                                                     fontSize: AppDimens.fontSizeLarge,
                                                   ),
@@ -311,7 +302,7 @@ class _CartScreenState extends State<CartScreen> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  '(-) ${PriceConverter.convertPrice(price: Provider.of<CouponProvider>(context).discount)}',
+                                                  '(-) ${PriceConverter.convertPrice(price: viewModel.discount, config: viewModel.config)}',
                                                   style: AppTextStyles.rubikRegular.copyWith(
                                                     fontSize: AppDimens.fontSizeLarge,
                                                   ),
@@ -332,7 +323,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    '(+) ${PriceConverter.convertPrice(price: deliveryCharge)}',
+                                                    '(+) ${PriceConverter.convertPrice(price: deliveryCharge, config: viewModel.config)}',
                                                     style: AppTextStyles.rubikRegular.copyWith(
                                                       fontSize: AppDimens.fontSizeLarge,
                                                     ),
@@ -357,7 +348,7 @@ class _CartScreenState extends State<CartScreen> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  PriceConverter.convertPrice(price: total),
+                                                  PriceConverter.convertPrice(price: total, config: viewModel.config),
                                                   style: AppTextStyles.rubikMedium.copyWith(
                                                     fontSize: AppDimens.fontSizeExtraLarge,
                                                     color: Theme.of(context).primaryColor,
