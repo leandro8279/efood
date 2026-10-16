@@ -6,11 +6,9 @@ import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/utils/result.dart';
 import 'package:get/get.dart';
 
-class AuthSessionNotifier extends GetxController {
-  AuthSessionNotifier({
-    required ProfileGetUserInfoUseCase profileGetUserInfoUseCase,
-    required Stream<void> sessionEnded,
-  }) : _profileGetUserInfoUseCase = profileGetUserInfoUseCase {
+class AuthSessionNotifier({required final ProfileGetUserInfoUseCase _profileGetUserInfoUseCase, required final Stream<void> sessionEnded})
+    extends GetxController {
+  this {
     _log.info('Inicializando gerenciador de sessão.');
 
     unawaited(_getUserInfo());
@@ -26,7 +24,6 @@ class AuthSessionNotifier extends GetxController {
     );
   }
 
-  final ProfileGetUserInfoUseCase _profileGetUserInfoUseCase;
   final AppLogger _log = AppLogger('AuthSessionNotifier');
 
   final RxBool _restored = false.obs;
@@ -52,13 +49,7 @@ class AuthSessionNotifier extends GetxController {
     switch (result) {
       case Ok(:final value):
         _profile.value = value;
-        _isSignedIn.value = value != null;
-
-        if (value != null) {
-          _log.info('Sessão restaurada com sucesso. Usuário autenticado.');
-        } else {
-          _log.info('Nenhum usuário autenticado encontrado.');
-        }
+        _isSignedIn.value = true;
 
       case Error(:final error):
         _profile.value = null;
