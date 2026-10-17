@@ -134,7 +134,7 @@ class const SetMenuScreen({super.key, required final SetMenuViewModel viewModel}
                                             alignment: Alignment.center,
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                                              color: Colors.black.withOpacity(0.6),
+                                              color: Colors.black.withValues(alpha: 0.6),
                                             ),
                                             child: Text(
                                               'not_available_now'.tr,

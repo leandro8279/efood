@@ -21,7 +21,10 @@ class const ProductWidgetWeb({
     String productImageUrl = config?.baseUrls.productImageUrl ?? '';
     if (product.choiceOptions.isNotEmpty) {
       List<double> priceList = [];
-      product.variations.forEach((variation) => priceList.add(variation.price));
+      for (var variation in product.variations) {
+        priceList.add(variation.price);
+      }
+
       priceList.sort((a, b) => a.compareTo(b));
       startingPrice = priceList[0];
       if (priceList[0] < priceList[priceList.length - 1]) {
@@ -95,7 +98,7 @@ class const ProductWidgetWeb({
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                            color: Colors.black.withOpacity(0.6),
+                            color: Colors.black.withValues(alpha: 0.6),
                           ),
                           child: Text(
                             'not_available_now'.tr,
@@ -131,7 +134,7 @@ class const ProductWidgetWeb({
                         SizedBox(height: AppDimens.paddingExtraSmall),
 
                         RatingBar(
-                          rating: product.rating.isNotEmpty ? double.parse(product.rating[0]!.average) : 0.0,
+                          rating: product.rating.isNotEmpty ? double.parse(product.rating[0].average) : 0.0,
                           size: AppDimens.paddingDefault,
                         ),
                         SizedBox(height: AppDimens.paddingExtraSmall),

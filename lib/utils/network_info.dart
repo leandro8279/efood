@@ -6,17 +6,22 @@ class NetworkInfo {
   NetworkInfo(this.connectivity);
 
   Future<bool> get isConnected async {
-    final List<ConnectivityResult> _result = await connectivity.checkConnectivity();
-    return _result != ConnectivityResult.none;
+    final List<ConnectivityResult> result = await connectivity.checkConnectivity();
+    return !result.contains(ConnectivityResult.none);
   }
 
   static void checkConnectivity(GlobalKey<ScaffoldMessengerState> globalKey) {
-    bool _firstTime = true;
-    Connectivity().onConnectivityChanged.listen((result) {
-      if (!_firstTime) {
-        bool isNotConnected = result != ConnectivityResult.wifi && result != ConnectivityResult.mobile;
-        isNotConnected ? SizedBox() : globalKey.currentState!.hideCurrentSnackBar();
-        globalKey.currentState!.showSnackBar(
+    bool firstTime = true;
+    Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> result) {
+      if (!firstTime) {
+        final bool isNotConnected =
+            !result.contains(ConnectivityResult.wifi) && !result.contains(ConnectivityResult.mobile);
+
+        if (!isNotConnected) {
+          globalKey.currentState?.hideCurrentSnackBar();
+        }
+
+        globalKey.currentState?.showSnackBar(
           SnackBar(
             backgroundColor: isNotConnected ? Colors.red : Colors.green,
             duration: Duration(seconds: isNotConnected ? 6000 : 3),
@@ -25,7 +30,7 @@ class NetworkInfo {
         );
       }
 
-      _firstTime = false;
+      firstTime = false;
     });
   }
 }

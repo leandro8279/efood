@@ -147,7 +147,7 @@ class const SetMenuView({
                                         alignment: Alignment.center,
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                                          color: Colors.black.withOpacity(0.6),
+                                          color: Colors.black.withValues(alpha: 0.6),
                                         ),
                                         child: Text(
                                           'not_available_now'.tr,
@@ -180,7 +180,7 @@ class const SetMenuView({
 
                                       RatingBar(
                                         rating: setMenuProduct.rating.isNotEmpty
-                                            ? double.parse(setMenuProduct.rating[0]!.average)
+                                            ? double.parse(setMenuProduct.rating[0].average)
                                             : 0.0,
                                         size: 12,
                                       ),

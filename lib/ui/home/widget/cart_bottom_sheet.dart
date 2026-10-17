@@ -72,7 +72,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
             List<String> variationList = [];
             for (int index = 0; index < widget.product.choiceOptions.length; index++) {
               variationList.add(
-                widget.product.choiceOptions[index]!.options[productNotifier.variationIndex[index]].replaceAll(' ', ''),
+                widget.product.choiceOptions[index].options[productNotifier.variationIndex[index]].replaceAll(' ', ''),
               );
             }
             String variationType = '';
@@ -384,7 +384,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.product.choiceOptions[index]!.title,
+              widget.product.choiceOptions[index].title,
               style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeLarge),
             ),
             SizedBox(height: AppDimens.paddingExtraSmall),
@@ -397,7 +397,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
               ),
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: widget.product.choiceOptions[index]!.options.length,
+              itemCount: widget.product.choiceOptions[index].options.length,
               itemBuilder: (context, i) {
                 return InkWell(
                   onTap: () {
@@ -413,7 +413,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
-                      widget.product.choiceOptions[index]!.options[i].trim(),
+                      widget.product.choiceOptions[index].options[i].trim(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: AppTextStyles.rubikRegular.copyWith(
@@ -446,11 +446,11 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
             trimCollapsedText: 'show_more'.tr,
             trimExpandedText: 'show_less'.tr,
             moreStyle: AppTextStyles.robotoRegular.copyWith(
-              color: Theme.of(context).primaryColor.withOpacity(0.8),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.8),
               fontSize: AppDimens.fontSizeExtraSmall,
             ),
             lessStyle: AppTextStyles.robotoRegular.copyWith(
-              color: Theme.of(context).primaryColor.withOpacity(0.8),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.8),
               fontSize: AppDimens.fontSizeExtraSmall,
             ),
           ),
@@ -508,7 +508,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   RatingBar(
-                    rating: widget.product.rating.isNotEmpty ? double.parse(widget.product.rating[0]!.average) : 0.0,
+                    rating: widget.product.rating.isNotEmpty ? double.parse(widget.product.rating[0].average) : 0.0,
                     size: 15,
                   ),
                   VegTagView(product: widget.product),
@@ -580,7 +580,7 @@ class _CartBottomSheetState extends State<CartBottomSheet> {
             margin: EdgeInsets.only(bottom: AppDimens.paddingSmall),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Theme.of(context).primaryColor.withOpacity(0.1),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             ),
             child: Column(
               children: [

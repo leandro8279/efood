@@ -26,7 +26,7 @@ class const CartProductWidget({
       if (variationTypes.length == cart.product.choiceOptions.length) {
         int index = 0;
         for (var choice in cart.product.choiceOptions) {
-          variationText = variationText + '${(index == 0) ? '' : ',  '}${choice.title} - ${variationTypes[index]}';
+          variationText = '$variationText${(index == 0) ? '' : ',  '}${choice.title} - ${variationTypes[index]}';
           index = index + 1;
         }
       } else {
@@ -119,7 +119,7 @@ class const CartProductWidget({
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Colors.black.withOpacity(0.6),
+                                    color: Colors.black.withValues(alpha: 0.6),
                                   ),
                                   child: Text(
                                     'not_available_now_break'.tr,

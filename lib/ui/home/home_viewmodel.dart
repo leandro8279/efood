@@ -60,43 +60,43 @@ class HomeViewModel({
     (params) => _loadPopularProductList(params.reload, params.offset, params.type, params.isUpdate),
   );
 
-  Future<Result<void>> _loadLatestProductList(bool reload, String _offset) async {
-    final offset = int.tryParse(_offset);
+  Future<Result<void>> _loadLatestProductList(bool reload, String page) async {
+    final offset = int.tryParse(page);
     if (offset == null || offset < 1) {
       final error = ValidationException('O offset deve ser um número inteiro positivo.');
       _log.error('Offset inválido ao carregar os produtos mais recentes', error: error);
       return Result.error(error);
     }
 
-    if (reload || _offset == '1') {
+    if (reload || page == '1') {
       _latestOffset.value = 1;
       _latestOffsetList = [];
     }
 
-    if (!_latestOffsetList.contains(_offset)) {
+    if (!_latestOffsetList.contains(page)) {
       _latestOffsetList = [];
-      _latestOffsetList.add(_offset);
+      _latestOffsetList.add(page);
       final result = await _productRepository.getLatestProductList(offset: offset);
 
       return switch (result) {
-        Ok<ProductList>(:final value) => _setLatestProducts(value, reload, _offset),
+        Ok<ProductList>(:final value) => _setLatestProducts(value, reload, page),
         Error<ProductList>(:final error) => _handleLoadError('Falha ao carregar produtos mais recentes', error),
       };
     }
 
-    _log.info('Produtos mais recentes já carregados para o offset $_offset');
+    _log.info('Produtos mais recentes já carregados para o offset $page');
     return Result.done;
   }
 
-  Future<Result<void>> _loadPopularProductList(bool reload, String _offset, String type, bool isUpdate) async {
-    final offset = int.tryParse(_offset);
+  Future<Result<void>> _loadPopularProductList(bool reload, String page, String type, bool isUpdate) async {
+    final offset = int.tryParse(page);
     if (offset == null || offset < 1) {
       final error = ValidationException('O offset deve ser um número inteiro positivo.');
       _log.error('Offset inválido ao carregar produtos populares', error: error);
       return Result.error(error);
     }
 
-    if (reload || _offset == '1') {
+    if (reload || page == '1') {
       _popularOffset.value = 1;
       _popularOffsetList = [];
       _popularProductList.clear();
@@ -104,19 +104,19 @@ class HomeViewModel({
     if (isUpdate) {
       update();
     }
-    if (!_popularOffsetList.contains(_offset)) {
+    if (!_popularOffsetList.contains(page)) {
       _popularOffsetList = [];
-      _popularOffsetList.add(_offset);
-      _log.info('Carregando produtos populares para offset $_offset e tipo $type');
+      _popularOffsetList.add(page);
+      _log.info('Carregando produtos populares para offset $page e tipo $type');
       final result = await _productRepository.getPopularProductList(offset: offset, productType: type);
 
       return switch (result) {
-        Ok<ProductList>(:final value) => _setPopularProducts(value, reload, _offset),
+        Ok<ProductList>(:final value) => _setPopularProducts(value, reload, page),
         Error<ProductList>(:final error) => _handleLoadError('Falha ao carregar produtos populares', error),
       };
     }
 
-    _log.info('Produtos populares já carregados para o offset $_offset');
+    _log.info('Produtos populares já carregados para o offset $page');
     return Result.done;
   }
 
@@ -164,8 +164,8 @@ class HomeViewModel({
     return Result.ok(products);
   }
 
-  Result<void> _setLatestProducts(ProductList productList, bool reload, String _offset) {
-    if (reload || _offset == '1') {
+  Result<void> _setLatestProducts(ProductList productList, bool reload, String page) {
+    if (reload || page == '1') {
       _latestProducts.clear();
     }
     _latestProducts.addAll(productList.products);
@@ -176,8 +176,8 @@ class HomeViewModel({
     return Result.done;
   }
 
-  Result<void> _setPopularProducts(ProductList productList, bool reload, String _offset) {
-    if (reload || _offset == '1') {
+  Result<void> _setPopularProducts(ProductList productList, bool reload, String page) {
+    if (reload || page == '1') {
       _popularProductList.clear();
     }
     _popularProductList.addAll(productList.products);

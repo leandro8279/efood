@@ -11,9 +11,15 @@ import 'package:efood/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeScreen({super.key, required final HomeViewModel viewModel, required final bool result})
-    extends StatelessWidget {
+class const HomeScreen({super.key, required final HomeViewModel viewModel, required final bool result})
+    extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> drawerGlobalKey = GlobalKey();
+
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -32,7 +38,7 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
               _scrollView(_scrollController, context),
               Obx(
                 () => RenderConditional(
-                  conditional: viewModel.config != null && !viewModel.isRestaurantOpenNow(),
+                  conditional: widget.viewModel.config != null && !widget.viewModel.isRestaurantOpenNow(),
                   widget1: Positioned(
                     bottom: AppDimens.paddingExtraSmall,
                     left: 0,
@@ -40,7 +46,7 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: AppDimens.paddingExtraSmall),
                       alignment: Alignment.center,
-                      color: Theme.of(context).primaryColor.withOpacity(0.9),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.9),
                       child: Row(
                         children: [
                           Text(
@@ -196,24 +202,24 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
                       children: [
                         Obx(
                           () => CategoryView(
-                            config: viewModel.config,
-                            categories: viewModel.categories,
-                            isLoading: viewModel.loadCategories.running.value,
+                            config: widget.viewModel.config,
+                            categories: widget.viewModel.categories,
+                            isLoading: widget.viewModel.loadCategories.running.value,
                           ),
                         ),
                         Obx(
                           () => SetMenuView(
-                            config: viewModel.config,
-                            setMenuProducts: viewModel.setMenuProducts,
-                            isLoading: viewModel.loadSetMenu.running.value,
+                            config: widget.viewModel.config,
+                            setMenuProducts: widget.viewModel.setMenuProducts,
+                            isLoading: widget.viewModel.loadSetMenu.running.value,
                           ),
                         ),
 
                         Obx(
                           () => BannerView(
-                            config: viewModel.config,
-                            banners: viewModel.banners,
-                            isLoading: viewModel.loadBanners.running.value,
+                            config: widget.viewModel.config,
+                            banners: widget.viewModel.banners,
+                            isLoading: widget.viewModel.loadBanners.running.value,
                           ),
                         ),
                         Padding(
@@ -227,12 +233,12 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
                         ),
                         Obx(
                           () => ProductView(
-                            config: viewModel.config,
-                            latestOffset: viewModel.popularOffset,
+                            config: widget.viewModel.config,
+                            latestOffset: widget.viewModel.popularOffset,
                             productType: ProductType.popularProduct,
-                            latestPageSize: viewModel.popularPageSize,
-                            products: viewModel.popularProductList.toList(),
-                            isLoading: viewModel.loadPopularProductList.running.value,
+                            latestPageSize: widget.viewModel.popularPageSize,
+                            products: widget.viewModel.popularProductList.toList(),
+                            isLoading: widget.viewModel.loadPopularProductList.running.value,
                           ),
                         ),
 
@@ -242,14 +248,17 @@ class HomeScreen({super.key, required final HomeViewModel viewModel, required fi
                         ),
                         Obx(
                           () => ProductView(
-                            config: viewModel.config,
-                            latestOffset: viewModel.latestOffset,
-                            latestPageSize: viewModel.latestPageSize,
-                            products: viewModel.latestProducts.toList(),
-                            setLatestOffset: viewModel.setLatestOffset,
-                            isLoading: viewModel.loadLatestProductList.running.value,
+                            config: widget.viewModel.config,
+                            latestOffset: widget.viewModel.latestOffset,
+                            latestPageSize: widget.viewModel.latestPageSize,
+                            products: widget.viewModel.latestProducts.toList(),
+                            setLatestOffset: widget.viewModel.setLatestOffset,
+                            isLoading: widget.viewModel.loadLatestProductList.running.value,
                             reloadLatestProductList: () {
-                              viewModel.loadLatestProductList.execute((false, viewModel.latestOffset.toString()));
+                              widget.viewModel.loadLatestProductList.execute((
+                                false,
+                                widget.viewModel.latestOffset.toString(),
+                              ));
                             },
                             scrollController: scrollController,
                             productType: ProductType.latestProduct,

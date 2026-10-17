@@ -1,6 +1,5 @@
 import 'package:efood/domain/models/category/category.dart';
 import 'package:efood/ui/category/category_viewmodel.dart';
-import 'package:efood/ui/core/share/render_conditional.dart';
 import 'package:efood/ui/core/share/share.dart';
 import 'package:efood/ui/core/theme/theme.dart';
 import 'package:efood/utils/notifiers/config_notifier.dart';

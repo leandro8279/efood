@@ -82,7 +82,7 @@ class const MenuScreen({super.key, required final Function onTap, required final
                         widget1: RenderConditional(
                           conditional: viewModel.profile != null,
                           widget1: Text(
-                            '${viewModel.profile?.email ?? ''}',
+                            viewModel.profile?.email ?? '',
                             style: AppTextStyles.rubikRegular.copyWith(color: AppColors.background),
                           ),
                           widget2: Container(height: 15, width: 100, color: Colors.white),

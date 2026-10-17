@@ -254,7 +254,7 @@ class const OptionsView({
                     style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeLarge),
                   ),
                   trailing: Text(
-                    '${config?.softwareVersion ?? ''}',
+                    config?.softwareVersion ?? '',
                     style: AppTextStyles.rubikMedium.copyWith(fontSize: AppDimens.fontSizeLarge),
                   ),
                   //

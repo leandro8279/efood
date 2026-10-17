@@ -28,7 +28,7 @@ class const WishButton({
           [].contains(product.id) ? Icons.favorite : Icons.favorite_border,
           color: [].contains(product.id)
               ? Theme.of(context).primaryColor
-              : Theme.of(context).primaryColor.withOpacity(0.5),
+              : Theme.of(context).primaryColor.withValues(alpha: 0.5),
         ),
       ),
     );

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:efood/domain/repositories/auth_session_repository.dart';
-import 'package:efood/utils/logging/app_logger.dart';
+// import 'package:efood/utils/logging/app_logger.dart';
 import 'package:efood/utils/result.dart';
 
 class AuthInterceptor({required final AuthSessionRepository _authSessionRepository}) extends Interceptor {
@@ -12,7 +12,7 @@ class AuthInterceptor({required final AuthSessionRepository _authSessionReposito
   static const _sessionEndedStatus = {401};
 
   final _unauthorized = StreamController.broadcast();
-  final _log = AppLogger('AuthInterceptor');
+  // final _log = AppLogger('AuthInterceptor');
 
   Stream<void> get onUnauthorized => _unauthorized.stream;
 

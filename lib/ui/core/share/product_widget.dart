@@ -21,7 +21,10 @@ class const ProductWidget({super.key, required final Product product}) extends S
 
     if (product.choiceOptions.isNotEmpty) {
       List<double> priceList = [];
-      product.variations.forEach((variation) => priceList.add(variation.price));
+      for (var variation in product.variations) {
+        priceList.add(variation.price);
+      }
+
       priceList.sort((a, b) => a.compareTo(b));
       startingPrice = priceList[0];
       if (priceList[0] < priceList[priceList.length - 1]) {
@@ -109,7 +112,7 @@ class const ProductWidget({super.key, required final Product product}) extends S
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: Colors.black.withOpacity(0.6),
+                              color: Colors.black.withValues(alpha: 0.6),
                             ),
                             child: Text(
                               'not_available_now_break'.tr,

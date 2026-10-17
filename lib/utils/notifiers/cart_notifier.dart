@@ -122,7 +122,7 @@ class CartNotifier({required final CartRepository _cartRepository}) extends Getx
     _log.info('Salvando carrinho: ${updatedCarts.length} itens');
     _isCartUpdate.value = true;
     try {
-      final result = await _cartRepository.addToCartList(updatedCarts);
+      final result = _cartRepository.addToCartList(updatedCarts);
       switch (result) {
         case Ok<void>():
           _setCartData(updatedCarts);
