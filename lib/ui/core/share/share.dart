@@ -17,3 +17,4 @@ export 'not_logged_in_screen.dart';
 export 'filter_button_widget.dart';
 export 'marque_text.dart';
 export 'custom_divider.dart';
+export 'delivery_man_widget.dart';
